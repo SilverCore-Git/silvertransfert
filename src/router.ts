@@ -7,7 +7,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { title: 'Silvercore - Des services numériques pensés pour votre confidentialité' }
+    meta: { title: 'Silvertransfert' }
   }
 ]
 
