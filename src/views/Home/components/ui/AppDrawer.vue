@@ -92,7 +92,7 @@ const emit = defineEmits(['close']);
   right: 1.25rem;
   background: none;
   border: none;
-  color: #4a4468;
+  color: #635c87;
   font-size: 1rem;
   cursor: pointer;
   width: 28px;
@@ -132,7 +132,7 @@ const emit = defineEmits(['close']);
 
 .d-sub {
   font-size: 0.7rem;
-  color: #4a4468;
+  color: #635c87;
   font-weight: 400;
 }
 
@@ -158,7 +158,7 @@ const emit = defineEmits(['close']);
 
 .drawer-nav a i {
   font-size: 0.78rem;
-  color: #33304d;
+  color: #56517c;
   transition: color 0.15s;
 }
 
@@ -223,7 +223,7 @@ const emit = defineEmits(['close']);
   align-items: center;
   gap: 0.5rem;
   font-size: 0.72rem;
-  color: #3d3a5a;
+  color: #615c85;
 }
 
 .drawer-badges i {

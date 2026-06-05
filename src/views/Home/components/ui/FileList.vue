@@ -96,7 +96,7 @@ const emit = defineEmits(['remove', 'add']);
 
 .fsize {
   font-size: 0.68rem;
-  color: #3d3a5a;
+  color: #615c85;
   flex-shrink: 0;
 }
 
@@ -106,7 +106,7 @@ const emit = defineEmits(['remove', 'add']);
   border-radius: 5px;
   border: none;
   background: none;
-  color: #3d3a5a;
+  color: #615c85;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -129,7 +129,7 @@ const emit = defineEmits(['remove', 'add']);
   padding: 0.35rem;
   font-size: 0.73rem;
   font-weight: 500;
-  color: #3d3a5a;
+  color: #615c85;
   background: none;
   border: 1px dashed rgba(255, 255, 255, 0.05);
   border-radius: 7px;

@@ -64,6 +64,6 @@ defineProps<{
 
 .upload-lbl {
   font-size: 0.76rem;
-  color: #4a4468;
+  color: #635c87;
 }
 </style>

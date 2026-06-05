@@ -100,6 +100,6 @@ function onDragLeave() {
 
 .ring-sub {
   font-size: 0.75rem;
-  color: #3d3a5a;
+  color: #615c85;
 }
 </style>

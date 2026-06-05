@@ -71,7 +71,7 @@ const emit = defineEmits(['copy', 'reset']);
 
 .result-meta {
   font-size: 0.76rem;
-  color: #3d3a5a;
+  color: #615c85;
 }
 
 .link-row {
@@ -121,7 +121,7 @@ const emit = defineEmits(['copy', 'reset']);
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  color: #3d3a5a;
+  color: #615c85;
   font-size: 0.76rem;
   font-weight: 500;
   padding: 0.42rem 0.85rem;
