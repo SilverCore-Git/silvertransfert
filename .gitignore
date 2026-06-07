@@ -25,5 +25,3 @@ dist-ssr
 /.vite
 
 .env
-.env.*
-!.env.example
