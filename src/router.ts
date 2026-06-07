@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Home/Home.vue';
+import Download from './views/Download/Download.vue';
 
 
 const routes = [
@@ -8,6 +9,12 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: { title: 'Silvertransfert' }
+  },
+  {
+    path: '/download/:id',
+    name: 'Download',
+    component: Download,
+    meta: { title: 'Récupérer un transfert - Silvertransfert' }
   }
 ]
 

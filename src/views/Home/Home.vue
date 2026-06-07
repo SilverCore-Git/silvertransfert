@@ -10,7 +10,7 @@ import UploadProgress from './components/ui/UploadProgress.vue';
 import TransferResult from './components/ui/TransferResult.vue';
 
 // Configuration
-const API_URL = 'http://localhost:84';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 // Types
 interface FileItem {
@@ -36,6 +36,15 @@ const fileInputRef = ref<HTMLInputElement | null>(null);
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
 
 // Logic
+async function getSecurePass(len: number = 8) {
+  try {
+    const res = await axios.get(`${API_URL}/passwd/${len}`);
+    return res.data;
+  } catch {
+    return Math.random().toString(36).slice(2, 10);
+  }
+}
+
 function addFiles(list: FileList | null) {
   if (!list) return;
   for (const f of Array.from(list)) {
@@ -47,12 +56,19 @@ function addFiles(list: FileList | null) {
       size: f.size, 
       type: f.type 
     };
+    
+    files.value.push(item);
+
     if (f.type.startsWith('image/')) {
       const r = new FileReader();
-      r.onload = e => { item.preview = e.target?.result as string; };
+      r.onload = e => { 
+        const index = files.value.findIndex(x => x.id === item.id);
+        if (index !== -1) {
+          files.value[index].preview = e.target?.result as string;
+        }
+      };
       r.readAsDataURL(f);
     }
-    files.value.push(item);
   }
 }
 
@@ -88,13 +104,13 @@ async function transfer() {
   isUploading.value = true;
   uploadPct.value = 0;
   
-  const file = files.value[0].file;
   const transferId = Math.random().toString(36).slice(2, 10);
-  const passwd = Math.random().toString(36).slice(2, 8);
+  const passwd = await getSecurePass(12);
   
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('id', transferId);
+  files.value.forEach(f => {
+    formData.append('file', f.file);
+  });
 
   try {
     const response = await axios.post(`${API_URL}/upload/file`, formData, {
@@ -107,7 +123,8 @@ async function transfer() {
     });
 
     if (response.data.status === 'await_crypting' || response.data.status === 'OK') {
-      link.value = response.data.downloadPath || `localhost:5173/download/${transferId}#${passwd}`;
+      const origin = window.location.origin;
+      link.value = `${origin.replace('http://', '').replace('https://', '')}/download/${transferId}#${passwd}`;
       done.value = true;
     }
   } catch (error) {
@@ -131,47 +148,31 @@ function reset() {
   done.value = false;
   uploadPct.value = 0;
   link.value = '';
+  isUploading.value = false;
+  if (fileInputRef.value) {
+    fileInputRef.value.value = '';
+  }
 }
-
-// Scroll Reveal Logic
-onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-});
 </script>
 
 <template>
-  <div class="site-container">
-    <!-- Background Grid -->
+  <nav class="top-nav">
+      <a href="#accueil" class="nav-btn">Accueil</a>
+      <a href="#presentation" class="nav-btn">Présentation</a>
+      <a href="#faq" class="nav-btn">FAQ</a>
+    </nav>
+
+  <div class="site-container" id="accueil">
     <div class="bg-grid" aria-hidden="true"></div>
 
-    <!-- Hero Section (Full Viewport) -->
     <section class="hero-section">
-      <!-- Ambient glows -->
       <div class="glow g1" aria-hidden="true"></div>
       <div class="glow g2" aria-hidden="true"></div>
 
-      <!-- Top navigation -->
-      <nav class="top-nav reveal">
-        <a href="#accueil" class="nav-btn">Accueil</a>
-        <a href="#presentation" class="nav-btn">Présentation</a>
-        <a href="#faq" class="nav-btn">FAQ</a>
-      </nav>
+      <div class="center">
+        <h1 class="wordmark">Silver<span>Transfer</span></h1>
+        <p class="tagline">Souveraineté. Sécurité. Simplicité.</p>
 
-      <!-- Main center -->
-      <div class="center" id="accueil">
-        <!-- Wordmark -->
-        <h1 class="wordmark reveal">Silver<span>Transfer</span></h1>
-        <p class="tagline reveal">Souveraineté. Sécurité. Simplicité.</p>
-
-        <!-- SUCCESS -->
         <Transition name="fade" mode="out-in">
           <TransferResult 
             v-if="done"
@@ -183,8 +184,7 @@ onMounted(() => {
             @reset="reset"
           />
 
-          <!-- DROP ZONE -->
-          <div v-else class="upload-wrap reveal">
+          <div v-else class="upload-wrap">
             <DropZone 
               :is-dragging="isDragging"
               :files="files"
@@ -194,14 +194,12 @@ onMounted(() => {
               @drop="onDrop"
               @open-picker="openPicker"
             >
-              <!-- File List Slot -->
               <FileList 
                 :files="files" 
                 @remove="removeFile" 
                 @add="openPicker" 
               />
 
-              <!-- Uploading Slot -->
               <template #uploading>
                 <UploadProgress :upload-pct="uploadPct" />
               </template>
@@ -209,7 +207,6 @@ onMounted(() => {
 
             <input ref="fileInputRef" type="file" multiple style="display:none" @change="onInput" />
 
-            <!-- Below -->
             <Transition name="fade">
               <div v-if="files.length > 0 && !isUploading" class="below-ring">
                 <span class="size-hint">
@@ -225,36 +222,34 @@ onMounted(() => {
         </Transition>
       </div>
 
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator reveal">
+      <div class="scroll-indicator">
         <i class="bi bi-chevron-down"></i>
       </div>
     </section>
 
-    <!-- Presentation Section -->
     <section class="presentation-section" id="presentation">
       <div class="content-limit">
-        <header class="section-header reveal">
+        <header class="section-header">
           <span class="eyebrow">Engagement</span>
           <h2 class="section-title">L'excellence au service de vos échanges</h2>
         </header>
 
         <div class="grid-features">
-          <div class="feature-card reveal">
+          <div class="feature-card">
             <div class="f-icon-wrap">
               <i class="bi bi-shield-lock"></i>
             </div>
             <h3>Souveraineté Totale</h3>
             <p>Vos données sont protégées par le droit français, loin de toute ingérence étrangère. Nous opérons nos propres clusters de stockage.</p>
           </div>
-          <div class="feature-card reveal">
+          <div class="feature-card">
             <div class="f-icon-wrap">
               <i class="bi bi-lightning-charge"></i>
             </div>
             <h3>Vitesse de Pointe</h3>
             <p>Notre infrastructure est optimisée pour le transit massif de données, garantissant des débits symétriques constants.</p>
           </div>
-          <div class="feature-card reveal">
+          <div class="feature-card">
             <div class="f-icon-wrap">
               <i class="bi bi-incognito"></i>
             </div>
@@ -263,7 +258,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="premium-banner reveal">
+        <div class="premium-banner">
           <div class="pb-content">
             <h2>Plus qu'un transfert, un standard.</h2>
             <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants.</p>
@@ -273,24 +268,23 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- FAQ Section -->
     <section class="faq-section" id="faq">
       <div class="content-limit">
-        <header class="section-header reveal">
+        <header class="section-header">
           <span class="eyebrow">Support</span>
           <h2 class="section-title">Vos questions, nos réponses</h2>
         </header>
 
         <div class="faq-grid">
-          <div class="faq-card reveal">
+          <div class="faq-card">
             <h4>Capacité de stockage ?</h4>
             <p>Chaque envoi est limité à 10 Go. Pour des besoins supérieurs, nos offres entreprises sont à votre disposition.</p>
           </div>
-          <div class="faq-card reveal">
+          <div class="faq-card">
             <h4>Sécurité des serveurs ?</h4>
             <p>Nos serveurs sont durcis selon les recommandations de l'ANSSI et font l'objet d'audits réguliers.</p>
           </div>
-          <div class="faq-card reveal">
+          <div class="faq-card">
             <h4>Disponibilité ?</h4>
             <p>Nos services affichent un taux de disponibilité (SLA) de 99,99%, assurant la continuité de vos activités.</p>
           </div>
@@ -298,8 +292,7 @@ onMounted(() => {
       </div>
     </section>
 
-    <!-- Main Footer -->
-    <footer class="site-footer reveal">
+    <footer class="site-footer">
       <div class="footer-grid">
         <div class="footer-brand-col">
           <div class="f-logo">Silver<span>Transfer</span></div>
@@ -339,6 +332,12 @@ onMounted(() => {
   </div>
 </template>
 
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
@@ -346,11 +345,9 @@ onMounted(() => {
   background: #06050a;
   color: #e2e0f0;
   font-family: 'Outfit', sans-serif;
-  scroll-behavior: smooth;
   position: relative;
 }
 
-/* Background Grid */
 .bg-grid {
   position: fixed; inset: 0; z-index: 0;
   background-image: 
@@ -360,7 +357,6 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Hero Section */
 .hero-section {
   min-height: 100vh;
   display: flex;
@@ -371,7 +367,6 @@ onMounted(() => {
   z-index: 1;
 }
 
-/* Glows */
 .glow {
   position: absolute; border-radius: 50%; pointer-events: none;
   filter: blur(120px); animation: breathe 10s ease-in-out infinite;
@@ -392,29 +387,30 @@ onMounted(() => {
   50%      { opacity:1;   transform: translateX(-50%) scale(1.15); }
 }
 
-/* Top Nav */
 .top-nav {
-  position: fixed; top: 1.5rem; right: 2rem; z-index: 100;
-  display: flex; align-items: center; gap: 0.75rem;
+  position: fixed; top: 1.5rem; right: 2rem; z-index: 9999;
+  display: flex !important; align-items: center; gap: 0.75rem;
+  opacity: 1 !important; visibility: visible !important;
+  pointer-events: auto !important;
 }
 .nav-btn {
   background: rgba(10, 8, 20, 0.4); border: 1px solid rgba(255, 255, 255, 0.08);
   color: #a09cb4; padding: 0.55rem 1.35rem; border-radius: 100px; text-decoration: none;
   font-size: 0.8rem; font-weight: 500; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(16px); letter-spacing: 0.02em;
+  letter-spacing: 0.02em;
+  opacity: 1 !important; visibility: visible !important;
+  pointer-events: auto !important;
 }
 .nav-btn:hover { 
   background: rgba(99, 86, 229, 0.12); border-color: rgba(99, 86, 229, 0.4);
   color: #fff; transform: translateY(-1px);
 }
 
-/* Center */
 .center {
   display: flex; flex-direction: column; align-items: center;
   z-index: 1; padding: 1rem; width: 100%;
 }
 
-/* Wordmark */
 .wordmark {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2.5rem, 8vw, 4.5rem);
@@ -430,7 +426,6 @@ onMounted(() => {
   -webkit-text-fill-color: transparent;
 }
 
-/* Tagline */
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
   color: #fff;
@@ -440,7 +435,6 @@ onMounted(() => {
   text-transform: uppercase;
 }
 
-/* Upload wrap */
 .upload-wrap {
   display: flex; flex-direction: column; align-items: center;
   gap: 1.2rem; width: 100%; max-width: 440px;
@@ -461,7 +455,6 @@ onMounted(() => {
 }
 .drop-hint { font-size:0.7rem; color:#fff; letter-spacing:0.04em; text-align:center; }
 
-/* Scroll Indicator */
 .scroll-indicator {
   position: absolute; bottom: 3rem;
   font-size: 1.5rem; color: rgba(99, 86, 229, 0.4);
@@ -473,18 +466,6 @@ onMounted(() => {
   60% { transform: translateY(-5px); }
 }
 
-/* Reveal Animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Sections Common */
 .content-limit { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 .section-header { text-align: center; margin-bottom: 5rem; }
 .eyebrow { 
@@ -496,7 +477,6 @@ onMounted(() => {
   font-weight: 700; color: #fff; letter-spacing: -0.02em;
 }
 
-/* Presentation Section */
 .presentation-section {
   padding: 12rem 0; background: rgba(8, 7, 15, 0.6); position: relative; z-index: 1;
 }
@@ -538,7 +518,6 @@ onMounted(() => {
 }
 .premium-btn:hover { transform: scale(1.05); box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); }
 
-/* FAQ Section */
 .faq-section { padding: 10rem 0; z-index: 1; position: relative; }
 .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
 .faq-card {
@@ -547,7 +526,6 @@ onMounted(() => {
 .faq-card h4 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: #fff; }
 .faq-card p { font-size: 0.95rem; line-height: 1.6; color: #bbb8d8; }
 
-/* Footer */
 .site-footer {
   background: #030207; padding: 8rem 2rem 4rem; z-index: 1; position: relative;
   border-top: 1px solid rgba(255, 255, 255, 0.03);
@@ -593,4 +571,3 @@ onMounted(() => {
   .send-btn { width:100%; justify-content:center; }
 }
 </style>
-
