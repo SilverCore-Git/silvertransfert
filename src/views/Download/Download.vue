@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { formatSize } from '../../utils/file';
 
 const route = useRoute();
+const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 const transferId = ref('');
@@ -109,6 +110,21 @@ async function startDownload() {
 </script>
 
 <template>
+
+  <button
+    @click="router.push('/')"
+    class="
+      fixed top-6 left-6 z-20 cursor-pointer
+      bg-[rgba(10,8,20,0.4)] border border-[rgba(255,255,255,0.08)] text-[#a09cb4] 
+      px-[1.35rem] py-[0.55rem] rounded-full text-[0.8rem] font-medium tracking-[0.02em] 
+      transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
+      hover:bg-[rgba(99,86,229,0.12)] hover:border-[rgba(99,86,229,0.4)] 
+      hover:text-white hover:-translate-y-[1px]
+    "
+  >
+    Accueil
+  </button>
+
   <div class="site-container">
     <div class="bg-grid" aria-hidden="true"></div>
     
