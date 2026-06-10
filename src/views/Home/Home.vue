@@ -274,44 +274,8 @@ function reset() {
 
     <FaqSection />
 
-    <footer class="site-footer">
-      <div class="footer-grid">
-        <div class="footer-brand-col">
-          <div class="f-logo">Silver<span>Transfer</span></div>
-          <p class="f-tagline">L'infrastructure souveraine pour vos données sensibles.</p>
-        </div>
-
-        <div class="footer-links-grid">
-          <div class="f-group">
-            <h6>Produit</h6>
-            <a href="#accueil">Transfert</a>
-            <a href="#presentation">Fonctionnalités</a>
-            <a href="#faq">Questions</a>
-          </div>
-          <div class="f-group">
-            <h6>Légal</h6>
-            <a href="#">Confidentialité</a>
-            <a href="#">CGU</a>
-            <a href="#">Mentions</a>
-          </div>
-          <div class="f-group">
-            <h6>Compagnie</h6>
-            <a href="https://www.silvercore.fr" target="_blank">Silvercore</a>
-            <a href="https://status.silvercore.fr" target="_blank">Status</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-copyright">
-        <span>© 2026 Silvercore — Hébergé en France</span>
-        <div class="f-socials">
-          <a href="#"><i class="bi bi-twitter-x"/></a>
-          <a href="#"><i class="bi bi-github"/></a>
-          <a href="#"><i class="bi bi-linkedin"/></a>
-        </div>
-      </div>
-    </footer>
   </div>
+  
 </template>
 
 <style>
