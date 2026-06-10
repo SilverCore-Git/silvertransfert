@@ -8,6 +8,7 @@ import DropZone from './components/ui/DropZone.vue';
 import FileList from './components/ui/FileList.vue';
 import UploadProgress from './components/ui/UploadProgress.vue';
 import TransferResult from './components/ui/TransferResult.vue';
+import FaqSection from './components/ui/FaqSection.vue';
 
 // Configuration
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -171,7 +172,9 @@ function reset() {
 
       <div class="center">
         <h1 class="wordmark">Silver<span>Transfer</span></h1>
-        <p class="tagline">Souveraineté. Sécurité. Simplicité.</p>
+        <p class="tagline">
+          Transfert sécurisé de fichiers
+        </p>
 
         <Transition name="fade" mode="out-in">
           <TransferResult 
@@ -213,84 +216,63 @@ function reset() {
                   {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                 </span>
                 <button class="send-btn" @click="transfer">
-                  <i class="bi bi-send-fill"></i> Envoyer
+                  <i class="bi bi-send-fill"/> Envoyer
                 </button>
               </div>
-              <p v-else-if="!isUploading" class="drop-hint">Chiffrement AES-256 · Infrastructure Souveraine · Conservation 7j</p>
+              <p v-else-if="!isUploading" class="drop-hint">
+                Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10Go
+              </p>
             </Transition>
           </div>
         </Transition>
       </div>
 
       <div class="scroll-indicator">
-        <i class="bi bi-chevron-down"></i>
+        <i class="bi bi-chevron-down"/>
       </div>
     </section>
 
     <section class="presentation-section" id="presentation">
       <div class="content-limit">
         <header class="section-header">
-          <span class="eyebrow">Engagement</span>
           <h2 class="section-title">L'excellence au service de vos échanges</h2>
         </header>
 
         <div class="grid-features">
           <div class="feature-card">
             <div class="f-icon-wrap">
-              <i class="bi bi-shield-lock"></i>
+              <i class="bi bi-lightning-charge"/>
             </div>
-            <h3>Souveraineté Totale</h3>
-            <p>Vos données sont protégées par le droit français, loin de toute ingérence étrangère. Nous opérons nos propres clusters de stockage.</p>
+            <h3>Souveraineté</h3>
+            <p>Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et aux RGPD. Aucun CLOUD Act vos données sont françaises et reste en france.</p>
           </div>
           <div class="feature-card">
             <div class="f-icon-wrap">
-              <i class="bi bi-lightning-charge"></i>
+              <i class="bi bi-shield-lock"/>
             </div>
-            <h3>Vitesse de Pointe</h3>
-            <p>Notre infrastructure est optimisée pour le transit massif de données, garantissant des débits symétriques constants.</p>
+            <h3>Sécurité</h3>
+            <p>Vos fichier sont chiffré avec la robustesse de AES-256-CBC, indéchiffrables par nos équipes.</p>
           </div>
           <div class="feature-card">
             <div class="f-icon-wrap">
-              <i class="bi bi-incognito"></i>
+              <i class="bi bi-incognito"/>
             </div>
-            <h3>Confidentialité Absolue</h3>
-            <p>Zéro connaissance. Nous ne pouvons pas lire vos fichiers. Le lien est votre clé de déchiffrement unique.</p>
+            <h3>Redondance</h3>
+            <p>Vos fichiers sont copier a 3 reprise pour garantir leur sécurité. Toutes ces copies sont bien évidament supprimer après 30 jours.</p>
           </div>
         </div>
 
         <div class="premium-banner">
           <div class="pb-content">
-            <h2>Plus qu'un transfert, un standard.</h2>
-            <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants.</p>
+            <h2>Silvertransfert, un service de silvercore.</h2>
+            <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.</p>
             <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">Visiter Silvercore</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="faq-section" id="faq">
-      <div class="content-limit">
-        <header class="section-header">
-          <span class="eyebrow">Support</span>
-          <h2 class="section-title">Vos questions, nos réponses</h2>
-        </header>
-
-        <div class="faq-grid">
-          <div class="faq-card">
-            <h4>Capacité de stockage ?</h4>
-            <p>Chaque envoi est limité à 10 Go. Pour des besoins supérieurs, nos offres entreprises sont à votre disposition.</p>
-          </div>
-          <div class="faq-card">
-            <h4>Sécurité des serveurs ?</h4>
-            <p>Nos serveurs sont durcis selon les recommandations de l'ANSSI et font l'objet d'audits réguliers.</p>
-          </div>
-          <div class="faq-card">
-            <h4>Disponibilité ?</h4>
-            <p>Nos services affichent un taux de disponibilité (SLA) de 99,99%, assurant la continuité de vos activités.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <FaqSection />
 
     <footer class="site-footer">
       <div class="footer-grid">
@@ -323,9 +305,9 @@ function reset() {
       <div class="footer-copyright">
         <span>© 2026 Silvercore — Hébergé en France</span>
         <div class="f-socials">
-          <a href="#"><i class="bi bi-twitter-x"></i></a>
-          <a href="#"><i class="bi bi-github"></i></a>
-          <a href="#"><i class="bi bi-linkedin"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"/></a>
+          <a href="#"><i class="bi bi-github"/></a>
+          <a href="#"><i class="bi bi-linkedin"/></a>
         </div>
       </div>
     </footer>
@@ -478,7 +460,7 @@ html {
 }
 
 .presentation-section {
-  padding: 12rem 0; background: rgba(8, 7, 15, 0.6); position: relative; z-index: 1;
+  padding: 12rem 0; background: #08070f99; position: relative; z-index: 1;
 }
 .grid-features {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem;
