@@ -14,7 +14,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
         <div class="space-y-7">
-          <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Pages</h6>
+          <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Plan du site</h6>
           <nav class="space-y-4">
             <a href="#accueil" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Transfert</a>
             <a href="#presentation" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Fonctionnalités</a>
