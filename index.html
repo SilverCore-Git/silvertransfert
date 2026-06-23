@@ -6,23 +6,105 @@
     <!-- Meta de base -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- fonts -->
+    <meta name="theme-color" content="#06050a" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6356e5" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-
-    <title>Silvercore</title>
-
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://silvertransfert.fr" />
+    
+    <!-- SEO Meta Tags -->
+    <title>Silvertransfert - Transfert de fichiers sécurisé avec chiffrement E2EE</title>
+    <meta name="description" content="Silvertransfert est une alternative française à WeTransfer. Transférez vos fichiers en toute sécurité avec un chiffrement de bout en bout (E2EE), hébergement en France et respect de la RGPD." />
+    <meta name="keywords" content="transfert fichiers, chiffrement E2EE, alternative WeTransfer, hébergement France, RGPD, sécurité, AES-256-CBC, partage sécurisé" />
+    <meta name="author" content="Silvercore" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="French" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://silvertransfert.fr" />
+    <meta property="og:title" content="Silvertransfert - Transfert de fichiers sécurisé avec chiffrement E2EE" />
+    <meta property="og:description" content="Alternative française à WeTransfer. Transférez vos fichiers en toute sécurité avec chiffrement de bout en bout, hébergement en France et respect de la RGPD." />
+    <meta property="og:image" content="https://silvertransfert.fr/og-image.jpg" />
+    <meta property="og:image:alt" content="Silvertransfert - Transfert sécurisé de fichiers" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Silvertransfert" />
+    <meta property="og:locale" content="fr_FR" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Silvertransfert - Transfert de fichiers sécurisé avec chiffrement E2EE" />
+    <meta name="twitter:description" content="Alternative française à WeTransfer. Transférez vos fichiers en toute sécurité avec chiffrement de bout en bout." />
+    <meta name="twitter:image" content="https://silvertransfert.fr/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Silvertransfert - Transfert sécurisé de fichiers" />
+    <meta name="twitter:site" content="@SilvercoreFr" />
+    <meta name="twitter:creator" content="@SilvercoreFr" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Silvertransfert",
+      "description": "Transfert de fichiers sécurisé avec chiffrement E2EE, alternative française à WeTransfer",
+      "url": "https://silvertransfert.fr",
+      "applicationCategory": "FileTransferApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Service gratuit de transfert de fichiers sécurisé"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Silvercore",
+        "url": "https://www.silvercore.fr",
+        "logo": "https://silvertransfert.fr/logo.svg"
+      },
+      "potentialAction": {
+        "@type": "Action",
+        "name": "TransferFile",
+        "description": "Transférer des fichiers de manière sécurisée"
+      }
+    }
+    </script>
+    
+    <!-- Additional SEO -->
+    <meta name="application-name" content="Silvertransfert" />
+    <meta name="msapplication-TileColor" content="#06050a" />
+    <meta name="msapplication-TileImage" content="/mstile-150x150.png" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.ts" as="script" />
+    
+    <!-- Apple Mobile Web App Capable -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Hummingbird / Pinterest -->
+    <meta name="pinterest-rich-pin" content="true" />
+    
   </head>
 
   <body>
-
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
-
   </body>
 
 </html>
