@@ -36,6 +36,7 @@ const passwordLength = ref(12);
 const MIN_PASSWORD_LENGTH = 10;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
+const termsAccepted = ref(false);
 
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
@@ -182,6 +183,7 @@ function reset() {
   uploadPct.value = 0;
   link.value = '';
   isUploading.value = false;
+  termsAccepted.value = false;
   if (fileInputRef.value) {
     fileInputRef.value.value = '';
   }
@@ -260,13 +262,33 @@ function reset() {
                 <span class="size-hint">
                   {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                 </span>
-                <button class="send-btn" @click="transfer">
+                <button class="send-btn" @click="transfer" :disabled="!termsAccepted">
                   <i class="bi bi-send-fill"/> Envoyer
                 </button>
               </div>
               <p v-else-if="!isUploading" class="drop-hint">
                 Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10Go
               </p>
+            </Transition>
+
+            <Transition name="fade">
+              <div v-if="files.length > 0 && !isUploading" class="terms-container">
+                <label class="terms-checkbox">
+                  <input 
+                    type="checkbox" 
+                    v-model="termsAccepted"
+                    id="acceptTerms"
+                    class="checkbox-input"
+                  />
+                  <span class="checkbox-custom"></span>
+                  <span class="terms-text">
+                    J'ai lu et j'accepte les 
+                    <router-link to="/cgu" class="legal-link">Conditions Générales d'Utilisation</router-link> 
+                    et la 
+                    <router-link to="/politique-de-confidentialite" class="legal-link">Politique de Confidentialité</router-link>
+                  </span>
+                </label>
+              </div>
             </Transition>
           </div>
         </Transition>
@@ -434,6 +456,105 @@ html {
 
 .below-ring { display:flex; align-items:center; justify-content:space-between; width:100%; gap:1.5rem; }
 .size-hint  { font-size:0.75rem; color:#635c87; font-weight: 500; }
+
+/* Terms Acceptance */
+.terms-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  max-width: 100%;
+  font-size: 0.8rem;
+  color: #a09cb4;
+  line-height: 1.5;
+  transition: color 0.3s;
+}
+
+.terms-checkbox:hover {
+  color: #e2e0f0;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.checkbox-custom:before {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background: #6356e5;
+  border-color: #6356e5;
+}
+
+.checkbox-input:checked + .checkbox-custom:before {
+  opacity: 1;
+}
+
+.checkbox-input:focus + .checkbox-custom {
+  box-shadow: 0 0 0 3px rgba(99, 86, 229, 0.2);
+}
+
+.terms-text {
+  flex: 1;
+}
+
+.legal-link {
+  color: #6356e5;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.legal-link:hover {
+  color: #a78bfa;
+  text-decoration: underline;
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #3a384a;
+  box-shadow: none;
+  transform: none;
+}
+
+.send-btn:disabled:hover {
+  background: #3a384a;
+  transform: none;
+  box-shadow: none;
+}
 .send-btn {
   display:flex; align-items:center; gap:0.6rem; padding:0.65rem 1.6rem;
   background:#6356e5; color:white; border:none; border-radius:12px;
