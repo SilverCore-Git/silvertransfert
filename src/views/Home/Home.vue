@@ -190,9 +190,9 @@ function reset() {
 
 <template>
   <nav class="top-nav">
-      <a href="#accueil" class="nav-btn">Accueil</a>
-      <a href="#presentation" class="nav-btn">Présentation</a>
-      <a href="#faq" class="nav-btn">FAQ</a>
+      <a href="/#accueil" class="nav-btn">Accueil</a>
+      <a href="/#presentation" class="nav-btn">Présentation</a>
+      <a href="/#faq" class="nav-btn">FAQ</a>
     </nav>
 
   <div class="site-container" id="accueil">
