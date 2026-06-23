@@ -32,9 +32,35 @@ const done = ref(false);
 const link = ref('');
 const copied = ref(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
+const passwordLength = ref(12);
+const MIN_PASSWORD_LENGTH = 10;
+const uploadStartTime = ref(0);
+const uploadSpeed = ref(0);
 
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
+
+const estimatedTimeRemaining = computed(() => {
+  if (uploadPct.value <= 0 || uploadSpeed.value <= 0) return null;
+  const remainingPct = 100 - uploadPct.value;
+  const remainingSize = (totalSize.value * remainingPct) / 100;
+  const secondsRemaining = remainingSize / uploadSpeed.value;
+  return formatTime(secondsRemaining);
+});
+
+function formatTime(seconds: number): string {
+  if (seconds < 60) {
+    return `${Math.round(seconds)}s`;
+  } else if (seconds < 3600) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.round(seconds % 60);
+    return `${minutes}m ${secs}s`;
+  } else {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+  }
+}
 
 // Logic
 async function getSecurePass(len: number = 8) {
@@ -104,9 +130,11 @@ async function transfer() {
   
   isUploading.value = true;
   uploadPct.value = 0;
+  uploadStartTime.value = Date.now();
+  uploadSpeed.value = 0;
   
   const transferId = Math.random().toString(36).slice(2, 10);
-  const passwd = await getSecurePass(12);
+  const passwd = await getSecurePass(passwordLength.value);
   
   const formData = new FormData();
   files.value.forEach(f => {
@@ -118,6 +146,10 @@ async function transfer() {
       params: { id: transferId, passwd },
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
+          const now = Date.now();
+          const elapsed = (now - uploadStartTime.value) / 1000; // en secondes
+          const currentSpeed = progressEvent.loaded / elapsed;
+          uploadSpeed.value = currentSpeed > 0 ? currentSpeed : uploadSpeed.value;
           uploadPct.value = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         }
       }
@@ -125,7 +157,7 @@ async function transfer() {
 
     if (response.data.status === 'await_crypting' || response.data.status === 'OK') {
       const origin = window.location.origin;
-      link.value = `${origin.replace('http://', '').replace('https://', '')}/download/${transferId}#${passwd}`;
+      link.value = `${origin.replace('http://', '').replace('https://', '')}/t/${transferId}#${passwd}`;
       done.value = true;
     }
   } catch (error) {
@@ -204,11 +236,24 @@ function reset() {
               />
 
               <template #uploading>
-                <UploadProgress :upload-pct="uploadPct" />
+                <UploadProgress :upload-pct="uploadPct" :estimated-time="estimatedTimeRemaining" />
               </template>
             </DropZone>
 
             <input ref="fileInputRef" type="file" multiple style="display:none" @change="onInput" />
+
+            <div class="password-complexity">
+              <label for="passwordLength">Complexité du mot de passe: {{ passwordLength }}</label>
+              <input 
+                type="range" 
+                id="passwordLength" 
+                v-model.number="passwordLength" 
+                :min="MIN_PASSWORD_LENGTH" 
+                :max="32"
+                class="complexity-slider"
+              />
+              <span class="min-label">Minimum: {{ MIN_PASSWORD_LENGTH }}</span>
+            </div>
 
             <Transition name="fade">
               <div v-if="files.length > 0 && !isUploading" class="below-ring">
@@ -346,6 +391,7 @@ html {
   letter-spacing: 0.02em;
   opacity: 1 !important; visibility: visible !important;
   pointer-events: auto !important;
+  backdrop-filter: blur(10px);
 }
 .nav-btn:hover { 
   background: rgba(99, 86, 229, 0.12); border-color: rgba(99, 86, 229, 0.4);
@@ -400,6 +446,64 @@ html {
   box-shadow: 0 8px 30px rgba(99, 86, 229, 0.5);
 }
 .drop-hint { font-size:0.7rem; color:#fff; letter-spacing:0.04em; text-align:center; }
+
+.password-complexity {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.password-complexity label {
+  font-size: 0.75rem;
+  color: #a09cb4;
+  font-weight: 500;
+}
+.complexity-slider {
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.complexity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6356e5;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.complexity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(99, 86, 229, 0.5);
+}
+.complexity-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6356e5;
+  cursor: pointer;
+  border: none;
+}
+.complexity-slider::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+}
+.min-label {
+  font-size: 0.7rem;
+  color: #635c87;
+  font-style: italic;
+}
 
 .scroll-indicator {
   position: absolute; bottom: 3rem;

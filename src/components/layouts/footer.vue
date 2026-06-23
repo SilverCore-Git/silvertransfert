@@ -33,9 +33,9 @@
         <div class="space-y-7">
           <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Légal</h6>
           <nav class="space-y-4">
-            <a href="#" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Confidentialité</a>
-            <a href="#" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">CGU</a>
-            <a href="#" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Mentions légales</a>
+            <router-link to="/politique-de-confidentialite" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Confidentialité</router-link>
+            <router-link to="/cgu" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">CGU</router-link>
+            <router-link to="/mentions-legales" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Mentions légales</router-link>
           </nav>
         </div>
 

@@ -119,7 +119,7 @@ async function startDownload() {
       px-[1.35rem] py-[0.55rem] rounded-full text-[0.8rem] font-medium tracking-[0.02em] 
       transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
       hover:bg-[rgba(99,86,229,0.12)] hover:border-[rgba(99,86,229,0.4)] 
-      hover:text-white hover:-translate-y-[1px]
+      hover:text-white hover:-translate-y-[1px] blur-sm
     "
   >
     Accueil

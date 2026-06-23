@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   uploadPct: number;
+  estimatedTime?: string | null;
 }>();
 </script>
 
@@ -26,6 +27,7 @@ defineProps<{
       <span class="arc-pct">{{ Math.round(uploadPct) }}%</span>
     </div>
     <span class="upload-lbl">Envoi en cours…</span>
+    <span v-if="estimatedTime" class="time-remaining">{{ estimatedTime }} restants</span>
   </div>
 </template>
 
@@ -65,5 +67,10 @@ defineProps<{
 .upload-lbl {
   font-size: 0.76rem;
   color: #635c87;
+}
+.time-remaining {
+  font-size: 0.7rem;
+  color: #a09cb4;
+  font-style: italic;
 }
 </style>
