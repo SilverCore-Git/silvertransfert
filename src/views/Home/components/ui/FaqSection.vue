@@ -43,6 +43,45 @@
   </section>
 </template>
 
+<style scoped>
+/* FAQ Animations */
+section {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+header h2 {
+  animation: fadeInDown 0.6s ease-out 0.2s both;
+}
+
+div[class*="space-y"] > div {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+div[class*="space-y"] > div:nth-child(1) { animation: fadeInLeft 0.6s ease-out 0.3s both; }
+div[class*="space-y"] > div:nth-child(2) { animation: fadeInLeft 0.6s ease-out 0.4s both; }
+div[class*="space-y"] > div:nth-child(3) { animation: fadeInLeft 0.6s ease-out 0.5s both; }
+div[class*="space-y"] > div:nth-child(4) { animation: fadeInLeft 0.6s ease-out 0.6s both; }
+div[class*="space-y"] > div:nth-child(5) { animation: fadeInLeft 0.6s ease-out 0.7s both; }
+div[class*="space-y"] > div:nth-child(6) { animation: fadeInLeft 0.6s ease-out 0.8s both; }
+
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover {
+  transform: translateX(5px);
+}
+
+button span[class*="rotate"] {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+div[v-show] {
+  animation: fadeIn 0.4s ease-out;
+}
+</style>
+
 <script setup lang="ts">
 
 import { ref } from 'vue';

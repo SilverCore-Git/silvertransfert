@@ -44,6 +44,16 @@ const emit = defineEmits(['copy', 'reset']);
   max-width: 430px;
 }
 
+.result-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 430px;
+  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .result-check {
   width: 50px;
   height: 50px;
@@ -55,7 +65,18 @@ const emit = defineEmits(['copy', 'reset']);
   justify-content: center;
   font-size: 1.35rem;
   color: #7c6ff5;
-  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-check::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(99, 86, 229, 0.4);
+  animation: pulse-ring 2s infinite;
 }
 
 @keyframes pop {
@@ -66,6 +87,28 @@ const emit = defineEmits(['copy', 'reset']);
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

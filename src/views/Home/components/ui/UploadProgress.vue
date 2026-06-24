@@ -39,12 +39,14 @@ defineProps<{
   gap: 0.8rem;
   padding: 2rem;
   pointer-events: none;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .arc-wrap {
   position: relative;
   width: 72px;
   height: 72px;
+  animation: scaleIn 0.5s ease-out;
 }
 
 .arc-svg {

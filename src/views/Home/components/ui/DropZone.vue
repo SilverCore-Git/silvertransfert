@@ -102,4 +102,69 @@ function onDragLeave() {
   font-size: 0.75rem;
   color: #615c85;
 }
+
+/* DropZone Animations */
+.drop-ring {
+  width: 100%;
+  min-height: 165px;
+  border: 1.5px dashed rgba(99, 86, 229, 0.18);
+  border-radius: 16px;
+  background: rgba(99, 86, 229, 0.025);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s, transform 0.3s;
+  overflow: hidden;
+  animation: fadeInScale 0.6s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.drop-ring:hover,
+.drop-ring.active {
+  border-color: rgba(99, 86, 229, 0.5);
+  background: rgba(99, 86, 229, 0.055);
+  box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.07);
+  transform: scale(1.02);
+}
+
+.ring-icon {
+  font-size: 1.9rem;
+  color: #6356e5;
+  opacity: 0.8;
+  margin-bottom: 0.3rem;
+  transition: all 0.3s;
+}
+
+.drop-ring:hover .ring-icon,
+.drop-ring.active .ring-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.ring-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2.25rem;
+  text-align: center;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.drop-ring:hover .ring-empty,
+.drop-ring.active .ring-empty {
+  transform: translateY(-5px);
+}
 </style>

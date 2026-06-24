@@ -132,7 +132,7 @@ async function startDownload() {
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark">Silver<span>Transfer</span></h1>
+        <h1 class="wordmark">Silver<span>Transfert</span></h1>
         <p class="tagline">Réception de fichiers sécurisée</p>
 
         <div class="download-card">
@@ -236,10 +236,12 @@ async function startDownload() {
 
 .wordmark {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 2.5rem;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
+  letter-spacing: -0.05em;
   color: #fff;
-  margin-bottom: 0.5rem;
+  line-height: 0.9;
+  margin: 0;
 }
 .wordmark span {
   background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
@@ -248,10 +250,11 @@ async function startDownload() {
 }
 
 .tagline {
-  font-size: 0.9rem;
-  color: #a09cb4;
-  margin-bottom: 2.5rem;
-  letter-spacing: 0.1em;
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  color: #fff;
+  font-weight: 400;
+  margin: 1.5rem 0 2.5rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 

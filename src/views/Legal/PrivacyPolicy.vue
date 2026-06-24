@@ -430,7 +430,23 @@
 
 .legal-section-item {
   margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(20px);
 }
+
+/* Staggered animations for sections */
+.legal-section-item:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
+.legal-section-item:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
+.legal-section-item:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
+.legal-section-item:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
+.legal-section-item:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
+.legal-section-item:nth-child(6) { animation: fadeInUp 0.6s ease-out 0.7s both; }
+.legal-section-item:nth-child(7) { animation: fadeInUp 0.6s ease-out 0.8s both; }
+.legal-section-item:nth-child(8) { animation: fadeInUp 0.6s ease-out 0.9s both; }
+.legal-section-item:nth-child(9) { animation: fadeInUp 0.6s ease-out 1s both; }
+.legal-section-item:nth-child(10) { animation: fadeInUp 0.6s ease-out 1.1s both; }
+.legal-section-item:nth-child(11) { animation: fadeInUp 0.6s ease-out 1.2s both; }
+.legal-section-item:nth-child(12) { animation: fadeInUp 0.6s ease-out 1.3s both; }
 
 .legal-section-item h3 {
   font-family: 'Space Grotesk', sans-serif;

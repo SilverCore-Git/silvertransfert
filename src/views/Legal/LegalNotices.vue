@@ -144,6 +144,18 @@
   margin: 2rem 0 1rem;
 }
 
+/* Section animations */
+.legal-section-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.legal-section-item:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
+.legal-section-item:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
+.legal-section-item:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
+.legal-section-item:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
+.legal-section-item:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
+
 .legal-content p {
   font-size: 0.95rem;
   line-height: 1.8;
