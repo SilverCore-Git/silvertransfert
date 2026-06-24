@@ -34,7 +34,7 @@ const emit = defineEmits(['close']);
             </g>
           </svg>
           <div>
-            <p class="d-name">SilverTransfer</p>
+            <p class="d-name">Silvertransfert</p>
             <p class="d-sub">by Silvercore</p>
           </div>
         </div>
