@@ -166,6 +166,7 @@ async function startDownload() {
 
             <button 
               class="download-btn" 
+              :class="{ 'decrypting': status === 'decrypting', 'downloading': status === 'downloading' }"
               :disabled="status === 'decrypting' || status === 'downloading'"
               @click="startDownload"
             >
@@ -242,11 +243,26 @@ async function startDownload() {
   color: #fff;
   line-height: 0.9;
   margin: 0;
+  animation: fadeInDown 0.6s ease-out;
 }
 .wordmark span {
   background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.wordmark span::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  border-radius: 1px;
+  animation: shimmer 2s infinite;
+  background-size: 200% auto;
 }
 
 .tagline {
@@ -266,6 +282,7 @@ async function startDownload() {
   padding: 3rem;
   backdrop-filter: blur(20px);
   text-align: center;
+  animation: fadeInScale 0.6s ease-out;
 }
 
 .loading-state, .error-state, .ready-state {
@@ -273,6 +290,137 @@ async function startDownload() {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+}
+
+/* Loading Animation */
+.loading-state {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.loading-state p {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(99, 86, 229, 0.2);
+  border-top-color: #6356e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite, scalePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scalePulse {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+}
+
+/* Ready State Animations */
+.ready-state {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.file-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(99, 86, 229, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #6356e5;
+  animation: scaleIn 0.5s ease-out 0.2s both;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  border: 2px solid rgba(99, 86, 229, 0.3);
+  animation: borderPulse 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+.file-icon:hover::after {
+  opacity: 1;
+}
+
+@keyframes borderPulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.file-info {
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.download-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #6356e5;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.download-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.download-btn:not(:disabled):hover {
+  background: #7267f0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4);
+}
+
+.download-btn:not(:disabled):hover::before {
+  left: 100%;
+}
+
+.download-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #4a475a;
+}
+
+.download-btn.decrypting {
+  animation: decryptingPulse 1s ease-in-out infinite;
+}
+
+.download-btn.downloading {
+  animation: downloadingPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes decryptingPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 86, 229, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(99, 86, 229, 0); }
+}
+
+@keyframes downloadingPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
 }
 
 .spinner {
@@ -295,6 +443,54 @@ async function startDownload() {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .error-state i {
