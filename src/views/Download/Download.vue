@@ -111,28 +111,18 @@ async function startDownload() {
 
 <template>
 
-  <button
-    @click="router.push('/')"
-    class="
-      fixed top-6 left-6 z-20 cursor-pointer
-      bg-[rgba(10,8,20,0.4)] border border-[rgba(255,255,255,0.08)] text-[#a09cb4] 
-      px-[1.35rem] py-[0.55rem] rounded-full text-[0.8rem] font-medium tracking-[0.02em] 
-      transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] 
-      hover:bg-[rgba(99,86,229,0.12)] hover:border-[rgba(99,86,229,0.4)] 
-      hover:text-white hover:-translate-y-[1px] blur-sm
-    "
-  >
-    Accueil
-  </button>
+  
 
   <div class="site-container">
+
     <div class="bg-grid" aria-hidden="true"></div>
     
     <section class="hero-section">
+
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark">Silver<span>Transfert</span></h1>
+        <h1 class="wordmark" @click="router.push('/')">Silver<span>Transfert</span></h1>
         <p class="tagline">Réception de fichiers sécurisée</p>
 
         <div class="download-card">
@@ -181,10 +171,6 @@ async function startDownload() {
               </template>
             </button>
             
-            <p class="security-note">
-              <i class="bi bi-shield-check"></i> 
-              Les fichiers sont déchiffrés à la volée sur nos serveurs.
-            </p>
           </div>
         </div>
       </div>
@@ -252,18 +238,6 @@ async function startDownload() {
   position: relative;
 }
 
-.wordmark span::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  border-radius: 1px;
-  animation: shimmer 2s infinite;
-  background-size: 200% auto;
-}
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);

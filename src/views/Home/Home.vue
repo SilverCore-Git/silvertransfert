@@ -425,21 +425,6 @@ html {
   z-index: 1; padding: 1rem; width: 100%;
 }
 
-.wordmark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  color: #fff;
-  line-height: 0.9;
-  margin: 0;
-}
-.wordmark span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
   color: #fff;
@@ -670,19 +655,6 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
-}
-
-.wordmark span::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  border-radius: 1px;
-  animation: shimmer 2s infinite;
-  background-size: 200% auto;
 }
 
 .tagline {
