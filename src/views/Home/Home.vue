@@ -188,6 +188,8 @@ function reset() {
     fileInputRef.value.value = '';
   }
 }
+
+
 </script>
 
 <template>
@@ -244,17 +246,20 @@ function reset() {
 
             <input ref="fileInputRef" type="file" multiple style="display:none" @change="onInput" />
 
-            <div class="password-complexity">
-              <label for="passwordLength">Complexité du mot de passe: {{ passwordLength }}</label>
+            <div class="encryption-slider-container">
+              <label class="encryption-label">Taux de chiffrement: {{ passwordLength }} caractères</label>
               <input 
                 type="range" 
                 id="passwordLength" 
                 v-model.number="passwordLength" 
                 :min="MIN_PASSWORD_LENGTH" 
                 :max="32"
-                class="complexity-slider"
+                class="encryption-slider"
               />
-              <span class="min-label">Minimum: {{ MIN_PASSWORD_LENGTH }}</span>
+              <div class="encryption-levels">
+                <span>Min: {{ MIN_PASSWORD_LENGTH }}</span>
+                <span>Max: 32</span>
+              </div>
             </div>
 
             <Transition name="fade">
@@ -553,62 +558,96 @@ html {
 }
 .drop-hint { font-size:0.7rem; color:#fff; letter-spacing:0.04em; text-align:center; }
 
-.password-complexity {
+/* Encryption Slider - Compact & Stylish */
+.encryption-slider-container {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
+  max-width: 300px;
   margin-top: 0.5rem;
 }
-.password-complexity label {
+
+.encryption-label {
+  display: block;
   font-size: 0.75rem;
   color: #a09cb4;
   font-weight: 500;
+  margin-bottom: 0.5rem;
 }
-.complexity-slider {
+
+.encryption-slider {
   width: 100%;
-  max-width: 300px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
   outline: none;
   -webkit-appearance: none;
   appearance: none;
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
 }
-.complexity-slider::-webkit-slider-thumb {
+
+.encryption-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #6356e5;
+  background: linear-gradient(135deg, #6356e5, #a78bfa);
   cursor: pointer;
-  transition: all 0.3s;
+  box-shadow: 0 1px 3px rgba(99, 86, 229, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
-.complexity-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 10px rgba(99, 86, 229, 0.5);
+
+.encryption-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.25), 0 0 12px rgba(99, 86, 229, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
 }
-.complexity-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+
+.encryption-slider::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 5px rgba(99, 86, 229, 0.4), 0 0 15px rgba(99, 86, 229, 0.6);
+  border-color: white;
+}
+
+.encryption-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #6356e5;
+  background: linear-gradient(135deg, #6356e5, #a78bfa);
   cursor: pointer;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(99, 86, 229, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.complexity-slider::-moz-range-track {
+
+.encryption-slider::-moz-range-thumb:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.25), 0 0 12px rgba(99, 86, 229, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.encryption-slider::-moz-range-track {
   width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
 }
-.min-label {
+
+.encryption-slider::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6356e5, #a78bfa);
+}
+
+.encryption-levels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
   font-size: 0.7rem;
   color: #635c87;
-  font-style: italic;
 }
 
 .scroll-indicator {

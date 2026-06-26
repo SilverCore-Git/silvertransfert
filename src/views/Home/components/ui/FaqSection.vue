@@ -22,12 +22,10 @@
               {{ item.q }}
             </span>
             <div class="w-8 h-8 flex items-center justify-center text-[#6356e5]">
-              <span 
-                class="transition-transform duration-300 font-bold"
+              <i 
+                class="bi bi-chevron-down transition-transform duration-300"
                 :class="{'rotate-180': openIndex === index}"
-              >
-                +
-              </span>
+              />
             </div>
           </button>
           
