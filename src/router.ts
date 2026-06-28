@@ -20,6 +20,12 @@ const routes = [
     meta: { title: 'Récupérer un transfert - Silvertransfert' }
   },
   {
+    path: '/t/:id/:mdp',
+    redirect: (to: any) => {
+      return `https://old.silvertransfert.fr/t/${to.params.id}/${to.params.mdp}`;
+    }
+  },
+  {
     path: '/cgu',
     name: 'TermsOfService',
     component: TermsOfService,
