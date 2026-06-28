@@ -199,7 +199,7 @@ function reset() {
       <a href="/#faq" class="nav-btn">FAQ</a>
     </nav>
 
-  <div class="site-container" id="accueil">
+  <div class="site-container " id="accueil">
     <div class="bg-grid" aria-hidden="true"></div>
 
     <section class="hero-section">

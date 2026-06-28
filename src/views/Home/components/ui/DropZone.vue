@@ -31,7 +31,7 @@ function onDragLeave() {
 
 <template>
   <div 
-    class="drop-ring" 
+    class="drop-ring  backdrop-blur-md" 
     :class="{ active: isDragging || files.length > 0 }" 
     @click="emit('open-picker')"
     @dragover.prevent="onDragOver"
