@@ -21,8 +21,9 @@ const routes = [
   },
   {
     path: '/t/:id/:mdp',
-    redirect: (to: any) => {
-      return `https://old.silvertransfert.fr/t/${to.params.id}/${to.params.mdp}`;
+    beforeEnter: (to: any) => {
+      window.location.href = `https://old.silvertransfert.fr/t/${to.params.id}/${to.params.mdp}`;
+      return false;
     }
   },
   {
