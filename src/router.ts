@@ -21,9 +21,8 @@ const routes = [
   },
   {
     path: '/t/:id/:mdp',
-    beforeEnter: (to: any) => {
-      window.location.href = `https://old.silvertransfert.fr/t/${to.params.id}/${to.params.mdp}`;
-      return false;
+    redirect: (to: any) => {
+      return `https://old.silvertransfert.fr/t/${to.params.id}/${to.params.mdp}`;
     }
   },
   {
@@ -52,6 +51,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, _from, _savedPosition) {
+    if (to.path.startsWith('http'))
+    {
+      window.location.href = to.path;
+      return;
+    }
     if (to.hash) {
       const el = document.querySelector(to.hash);
       if (el) return { top: (el as HTMLElement).offsetTop, behavior: 'smooth' };
