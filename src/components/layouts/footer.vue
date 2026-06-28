@@ -3,9 +3,9 @@
     <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1.5fr,2fr] gap-16 mb-24">
       
       <div>
-        <div class="font-['Space_Grotesk'] text-[1.75rem] font-bold text-white mb-6">
-          Silver<span class="text-[#6356e5]">Transfert</span>
-          
+        <div class="font-['Space_Grotesk'] text-[1.75rem] font-bold text-white mb-6 flex items-center gap-4">
+          <div>Silver<span class="text-[#6356e5]">Transfert</span></div>
+          <iframe src="https://status.silvertransfert.fr/embed-badges/live-status?align=start&background-dark=00000000&text-dark=ffffff" width="190" height="30" loading="lazy" frameborder="0" scrolling="no"></iframe>
         </div>
         <p class="text-[0.95rem] text-white leading-relaxed max-w-4xl">
           Les transferts de fichiers simple et sécurisé, hébergé en France et respectueux de votre vie privée.
