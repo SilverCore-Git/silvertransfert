@@ -244,21 +244,44 @@ function reset() {
               </template>
             </DropZone>
 
-            <input ref="fileInputRef" type="file" multiple style="display:none" @change="onInput" />
+            <input ref="fileInputRef" type="file" multiple class="hidden" @change="onInput" />
 
-            <div class="encryption-slider-container">
-              <label class="encryption-label">Taux de chiffrement: {{ passwordLength }} caractères</label>
-              <input 
-                type="range" 
-                id="passwordLength" 
-                v-model.number="passwordLength" 
-                :min="MIN_PASSWORD_LENGTH" 
-                :max="32"
-                class="encryption-slider"
-              />
-              <div class="encryption-levels">
-                <span>Min: {{ MIN_PASSWORD_LENGTH }}</span>
-                <span>Max: 32</span>
+            <div class="w-full max-w-sm font-sans">
+              
+              <div class="flex justify-between items-baseline mb-2">
+                <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Complexité du chiffrement
+                </label>
+                <span class="text-sm font-semibold text-(--primary)">
+                  {{ passwordLength }}
+                </span>
+              </div>
+              
+              <div class="relative flex items-center">
+                <input 
+                  type="range" 
+                  id="passwordLength" 
+                  v-model.number="passwordLength" 
+                  :min="MIN_PASSWORD_LENGTH" 
+                  :max="32"
+                  class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--primary)/20
+                        [&::-webkit-slider-thumb]:appearance-none 
+                        [&::-webkit-slider-thumb]:h-3.5 
+                        [&::-webkit-slider-thumb]:w-3.5 
+                        [&::-webkit-slider-thumb]:rounded-full 
+                        [&::-webkit-slider-thumb]:bg-gray-900 
+                        [&::-webkit-slider-thumb]:transition-transform 
+                        active:[&::-webkit-slider-thumb]:scale-110
+                        
+                        [&::-moz-range-thumb]:h-3.5 
+                        [&::-moz-range-thumb]:w-3.5 
+                        [&::-moz-range-thumb]:rounded-full 
+                        [&::-moz-range-thumb]:bg-(--primary) 
+                        [&::-moz-range-thumb]:border-0
+                        [&::-moz-range-thumb]:transition-transform 
+                        active:[&::-moz-range-thumb]:scale-110"
+                  :style="{ '--progress': ((passwordLength - MIN_PASSWORD_LENGTH) / (32 - MIN_PASSWORD_LENGTH)) * 100 + '%' }"
+                />
               </div>
             </div>
 
@@ -556,7 +579,7 @@ html {
   background:#7267f0; transform:translateY(-2px); 
   box-shadow: 0 8px 30px rgba(99, 86, 229, 0.5);
 }
-.drop-hint { font-size:0.7rem; color:#fff; letter-spacing:0.04em; text-align:center; }
+.drop-hint { font-size:0.7rem; color:#a9a9a9; letter-spacing:0.04em; text-align:center; }
 
 /* Encryption Slider - Compact & Stylish */
 .encryption-slider-container {
