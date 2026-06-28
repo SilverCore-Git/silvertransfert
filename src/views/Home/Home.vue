@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { formatSize } from '../../utils/file';
 import axios from 'axios';
 
@@ -92,7 +92,7 @@ function addFiles(list: FileList | null) {
       r.onload = e => { 
         const index = files.value.findIndex(x => x.id === item.id);
         if (index !== -1) {
-          files.value[index].preview = e.target?.result as string;
+          files!.value[index]!.preview = e.target?.result as string;
         }
       };
       r.readAsDataURL(f);
