@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Navbar from '../../components/layouts/Navbar.vue';
 </script>
 
 <template>
@@ -6,11 +7,7 @@
     <div class="site-container">
       <div class="bg-grid" aria-hidden="true"></div>
       
-      <nav class="top-nav">
-        <a href="/#accueil" class="nav-btn">Accueil</a>
-        <a href="/#presentation" class="nav-btn">Présentation</a>
-        <a href="/#faq" class="nav-btn">FAQ</a>
-      </nav>
+      <Navbar />
 
       <section class="legal-section">
         <div class="center">
@@ -57,25 +54,6 @@
   pointer-events: none;
 }
 
-.top-nav {
-  position: fixed; top: 1.5rem; right: 2rem; z-index: 9999;
-  display: flex !important; align-items: center; gap: 0.75rem;
-  opacity: 1 !important; visibility: visible !important;
-  pointer-events: auto !important;
-}
-.nav-btn {
-  background: rgba(10, 8, 20, 0.4); border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #a09cb4; padding: 0.55rem 1.35rem; border-radius: 100px; text-decoration: none;
-  font-size: 0.8rem; font-weight: 500; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  letter-spacing: 0.02em;
-  opacity: 1 !important; visibility: visible !important;
-  pointer-events: auto !important;
-  backdrop-filter: blur(10px);
-}
-.nav-btn:hover { 
-  background: rgba(99, 86, 229, 0.12); border-color: rgba(99, 86, 229, 0.4);
-  color: #fff; transform: translateY(-1px);
-}
 
 .legal-section {
   min-height: 100vh;
