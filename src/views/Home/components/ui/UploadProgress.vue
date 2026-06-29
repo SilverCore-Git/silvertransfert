@@ -4,9 +4,27 @@ import { computed } from 'vue';
 const props = defineProps<{
   uploadPct: number;
   estimatedTime?: string | null;
+  uploadSpeed?: number | null;
 }>();
 
 const isFinalizing = computed(() => props.uploadPct >= 100);
+
+const formattedSpeed = computed(() => {
+  if (!props.uploadSpeed || props.uploadSpeed <= 0) return null;
+  
+  const bytesPerSecond = props.uploadSpeed;
+  const megabytesPerSecond = bytesPerSecond / (1024 * 1024);
+  const gigabytesPerSecond = megabytesPerSecond / 1024;
+  
+  if (gigabytesPerSecond >= 1) {
+    return `${gigabytesPerSecond.toFixed(1)} GB/s`;
+  } else if (megabytesPerSecond >= 1) {
+    return `${megabytesPerSecond.toFixed(1)} MB/s`;
+  } else {
+    const kilobytesPerSecond = bytesPerSecond / 1024;
+    return `${kilobytesPerSecond.toFixed(1)} KB/s`;
+  }
+});
 </script>
 
 <template>
@@ -46,6 +64,7 @@ const isFinalizing = computed(() => props.uploadPct >= 100);
       </template>
     </span>
     <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ estimatedTime }} restants</span>
+    <span v-if="formattedSpeed && !isFinalizing" class="upload-speed">{{ formattedSpeed }}</span>
     <span v-else-if="isFinalizing" class="finalizing-lbl">Préparation du lien…</span>
   </div>
 </template>
@@ -124,6 +143,13 @@ const isFinalizing = computed(() => props.uploadPct >= 100);
 }
 
 .time-remaining {
+  font-size: 0.7rem;
+  color: #a09cb4;
+  font-style: italic;
+  transition: all 0.3s;
+}
+
+.upload-speed {
   font-size: 0.7rem;
   color: #a09cb4;
   font-style: italic;
