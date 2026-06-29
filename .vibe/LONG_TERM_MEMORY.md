@@ -53,9 +53,9 @@
 
 ---
 
-### 2026-06-29 - Correction UI Home.vue
+### 2026-06-29 - Correction UI Home.vue - Première version
 
-**Objectif** : Modifier l'interface de la page d'accueil selon les spécifications demandées.
+**Objectif** : Modifier l'interface de la page d'accueil selon les spécifications initiales.
 
 **Tâches réalisées** :
 - Le sélecteur de complexité du chiffrement est maintenant affiché uniquement lorsque des fichiers sont téléversés mais pas encore en envoie (`files.length > 0 && !isUploading`)
@@ -65,7 +65,7 @@
 - `src/views/Home/Home.vue` - Modification du template et des styles CSS
 
 **Modifications techniques** :
-- Ajout de `v-if="files.length > 0 && !isUploading"` autour du conteneur du sélecteur de complexité (lignes 249-288)
+- Ajout de `v-if="files.length > 0 && !isUploading"` autour du conteneur du sélecteur de complexité
 - Modification du style `.below-ring` pour utiliser `flex-direction: column` et centrer les éléments
 - Suppression de la règle redondante dans le media query mobile
 
@@ -74,12 +74,48 @@
 
 **Décisions techniques** :
 - Garder le media query pour `.send-btn` sur mobile (`width:100%; justify-content:center;`)
-- Utiliser un seul conteneur `.below-ring` avec un style flexible plutôt que de créer une nouvelle classe
+- Utiliser un seul conteneur avec un style flexible plutôt que de créer une nouvelle classe
 
 **Tests** : À vérifier manuellement
 
 **Commits** :
 - `4e8b071` - feat: afficher selecteur complexité uniquement avec fichiers et bouton envoyer en dessous
+
+---
+
+### 2026-06-29 - Réorganisation UI Home.vue - Version finale
+
+**Objectif** : Réorganiser les éléments sous la DropZone selon l'ordre demandé : complexité → consentement → stats+btn en justify-between
+
+**Tâches réalisées** :
+- Réorganisation complète des 3 éléments sous la zone de drop :
+  1. Sélecteur de complexité du chiffrement
+  2. Checkbox de consentement (CGU/Politique de confidentialité)
+  3. Stats (nb fichiers + taille) + Bouton Envoyer (en justify-between)
+- Tous les éléments sont maintenant empilés verticalement dans cet ordre
+- Le dernier élément (stats + bouton) a bien `justify-content: space-between` pour mettre les stats à gauche et le bouton à droite
+
+**Fichiers modifiés** :
+- `src/views/Home/Home.vue` - Réorganisation du template et ajustement des styles
+
+**Modifications techniques** :
+- Création d'un conteneur parent `.file-actions-container` avec `flex-direction: column` pour empiler les éléments
+- Placement des 3 éléments dans l'ordre : sélecteur → consentement → stats+bouton
+- Réinitialisation de `.below-ring` à `justify-content: space-between` pour le dernier élément
+- Conservation du media query mobile pour `.send-btn`
+
+**Problèmes rencontrés** :
+- Aucune difficulté majeure, réorganisation logique
+
+**Décisions techniques** :
+- Utiliser un seul conteneur parent avec `v-if` pour tout le bloc (optimisation des rendus)
+- Garder les transitions fade pour une meilleure UX
+- Maintenir la compatibilité mobile avec le media query existant
+
+**Tests** : À vérifier manuellement
+
+**Commits** :
+- `0b292d4` - feat: réorganiser l'UI Home.vue - complexe => consentement => stats+btn en justify-between
 
 ---
 
