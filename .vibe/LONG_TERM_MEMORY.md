@@ -119,6 +119,36 @@
 
 ---
 
+### 2026-06-29 - Alignement des éléments Home.vue
+
+**Objectif** : Aligner tous les éléments sous la DropZone sur la même largeur.
+
+**Tâches réalisées** :
+- Tous les éléments (sélecteur de complexité, consentement, stats+bouton) ont maintenant la même largeur
+- Le conteneur parent `.file-actions-container` a une largeur max de 24rem (max-w-sm)
+- Les enfants sont étirés à 100% de la largeur du parent avec `align-items: stretch`
+
+**Fichiers modifiés** :
+- `src/views/Home/Home.vue` - Ajustement des styles CSS
+
+**Modifications techniques** :
+- Changement de `.file-actions-container` : `align-items: stretch` (au lieu de center)
+- Ajout de `max-width: 24rem` et `margin: 0 auto` au conteneur parent
+- Suppression de `max-w-sm` du div enfant (redondant)
+
+**Problèmes rencontrés** : Aucun
+
+**Décisions techniques** :
+- Utiliser `align-items: stretch` pour que les enfants flex prennent toute la largeur
+- Centrer le conteneur avec `margin: 0 auto` tout en limitant sa largeur max
+
+**Tests** : À vérifier manuellement
+
+**Commits** :
+- `2862fcc` - feat: aligner tous les éléments sur la même largeur dans Home.vue
+
+---
+
 ### Template pour nouvelle session
 
 ```markdown
