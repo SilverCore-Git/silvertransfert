@@ -248,7 +248,7 @@ function reset() {
 
             <Transition name="fade">
               <div v-if="files.length > 0 && !isUploading" class="file-actions-container">
-                <div class="w-full max-w-sm font-sans">
+                <div class="w-full font-sans">
                   <div class="flex justify-between items-baseline mb-2">
                     <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Complexité du chiffrement
@@ -466,7 +466,7 @@ html {
   gap: 1.2rem; width: 100%; max-width: 440px;
 }
 
-.file-actions-container { display:flex; flex-direction:column; align-items:center; width:100%; gap:1.5rem; }
+.file-actions-container { display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:24rem; gap:1.5rem; margin:0 auto; }
 .below-ring { display:flex; align-items:center; justify-content:space-between; width:100%; gap:1.5rem; }
 .size-hint  { font-size:0.75rem; color:#635c87; font-weight: 500; }
 
