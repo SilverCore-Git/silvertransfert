@@ -246,44 +246,46 @@ function reset() {
 
             <input ref="fileInputRef" type="file" multiple class="hidden" @change="onInput" />
 
-            <div class="w-full max-w-sm font-sans">
-              
-              <div class="flex justify-between items-baseline mb-2">
-                <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Complexité du chiffrement
-                </label>
-                <span class="text-sm font-semibold text-(--primary)">
-                  {{ passwordLength }}
-                </span>
+            <Transition name="fade">
+              <div v-if="files.length > 0 && !isUploading" class="w-full max-w-sm font-sans">
+                
+                <div class="flex justify-between items-baseline mb-2">
+                  <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Complexité du chiffrement
+                  </label>
+                  <span class="text-sm font-semibold text-(--primary)">
+                    {{ passwordLength }}
+                  </span>
+                </div>
+                
+                <div class="relative flex items-center">
+                  <input 
+                    type="range" 
+                    id="passwordLength" 
+                    v-model.number="passwordLength" 
+                    :min="MIN_PASSWORD_LENGTH" 
+                    :max="32"
+                    class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--primary)/20
+                          [&::-webkit-slider-thumb]:appearance-none 
+                          [&::-webkit-slider-thumb]:h-3.5 
+                          [&::-webkit-slider-thumb]:w-3.5 
+                          [&::-webkit-slider-thumb]:rounded-full 
+                          [&::-webkit-slider-thumb]:bg-gray-900 
+                          [&::-webkit-slider-thumb]:transition-transform 
+                          active:[&::-webkit-slider-thumb]:scale-110
+                          
+                          [&::-moz-range-thumb]:h-3.5 
+                          [&::-moz-range-thumb]:w-3.5 
+                          [&::-moz-range-thumb]:rounded-full 
+                          [&::-moz-range-thumb]:bg-(--primary) 
+                          [&::-moz-range-thumb]:border-0
+                          [&::-moz-range-thumb]:transition-transform 
+                          active:[&::-moz-range-thumb]:scale-110"
+                    :style="{ '--progress': ((passwordLength - MIN_PASSWORD_LENGTH) / (32 - MIN_PASSWORD_LENGTH)) * 100 + '%' }"
+                  />
+                </div>
               </div>
-              
-              <div class="relative flex items-center">
-                <input 
-                  type="range" 
-                  id="passwordLength" 
-                  v-model.number="passwordLength" 
-                  :min="MIN_PASSWORD_LENGTH" 
-                  :max="32"
-                  class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--primary)/20
-                        [&::-webkit-slider-thumb]:appearance-none 
-                        [&::-webkit-slider-thumb]:h-3.5 
-                        [&::-webkit-slider-thumb]:w-3.5 
-                        [&::-webkit-slider-thumb]:rounded-full 
-                        [&::-webkit-slider-thumb]:bg-gray-900 
-                        [&::-webkit-slider-thumb]:transition-transform 
-                        active:[&::-webkit-slider-thumb]:scale-110
-                        
-                        [&::-moz-range-thumb]:h-3.5 
-                        [&::-moz-range-thumb]:w-3.5 
-                        [&::-moz-range-thumb]:rounded-full 
-                        [&::-moz-range-thumb]:bg-(--primary) 
-                        [&::-moz-range-thumb]:border-0
-                        [&::-moz-range-thumb]:transition-transform 
-                        active:[&::-moz-range-thumb]:scale-110"
-                  :style="{ '--progress': ((passwordLength - MIN_PASSWORD_LENGTH) / (32 - MIN_PASSWORD_LENGTH)) * 100 + '%' }"
-                />
-              </div>
-            </div>
+            </Transition>
 
             <Transition name="fade">
               <div v-if="files.length > 0 && !isUploading" class="below-ring">
@@ -467,7 +469,7 @@ html {
   gap: 1.2rem; width: 100%; max-width: 440px;
 }
 
-.below-ring { display:flex; align-items:center; justify-content:space-between; width:100%; gap:1.5rem; }
+.below-ring { display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; gap:1rem; }
 .size-hint  { font-size:0.75rem; color:#635c87; font-weight: 500; }
 
 /* Terms Acceptance */
@@ -1018,7 +1020,6 @@ html {
 
 @media (max-width: 480px) {
   .top-nav { display: none; }
-  .below-ring { flex-direction:column; align-items:center; }
   .send-btn { width:100%; justify-content:center; }
 }
 </style>
