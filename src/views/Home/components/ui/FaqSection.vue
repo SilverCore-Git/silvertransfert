@@ -111,8 +111,8 @@ const faqData: FaqItem[] = [
     a: "Oui, vos fichiers sont chiffrés avec l'algorithme AES-256-CBC avant d'être stockés."
   },
   {
-    q: "Peut on perdre nos fichiers ?",
-    a: "Cela est très peu probable, lors de la periode de 30 jours après téléversement les fichiers sont copier sur 3 support différent."
+    q: "Peut-on perdre nos fichiers ?",
+    a: "Cela est très peu probable : pendant la période de 30 jours après le téléversement, les fichiers sont copiés sur 3 supports différents."
   }
 ];
 

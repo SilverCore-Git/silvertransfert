@@ -5,10 +5,10 @@
       <div>
         <div class="font-['Space_Grotesk'] text-[1.75rem] font-bold text-white mb-6 flex items-center gap-4">
           <div>Silver<span class="text-[#6356e5]">Transfert</span></div>
-          <iframe src="https://status.silvertransfert.fr/embed-badges/live-status?align=start&background-dark=06050a&text-dark=ffffff" width="180" height="30" loading="lazy" frameborder="0" scrolling="no" class=" border-0 rign-0"></iframe>
+          <iframe src="https://status.silvertransfert.fr/embed-badges/live-status?align=start&background-dark=06050a&text-dark=ffffff" width="180" height="30" loading="lazy" frameborder="0" scrolling="no" class="border-0 ring-0"></iframe>
         </div>
         <p class="text-[0.95rem] text-white leading-relaxed max-w-4xl">
-          Les transferts de fichiers simple et sécurisé, hébergé en France et respectueux de votre vie privée.
+          Le transfert de fichiers, simple et sécurisé, hébergé en France et respectueux de votre vie privée.
         </p>
       </div>
 
@@ -35,7 +35,7 @@
           <nav class="space-y-4">
             <router-link to="/politique-de-confidentialite" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Confidentialité</router-link>
             <router-link to="/cgu" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">CGU</router-link>
-            <a href="https://www.silvercore.fr/legal" target="blanc" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Mentions légales</a>
+            <a href="https://www.silvercore.fr/legal" target="_blank" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Mentions légales</a>
           </nav>
         </div>
 

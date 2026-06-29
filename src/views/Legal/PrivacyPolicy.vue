@@ -11,7 +11,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
       <section class="legal-section">
         <div class="center">
-          <h1 class="wordmark">Silver<span>Transfer</span></h1>
+          <h1 class="wordmark">Silver<span>Transfert</span></h1>
           <p class="tagline">Politique de Confidentialité</p>
           
           <div class="legal-content">

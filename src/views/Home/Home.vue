@@ -311,7 +311,7 @@ function reset() {
                 </div>
               </div>
               <p v-else-if="!isUploading" class="drop-hint">
-                Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10Go
+                Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go
               </p>
             </Transition>
           </div>
@@ -335,27 +335,27 @@ function reset() {
               <i class="bi bi-lightning-charge"/>
             </div>
             <h3>Souveraineté</h3>
-            <p>Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et aux RGPD. Aucun CLOUD Act vos données sont françaises et reste en france.</p>
+            <p>Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et à la RGPD. Aucun Cloud Act : vos données sont françaises et restent en France.</p>
           </div>
           <div class="feature-card">
             <div class="f-icon-wrap">
               <i class="bi bi-shield-lock"/>
             </div>
             <h3>Sécurité</h3>
-            <p>Vos fichier sont chiffré avec la robustesse de AES-256-CBC, indéchiffrables par nos équipes.</p>
+            <p>Vos fichiers sont chiffrés avec la robustesse du AES-256-CBC, indéchiffrables par nos équipes.</p>
           </div>
           <div class="feature-card">
             <div class="f-icon-wrap">
               <i class="bi bi-incognito"/>
             </div>
             <h3>Redondance</h3>
-            <p>Vos fichiers sont copier a 3 reprise pour garantir leur sécurité. Toutes ces copies sont bien évidament supprimer après 30 jours.</p>
+            <p>Vos fichiers sont copiés à 3 reprises pour garantir leur sécurité. Toutes ces copies sont bien évidemment supprimées après 30 jours.</p>
           </div>
         </div>
 
         <div class="premium-banner">
           <div class="pb-content">
-            <h2>Silvertransfert, un service de silvercore.</h2>
+            <h2>Silvertransfert, un service de Silvercore.</h2>
             <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.</p>
             <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">Visiter Silvercore</a>
           </div>
