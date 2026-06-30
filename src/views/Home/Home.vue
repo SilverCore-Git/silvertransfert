@@ -757,15 +757,18 @@ html {
 
 /* Premium Banner Animation */
 .premium-banner {
-  margin-top: 10rem; position: relative;
+  margin-top: 6rem; position: relative;
   background: linear-gradient(135deg, rgba(99, 86, 229, 0.1) 0%, transparent 100%);
   border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
-  padding: 6rem 4rem; text-align: center; overflow: hidden;
+  padding: 4rem 2rem; text-align: center; overflow: hidden;
+  transition: all 0.3s ease;
   animation: fadeInUp 0.8s ease-out 0.6s both;
 }
 
 .premium-banner h2 {
-  font-family: 'Space Grotesk', sans-serif; font-size: 3rem; margin-bottom: 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1.5rem;
   background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -773,12 +776,26 @@ html {
   background-size: 200% auto;
 }
 
+.premium-banner p {
+  color: #8a84a5;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+}
+
 .premium-btn {
-  display: inline-block; padding: 1.1rem 3rem; background: #fff; color: #000;
-  text-decoration: none; border-radius: 100px; font-weight: 700;
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 100px;
+  font-weight: 700;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .premium-btn::before {
@@ -956,19 +973,131 @@ html {
 .feature-card p { font-size: 0.95rem; line-height: 1.7; color: #7a7499; }
 
 .premium-banner {
-  margin-top: 10rem; position: relative;
+  margin-top: 6rem; position: relative;
   background: linear-gradient(135deg, rgba(99, 86, 229, 0.1) 0%, transparent 100%);
   border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
-  padding: 6rem 4rem; text-align: center; overflow: hidden;
+  padding: 4rem 2rem; text-align: center; overflow: hidden;
+  transition: all 0.3s ease;
 }
-.premium-banner h2 { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; margin-bottom: 1.5rem; }
-.premium-banner p { color: #8a84a5; max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; }
+.premium-banner h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s infinite;
+  background-size: 200% auto;
+}
+.premium-banner p {
+  color: #8a84a5;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+}
 .premium-btn {
-  display: inline-block; padding: 1.1rem 3rem; background: #fff; color: #000;
-  text-decoration: none; border-radius: 100px; font-weight: 700;
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 100px;
+  font-weight: 700;
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
-.premium-btn:hover { transform: scale(1.05); box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); }
+
+.premium-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.premium-btn:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+}
+
+.premium-btn:hover::before {
+  left: 100%;
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+  
+  .premium-btn {
+    padding: 1rem 2.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+  
+  .premium-btn {
+    padding: 1rem 2.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .premium-banner {
+    margin-top: 10rem;
+    padding: 6rem 4rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 3rem;
+  }
+  
+  .premium-btn {
+    padding: 1.1rem 3rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .premium-banner {
+    padding: 7rem 5rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 3.5rem;
+  }
+}
 
 .faq-section { padding: 6rem 0; z-index: 1; position: relative; }
 
