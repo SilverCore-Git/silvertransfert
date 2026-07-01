@@ -944,7 +944,6 @@ html {
 }
 .grid-features {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
-  padding: 0 1rem;
 }
 
 @media (min-width: 1536px) {
