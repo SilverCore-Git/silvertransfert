@@ -4,7 +4,6 @@ import { formatSize } from '../../utils/file';
 import axios from 'axios';
 
 // Components
-import Navbar from '../../components/layouts/Navbar.vue';
 import DropZone from './components/ui/DropZone.vue';
 import FileList from './components/ui/FileList.vue';
 import UploadProgress from './components/ui/UploadProgress.vue';
@@ -194,8 +193,6 @@ function reset() {
 </script>
 
 <template>
-  <Navbar />
-
   <div class="site-container " id="accueil">
     <div class="bg-grid" aria-hidden="true"></div>
 
@@ -203,7 +200,7 @@ function reset() {
       <div class="glow g1" aria-hidden="true"></div>
       <div class="glow g2" aria-hidden="true"></div>
 
-      <div class="center">
+      <div class="center px-4">
         <h1 class="wordmark">Silver<span>Transfert</span></h1>
         <p class="tagline">
           Transfert sécurisé de fichiers
@@ -263,21 +260,8 @@ function reset() {
                       :min="MIN_PASSWORD_LENGTH" 
                       :max="32"
                       class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--primary)/20
-                            [&::-webkit-slider-thumb]:appearance-none 
-                            [&::-webkit-slider-thumb]:h-3.5 
-                            [&::-webkit-slider-thumb]:w-3.5 
-                            [&::-webkit-slider-thumb]:rounded-full 
-                            [&::-webkit-slider-thumb]:bg-gray-900 
-                            [&::-webkit-slider-thumb]:transition-transform 
-                            active:[&::-webkit-slider-thumb]:scale-110
-                            
-                            [&::-moz-range-thumb]:h-3.5 
-                            [&::-moz-range-thumb]:w-3.5 
-                            [&::-moz-range-thumb]:rounded-full 
-                            [&::-moz-range-thumb]:bg-(--primary) 
-                            [&::-moz-range-thumb]:border-0
-                            [&::-moz-range-thumb]:transition-transform 
-                            active:[&::-moz-range-thumb]:scale-110"
+                            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900 [&::-webkit-slider-thumb]:transition-transform active:[&::-webkit-slider-thumb]:scale-110
+                            [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-(--primary) [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:transition-transform active:[&::-moz-range-thumb]:scale-110"
                       :style="{ '--progress': ((passwordLength - MIN_PASSWORD_LENGTH) / (32 - MIN_PASSWORD_LENGTH)) * 100 + '%' }"
                     />
                   </div>
@@ -677,6 +661,20 @@ html {
   position: relative;
   z-index: 1;
   animation: fadeInUp 0.8s ease-out;
+  padding: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 90vh;
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    min-height: 85vh;
+  }
 }
 
 .wordmark {
@@ -759,15 +757,18 @@ html {
 
 /* Premium Banner Animation */
 .premium-banner {
-  margin-top: 10rem; position: relative;
+  margin-top: 6rem; position: relative;
   background: linear-gradient(135deg, rgba(99, 86, 229, 0.1) 0%, transparent 100%);
   border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
-  padding: 6rem 4rem; text-align: center; overflow: hidden;
+  padding: 4rem 2rem; text-align: center; overflow: hidden;
+  transition: all 0.3s ease;
   animation: fadeInUp 0.8s ease-out 0.6s both;
 }
 
 .premium-banner h2 {
-  font-family: 'Space Grotesk', sans-serif; font-size: 3rem; margin-bottom: 1.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1.5rem;
   background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -775,12 +776,26 @@ html {
   background-size: 200% auto;
 }
 
+.premium-banner p {
+  color: #8a84a5;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+}
+
 .premium-btn {
-  display: inline-block; padding: 1.1rem 3rem; background: #fff; color: #000;
-  text-decoration: none; border-radius: 100px; font-weight: 700;
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 100px;
+  font-weight: 700;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .premium-btn::before {
@@ -895,7 +910,13 @@ html {
   50%      { opacity:1;   transform: translateX(-50%) scale(1.15); }
 }
 
-.content-limit { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.content-limit { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+@media (min-width: 768px) {
+  .content-limit {
+    padding: 0 2rem;
+  }
+}
 .section-header { text-align: center; margin-bottom: 5rem; }
 .eyebrow { 
   display: block; font-size: 0.75rem; font-weight: 700; color: #6356e5; 
@@ -907,10 +928,28 @@ html {
 }
 
 .presentation-section {
-  padding: 12rem 0; background: #08070f99; position: relative; z-index: 1;
+  padding: 8rem 0; background: #08070f99; position: relative; z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .presentation-section {
+    padding: 10rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .presentation-section {
+    padding: 12rem 0;
+  }
 }
 .grid-features {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
+}
+
+@media (min-width: 1536px) {
+  .grid-features {
+    gap: 3rem;
+  }
 }
 .feature-card {
   background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04);
@@ -933,22 +972,152 @@ html {
 .feature-card p { font-size: 0.95rem; line-height: 1.7; color: #7a7499; }
 
 .premium-banner {
-  margin-top: 10rem; position: relative;
+  margin-top: 6rem; position: relative;
   background: linear-gradient(135deg, rgba(99, 86, 229, 0.1) 0%, transparent 100%);
   border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
-  padding: 6rem 4rem; text-align: center; overflow: hidden;
+  padding: 4rem 2rem; text-align: center; overflow: hidden;
+  transition: all 0.3s ease;
 }
-.premium-banner h2 { font-family: 'Space Grotesk', sans-serif; font-size: 3rem; margin-bottom: 1.5rem; }
-.premium-banner p { color: #8a84a5; max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; }
+.premium-banner h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s infinite;
+  background-size: 200% auto;
+}
+.premium-banner p {
+  color: #8a84a5;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  line-height: 1.6;
+}
 .premium-btn {
-  display: inline-block; padding: 1.1rem 3rem; background: #fff; color: #000;
-  text-decoration: none; border-radius: 100px; font-weight: 700;
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 100px;
+  font-weight: 700;
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
-.premium-btn:hover { transform: scale(1.05); box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); }
 
-.faq-section { padding: 10rem 0; z-index: 1; position: relative; }
-.faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+.premium-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.premium-btn:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+}
+
+.premium-btn:hover::before {
+  left: 100%;
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+  
+  .premium-btn {
+    padding: 1rem 2.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .premium-banner {
+    margin-top: 8rem;
+    padding: 5rem 3rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 2.8rem;
+  }
+  
+  .premium-btn {
+    padding: 1rem 2.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .premium-banner {
+    margin-top: 10rem;
+    padding: 6rem 4rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 3rem;
+  }
+  
+  .premium-btn {
+    padding: 1.1rem 3rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .premium-banner {
+    padding: 7rem 5rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 3.5rem;
+  }
+}
+
+.faq-section { padding: 6rem 0; z-index: 1; position: relative; }
+
+@media (min-width: 768px) {
+  .faq-section {
+    padding: 8rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .faq-section {
+    padding: 10rem 0;
+  }
+}
+.faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 0 1rem; }
+
+@media (min-width: 1536px) {
+  .faq-grid {
+    gap: 2rem;
+  }
+}
 .faq-card {
   padding: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -996,5 +1165,20 @@ html {
 
 @media (max-width: 480px) {
   .send-btn { width:100%; justify-content:center; }
+}
+
+/* Large devices */
+@media (min-width: 1536px) {
+  .feature-card {
+    padding: 4rem 3rem;
+  }
+  
+  .premium-banner {
+    padding: 7rem 5rem;
+  }
+  
+  .premium-banner h2 {
+    font-size: 3.5rem;
+  }
 }
 </style>

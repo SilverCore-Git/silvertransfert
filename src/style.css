@@ -1,14 +1,31 @@
 @import 'tailwindcss';
 
+@theme {
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+
+  --color-bg: #06050a;
+  --color-primary: #6366F1;
+  --color-secondary: #F4F4F5;
+  --color-accent: #10B981;
+  --color-text: #18181B;
+
+  --spacing: 0.25rem;
+
+  --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 :root {
-
   --bg: #06050a;
   --primary: #6366F1;
   --secondary: #F4F4F5;
   --accent: #10B981;
   --text: #18181B;
-
 }
 
 body {

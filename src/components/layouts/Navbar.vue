@@ -74,10 +74,10 @@ function closeMenu() {
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 .top-nav-wrapper {
-  position: fixed;
-  top: 1.5rem;
-  right: 2rem;
-  z-index: 9999;
+  position: absolute;
+  top: clamp(0.75rem, 2vh, 1.5rem);
+  right: clamp(0.5rem, 2vw, 2rem);
+  z-index: 10000;
   font-family: 'Outfit', sans-serif;
 }
 
@@ -139,18 +139,18 @@ function closeMenu() {
   inset: 0;
   background: rgba(6, 5, 10, 0.7);
   backdrop-filter: blur(8px);
-  z-index: 9998;
+  z-index: 9999;
   display: flex;
   justify-content: flex-end;
 }
 
 /* Drawer panel */
 .mobile-nav-drawer {
-  width: 290px;
+  width: min(290px, 90vw);
   height: 100vh;
   background: #0d0b19;
   border-left: 1px solid rgba(99, 86, 229, 0.1);
-  padding: 3rem 2rem;
+  padding: clamp(1.5rem, 5vh, 3rem) clamp(1rem, 5vw, 2rem);
   display: flex;
   flex-direction: column;
   box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
@@ -267,7 +267,7 @@ function closeMenu() {
 }
 
 /* Media Query breakpoints */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .top-nav-desktop {
     display: none;
   }
@@ -277,8 +277,63 @@ function closeMenu() {
   }
   
   .top-nav-wrapper {
-    top: 1rem;
-    right: 1.25rem;
+    top: clamp(0.75rem, 2vh, 1.5rem);
+    right: clamp(0.5rem, 2vw, 2rem);
+  }
+}
+
+/* Tablettes et petits écrans */
+@media (max-width: 900px) and (min-width: 769px) {
+  .top-nav-desktop {
+    gap: 0.5rem;
+  }
+  
+  .nav-btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .top-nav-wrapper {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  
+  .mobile-menu-trigger {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+}
+
+/* Très petits écrans */
+@media (max-width: 320px) {
+  .mobile-nav-drawer {
+    width: 100vw;
+    padding: 1rem;
+  }
+  
+  .drawer-brand {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .brand-text {
+    font-size: 1.3rem;
+  }
+}
+
+/* Large devices */
+@media (min-width: 1536px) {
+  .top-nav-desktop {
+    gap: 1rem;
+  }
+  
+  .nav-btn {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.85rem;
   }
 }
 </style>
