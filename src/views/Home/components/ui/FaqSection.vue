@@ -16,7 +16,7 @@
         >
           <button 
             @click="toggle(index)"
-            class="w-full flex justify-between items-center py-8 text-left focus:outline-none group"
+            class="w-full flex justify-between items-center py-8 text-left focus:outline-none group cursor-pointer"
           >
             <span class="text-[1.15rem] font-semibold text-white group-hover:text-[#6356e5] transition-colors">
               {{ item.q }}
