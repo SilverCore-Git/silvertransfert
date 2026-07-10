@@ -5,6 +5,7 @@
 **Projet** : Silvertransfert - Service de transfert de fichiers sécurisé
 
 **Technologies** :
+
 - Framework : Vue 3 (Composition API avec `<script setup>`)
 - Langage : TypeScript (typage strict obligatoire)
 - CSS : Tailwind CSS v4 (privilégier les classes utilitaires Tailwind)
@@ -14,6 +15,7 @@
 - Icons : Bootstrap Icons
 
 **Architecture** :
+
 ```
 src/
 ├── main.ts          # Point d'entrée
@@ -40,6 +42,7 @@ src/
 ```
 
 **Fonctionnalités principales** :
+
 - Upload de fichiers avec chiffrement AES-256-CBC
 - Génération de liens de téléchargement sécurisés
 - Interface drag & drop
@@ -51,6 +54,7 @@ src/
 - Hébergement : France (souveraineté des données)
 
 **API Backend** :
+
 - URL : `VITE_API_URL` (défaut : `http://localhost:8080`)
 - Endpoints :
   - `GET /passwd/{length}` - Génère un mot de passe sécurisé
@@ -59,12 +63,14 @@ src/
 **Règles de base à respecter** :
 
 ### 1. Code TypeScript
+
 - **Typage strict obligatoire** : TOUT doit être typé (pas de `any`)
 - Utiliser les interfaces pour les objets complexes
 - Préférer les types littéraux (`'loading' | 'success' | 'error'`) aux strings libres
 - Utiliser `ref<T>()` et `computed<T>()` avec types explicites
 
 ### 2. Vue 3
+
 - **Composition API uniquement** : Toujours utiliser `<script setup lang="ts">`
 - Noms des composants : PascalCase (`MyComponent.vue`)
 - Props : Toujours typées avec `defineProps<Type>()`
@@ -73,16 +79,18 @@ src/
 - Éviter les `ref` inutiles, préférer `computed` quand possible
 
 ### 3. Tailwind CSS
+
 - **Privilégier Tailwind** pour le style (pas de CSS custom sauf nécessité)
 - Classes utilitaires dans le template
 - Pour les animations complexes, utiliser le fichier `style.css` global
 - Respecter la charte couleur existante :
-  - `--bg: #06050a` (fond sombre)
-  - `--primary: #6366F1` (violet clair)
+  - `--color-bg: #06050a` (fond sombre)
+  - `--color-primary: #7F6CFF` (violet clair)
   - `--secondary: #F4F4F5` (gris clair)
   - `--accent: #10B981` (vert)
 
 ### 4. Sécurité
+
 - **NE JAMAIS** faire confiance aux inputs utilisateur
 - Sanitizer TOUT ce qui vient de l'utilisateur
 - Pas de `innerHTML` ou `v-html`
@@ -91,12 +99,13 @@ src/
 - Ne pas stocker de données sensibles dans le localStorage
 
 ### 5. Structure des composants
+
 ```vue
 <script setup lang="ts">
 // 1. Imports (groupés : Vue, puis locaux, puis externes)
-import { ref, computed } from 'vue';
-import MyComponent from './MyComponent.vue';
-import axios from 'axios';
+import { ref, computed } from "vue";
+import MyComponent from "./MyComponent.vue";
+import axios from "axios";
 
 // 2. Interfaces/Types
 interface MyType {
@@ -114,7 +123,7 @@ const props = defineProps<{
 
 // 5. Emits (si composant enfant)
 const emit = defineEmits<{
-  (e: 'update', value: MyType): void;
+  (e: "update", value: MyType): void;
 }>();
 
 // 6. State (ref)
@@ -145,6 +154,7 @@ function increment(): void {
 ```
 
 ### 6. Git
+
 - **Faire des commits locaux** : Oui, toujours committer son travail
 - **Ne JAMAIS pusher** : Les commits restent en local, pas de `git push`
 - Messages de commit : Clairs et descriptifs
@@ -152,12 +162,14 @@ function increment(): void {
   - En français ou anglais, mais cohérent
 
 ### 7. Sous-agents
+
 - **Utiliser des sous-agents** quand la tâche est complexe
 - Décomposer les tâches en sous-tâches logiques
 - Chaque sous-agent travaille indépendamment
 - Recomposer les résultats à la fin
 
 ### 8. Tests
+
 - Créer des tests pour toute nouvelle fonctionnalité
 - Vérifier que les tests existants passent
 - Priorité : tests unitaires > tests d'intégration > tests E2E

@@ -174,7 +174,7 @@ const emit = defineEmits(['copy', 'reset']);
 }
 
 .reset-btn:hover {
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   border-color: rgba(255, 255, 255, 0.13);
 }
 </style>

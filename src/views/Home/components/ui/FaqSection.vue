@@ -31,7 +31,7 @@
           
           <div 
             v-show="openIndex === index"
-            class="pb-8 text-[0.95rem] leading-[1.6] text-[#bbb8d8] font-['Outfit']"
+            class="pb-8 text-[0.95rem] leading-[1.6] text-[var(--color-text-secondary)] font-['Outfit']"
           >
             {{ item.a }}
           </div>

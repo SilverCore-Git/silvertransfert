@@ -226,7 +226,7 @@ async function startDownload() {
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #fff;
+ color: var(--color-text);
   line-height: 0.9;
   margin: 0;
   animation: fadeInDown 0.6s ease-out;
@@ -241,7 +241,7 @@ async function startDownload() {
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+ color: var(--color-text);
   font-weight: 400;
   margin: 1.5rem 0 2.5rem;
   letter-spacing: 0.15em;
@@ -280,7 +280,7 @@ async function startDownload() {
   width: 40px;
   height: 40px;
   border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: #6356e5;
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite, scalePulse 1.5s ease-in-out infinite;
 }
@@ -304,7 +304,7 @@ async function startDownload() {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: #6356e5;
+  color: var(--color-primary);
   animation: scaleIn 0.5s ease-out 0.2s both;
   position: relative;
   overflow: hidden;
@@ -337,7 +337,7 @@ async function startDownload() {
   width: 100%;
   padding: 1rem;
   background: #6356e5;
-  color: #fff;
+ color: var(--color-text);
   border: none;
   border-radius: 12px;
   font-size: 1rem;
@@ -401,7 +401,7 @@ async function startDownload() {
   width: 40px;
   height: 40px;
   border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: #6356e5;
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -472,12 +472,12 @@ async function startDownload() {
   color: #ef4444;
 }
 
-.error-state h3 { font-size: 1.25rem; color: #fff; }
+.error-state h3 { font-size: 1.25rem;color: var(--color-text); }
 .error-state p { color: #a09cb4; font-size: 0.95rem; }
 
 .back-btn {
   margin-top: 1rem;
-  color: #6356e5;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
@@ -492,17 +492,17 @@ async function startDownload() {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: #6356e5;
+  color: var(--color-primary);
 }
 
-.file-info h3 { font-size: 1.25rem; color: #fff; margin-bottom: 0.25rem; }
+.file-info h3 { font-size: 1.25rem;color: var(--color-text); margin-bottom: 0.25rem; }
 .file-info .meta { color: #635c87; font-size: 0.8rem; font-family: monospace; }
 
 .download-btn {
   width: 100%;
   padding: 1rem;
   background: #6356e5;
-  color: #fff;
+ color: var(--color-text);
   border: none;
   border-radius: 12px;
   font-size: 1rem;

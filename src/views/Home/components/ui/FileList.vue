@@ -88,7 +88,7 @@ const emit = defineEmits(['remove', 'add']);
   min-width: 0;
   font-size: 0.77rem;
   font-weight: 500;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

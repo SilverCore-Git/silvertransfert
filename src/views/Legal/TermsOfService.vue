@@ -427,7 +427,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #fff;
+ color: var(--color-text);
   line-height: 0.9;
   margin: 0 0 1rem;
 }
@@ -439,7 +439,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+ color: var(--color-text);
   font-weight: 400;
   margin-bottom: 3rem;
   letter-spacing: 0.15em;
@@ -470,7 +470,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+ color: var(--color-text);
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
 }
@@ -516,7 +516,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 .legal-section-item p {
   font-size: 0.95rem;
   line-height: 1.8;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -563,7 +563,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-family: 'Outfit', sans-serif;
 }
 .definition-item dd {
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   line-height: 1.7;
   margin-left: 0;
 }
@@ -578,12 +578,12 @@ import Navbar from '../../components/layouts/Navbar.vue';
   padding: 0.5rem 0;
   padding-left: 1.5rem;
   position: relative;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 .info-list li:before {
   content: "•";
-  color: #6356e5;
+  color: var(--color-primary);
   font-weight: bold;
   position: absolute;
   left: 0;
@@ -599,7 +599,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.5rem 0;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 .check-list i {
@@ -617,7 +617,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.5rem 0;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 .cross-list i {
@@ -666,7 +666,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 /* Links */
 .link {
-  color: #6356e5;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -690,7 +690,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   color: #a09cb4;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .legal-content {
     padding: 2rem 1.5rem;
   }

@@ -56,7 +56,7 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--bg);
+  background: var(--color-bg);
   background-image: 
     linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
@@ -67,19 +67,19 @@ html, body {
   overflow: hidden;
 }
 
-@media (min-width: 640px) {
+@media (min-width: var(--breakpoint-sm)) {
   .app-background {
     background-size: 3rem 3rem;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .app-background {
     background-size: 4rem 4rem;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: var(--breakpoint-lg)) {
   .app-background {
     background-size: 5rem 5rem;
   }

@@ -4,6 +4,7 @@
 > **Dernière mise à jour** : 2026-06-29
 
 ## Table des matières
+
 1. [Principe général](#principe-général)
 2. [TypeScript](#typescript)
 3. [Vue 3](#vue-3)
@@ -68,7 +69,7 @@ interface User {
 }
 
 // ✅ Type pour les unions
-type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
+type UploadStatus = "idle" | "uploading" | "success" | "error";
 
 // ✅ Type pour les tuples
 type Coordinates = [number, number];
@@ -81,7 +82,7 @@ type Coordinates = [number, number];
 status: string;
 
 // ✅ BON - types littéraux
-status: 'idle' | 'loading' | 'success' | 'error';
+status: "idle" | "loading" | "success" | "error";
 ```
 
 ### Generics
@@ -99,8 +100,8 @@ async function fetchData<T>(url: string): Promise<T> {
 ```typescript
 // ✅ Utiliser Partial, Pick, Omit, etc.
 type PartialUser = Partial<User>;
-type UserName = Pick<User, 'name'>;
-type UserWithoutPassword = Omit<User, 'password'>;
+type UserName = Pick<User, "name">;
+type UserWithoutPassword = Omit<User, "password">;
 ```
 
 ### Éviter les castings
@@ -126,16 +127,16 @@ const user: User = response.data;
    1. IMPORTS
    ============================================ */
 // Vue
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from "vue";
 
 // Composants locaux
-import ChildComponent from './ChildComponent.vue';
+import ChildComponent from "./ChildComponent.vue";
 
 // Libraries externes
-import axios from 'axios';
+import axios from "axios";
 
 // Utils
-import { formatSize } from '@/utils/file';
+import { formatSize } from "@/utils/file";
 
 /* ============================================
    2. TYPES & INTERFACES
@@ -146,8 +147,8 @@ interface Props {
 }
 
 type Emits = {
-  (e: 'update:value', value: string): void;
-  (e: 'submit'): void;
+  (e: "update:value", value: string): void;
+  (e: "submit"): void;
 };
 
 /* ============================================
@@ -161,7 +162,7 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024 * 1024; // 10Go
    4. PROPS
    ============================================ */
 const props = withDefaults(defineProps<Props>(), {
-  disabled: false
+  disabled: false,
 });
 
 /* ============================================
@@ -179,13 +180,11 @@ const uploadProgress = ref<number>(0);
 /* ============================================
    7. COMPUTED
    ============================================ */
-const totalSize = computed(() => 
-  files.value.reduce((sum, file) => sum + file.size, 0)
+const totalSize = computed(() =>
+  files.value.reduce((sum, file) => sum + file.size, 0),
 );
 
-const canUpload = computed(() => 
-  files.value.length > 0 && !isUploading.value
-);
+const canUpload = computed(() => files.value.length > 0 && !isUploading.value);
 
 /* ============================================
    8. METHODS
@@ -195,7 +194,7 @@ function addFile(file: File): void {
 }
 
 function removeFile(id: string): void {
-  files.value = files.value.filter(f => f.id !== id);
+  files.value = files.value.filter((f) => f.id !== id);
 }
 
 async function uploadFiles(): Promise<void> {
@@ -220,7 +219,7 @@ watch(
   () => files.value.length,
   (newLength) => {
     // Réaction
-  }
+  },
 );
 
 watchEffect(() => {
@@ -240,48 +239,55 @@ watchEffect(() => {
 ### Bonnes pratiques Vue
 
 #### Composition API
+
 - **Toujours utiliser `<script setup>`**
 - Éviter l'Options API
 - Regrouper la logique par feature, pas par type (state, methods, etc.)
 
 #### Props
+
 - Toujours typées
 - Utiliser `withDefaults` pour les valeurs par défaut
 - Éviter les props mutables (préférer emit + update)
 
 ```typescript
 // ✅ BON
-const props = withDefaults(defineProps<{
-  value: string;
-  disabled?: boolean;
-}>(), {
-  disabled: false
-});
+const props = withDefaults(
+  defineProps<{
+    value: string;
+    disabled?: boolean;
+  }>(),
+  {
+    disabled: false,
+  },
+);
 
 // ❌ MAUVAIS - pas de type
 const props = defineProps({
   value: String,
-  disabled: Boolean
+  disabled: Boolean,
 });
 ```
 
 #### Emits
+
 - Toujours typées
 - Noms d'émits en kebab-case
 
 ```typescript
 // ✅ BON
 const emit = defineEmits<{
-  (e: 'update:value', value: string): void;
-  (e: 'submit'): void;
-  (e: 'error', error: Error): void;
+  (e: "update:value", value: string): void;
+  (e: "submit"): void;
+  (e: "error", error: Error): void;
 }>();
 
 // Utilisation
-emit('update:value', newValue);
+emit("update:value", newValue);
 ```
 
 #### Ref vs Reactive
+
 - **`ref`** : Pour les primitives (string, number, boolean) ou quand on a besoin de la réactivité dans les templates
 - **`reactive`** : Pour les objets complexes
 
@@ -292,13 +298,14 @@ const isLoading = ref<boolean>(false);
 
 // ✅ BON - reactive pour les objets
 const user = reactive<User>({
-  id: '',
-  name: '',
-  email: ''
+  id: "",
+  name: "",
+  email: "",
 });
 ```
 
 #### Computed
+
 - Toujours utiliser pour les valeurs dérivées
 - Éviter les computed complexes dans les templates
 
@@ -311,6 +318,7 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### Directives
+
 - Préférer `:` à `v-bind:`
 - Préférer `@` à `v-on:`
 - Préférer `#` à `v-slot:`
@@ -328,6 +336,7 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### v-for
+
 - Toujours utiliser `:key` avec une valeur unique
 - Éviter d'utiliser l'index comme key
 
@@ -344,10 +353,12 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### v-if vs v-show
+
 - **`v-if`** : Quand l'élément n'est pas souvent affiché (coût de création/destruction)
 - **`v-show`** : Quand l'élément est souvent basculé (coût de rendu initial)
 
 #### Éviter v-html
+
 - **NE JAMAIS utiliser `v-html`** (risque XSS)
 - Si nécessaire, utiliser DOMPurify
 
@@ -372,12 +383,15 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ### Bonnes pratiques
 
 #### Nommage des classes
+
 - Utiliser les classes Tailwind existantes
 - Éviter de créer des classes CSS custom
 
 ```vue
 <!-- ✅ BON - Tailwind uniquement -->
-<button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors">
+<button
+  class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
+>
   Submit
 </button>
 
@@ -391,6 +405,7 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### Responsive
+
 - Utiliser les préfixes responsive de Tailwind
 
 ```vue
@@ -401,12 +416,13 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### Couleurs
+
 - Respecter la charte couleur du projet
 - Utiliser les variables CSS définies dans `style.css`
 
 ```vue
 <!-- ✅ BON - utiliser les variables CSS -->
-<div class="bg-(--bg) text-(--secondary)">
+<div class="bg-(--color-bg) text-(--secondary)">
   Content
 </div>
 
@@ -417,6 +433,7 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### Animations
+
 - Utiliser les classes d'animation de Tailwind
 - Pour les animations complexes, utiliser `style.css`
 
@@ -428,6 +445,7 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ```
 
 #### Custom CSS
+
 - Si nécessaire, mettre dans `<style scoped>` du composant
 - Pour les styles globaux, utiliser `style.css`
 
@@ -436,20 +454,24 @@ const fullName = computed(() => `${user.firstName} ${user.lastName}`);
 ## Nommage
 
 ### Fichiers
+
 - **PascalCase** pour les composants : `MyComponent.vue`
 - **kebab-case** pour les autres : `my-util.ts`, `my-style.css`
 - **SCREAMING_SNAKE_CASE** pour les constantes et env : `API_URL`, `MAX_SIZE`
 
 ### Variables et fonctions
+
 - **camelCase** : `fileList`, `uploadFile`, `isUploading`
 - **PascalCase** pour les types/interfaces : `FileItem`, `UploadStatus`
 - **SCREAMING_SNAKE_CASE** pour les constantes : `MIN_PASSWORD_LENGTH`
 
 ### Composants
+
 - Noms descriptifs : `DropZone`, `FileList`, `UploadProgress`
 - Éviter les noms génériques : `Component`, `Item`, `List`
 
 ### Props
+
 - Noms descriptifs et concis
 - Booléens : préfixer avec `is`, `has`, `can`
 
@@ -464,12 +486,13 @@ interface Props {
 
 // ❌ MAUVAIS
 interface Props {
-  f: FileItem[];  // trop court
-  uploading: boolean;  // pas de préfixe
+  f: FileItem[]; // trop court
+  uploading: boolean; // pas de préfixe
 }
 ```
 
 ### Routes
+
 - Noms en camelCase : `home`, `download`, `termsOfService`
 - Paths en kebab-case : `/`, `/t/:id`, `/cgu`
 
@@ -532,6 +555,7 @@ src/
 ## Commentaires
 
 ### Quand commenter
+
 - **OUI** : Pourquoi le code existe (raison business)
 - **OUI** : Algorithmes complexes ou non évidents
 - **OUI** : Hacks ou workarounds temporaires
@@ -549,7 +573,7 @@ count.value++;
 // ✅ BON - commentaire utile
 // NOTE: On utilise un delay pour éviter les doubles clics
 // TODO: Remplacer par une solution plus robuste
-await new Promise(resolve => setTimeout(resolve, 300));
+await new Promise((resolve) => setTimeout(resolve, 300));
 
 // ✅ BON - commentaire pour algorithme complexe
 /**
@@ -576,6 +600,7 @@ const estimatedTime = computed(() => {
 ## Gestion des erreurs
 
 ### Try/Catch
+
 - Toujours gérer les erreurs des opérations asynchrones
 - Ne pas ignorer les erreurs (sauf cas très spécifique)
 
@@ -583,22 +608,23 @@ const estimatedTime = computed(() => {
 // ✅ BON
 async function uploadFile(file: File): Promise<string> {
   try {
-    const response = await axios.post('/upload', { file });
+    const response = await axios.post("/upload", { file });
     return response.data.id;
   } catch (error) {
-    console.error('Upload failed:', error);
+    console.error("Upload failed:", error);
     // Gérer l'erreur : afficher un message, relancer, etc.
-    throw new Error('Upload failed', { cause: error });
+    throw new Error("Upload failed", { cause: error });
   }
 }
 
 // ❌ MAUVAIS - erreur ignorée
 async function uploadFile(file: File) {
-  await axios.post('/upload', { file });
+  await axios.post("/upload", { file });
 }
 ```
 
 ### Validation des inputs
+
 - Toujours valider les inputs utilisateur
 - Toujours valider les données API
 
@@ -620,6 +646,7 @@ const handleFileSelect = (file: File) => {
 ```
 
 ### Erreurs API
+
 - Typage des réponses d'erreur
 - Gestion centralisée si possible
 
@@ -651,27 +678,32 @@ async function fetchData() {
 ## Performance
 
 ### Computed
+
 - Utiliser `computed` pour les valeurs dérivées
 - Éviter les calculs lourds dans les templates
 
 ### Memoization
+
 - Pour les fonctions coûteuses, utiliser `memoize` (lodash ou implémentation custom)
 
 ### Lazy loading
+
 - Utiliser le lazy loading pour les composants lourds
 
 ```typescript
 // ✅ BON - Lazy loading
-const HeavyComponent = defineAsyncComponent(() => 
-  import('./HeavyComponent.vue')
+const HeavyComponent = defineAsyncComponent(
+  () => import("./HeavyComponent.vue"),
 );
 ```
 
 ### Éviter les re-rendus inutiles
+
 - Utiliser `v-once` pour le contenu statique
 - Éviter de muté des objets dans les props
 
 ### Optimisation des images
+
 - Utiliser des images optimisées (WebP)
 - Utiliser `loading="lazy"` pour les images offscreen
 
@@ -680,6 +712,7 @@ const HeavyComponent = defineAsyncComponent(() =>
 ## Accessibilité
 
 ### Règles de base
+
 - Toujours utiliser `alt` pour les images
 - Toujours utiliser des labels pour les inputs
 - Utiliser les attributs ARIA quand nécessaire
@@ -689,18 +722,9 @@ const HeavyComponent = defineAsyncComponent(() =>
 <!-- ✅ BON -->
 <img src="logo.png" alt="Silvertransfert Logo" />
 
-<input 
-  type="text" 
-  id="email"
-  v-model="email"
-  aria-label="Adresse email"
-/>
+<input type="text" id="email" v-model="email" aria-label="Adresse email" />
 
-<button 
-  @click="submit"
-  :disabled="isLoading"
-  :aria-busy="isLoading"
->
+<button @click="submit" :disabled="isLoading" :aria-busy="isLoading">
   {{ isLoading ? 'Chargement...' : 'Submit' }}
 </button>
 
@@ -710,10 +734,12 @@ const HeavyComponent = defineAsyncComponent(() =>
 ```
 
 ### Keyboard navigation
+
 - Tous les éléments interactifs doivent être accessibles au clavier
 - Utiliser `:tabindex` si nécessaire
 
 ### Screen readers
+
 - Utiliser `aria-hidden="true"` pour les éléments décoratifs
 - Utiliser `aria-live` pour les notifications
 

@@ -118,7 +118,7 @@ const emit = defineEmits(['close']);
 .d-logo-svg {
   width: 34px;
   height: 34px;
-  color: #6356e5;
+  color: var(--color-primary);
   flex-shrink: 0;
 }
 
@@ -168,7 +168,7 @@ const emit = defineEmits(['close']);
 }
 
 .drawer-nav a:hover i {
-  color: #6356e5;
+  color: var(--color-primary);
 }
 
 .drawer-actions {
@@ -227,7 +227,7 @@ const emit = defineEmits(['close']);
 }
 
 .drawer-badges i {
-  color: #6356e5;
+  color: var(--color-primary);
   font-size: 0.65rem;
 }
 

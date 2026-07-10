@@ -16,26 +16,26 @@
         <div class="space-y-7">
           <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Plan du site</h6>
           <nav class="space-y-4">
-            <a href="/#accueil" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Transfert</a>
-            <a href="/#presentation" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Fonctionnalités</a>
-            <a href="/#faq" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Questions</a>
+            <a href="/#accueil" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Transfert</a>
+            <a href="/#presentation" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Fonctionnalités</a>
+            <a href="/#faq" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Questions</a>
           </nav>
         </div>
 
         <div class="space-y-7">
           <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Nous sommes aussi</h6>
           <nav class="space-y-4">
-            <a href="https://www.silvercore.fr" target="_blank" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Silvercore</a>
-            <a href="https://www.silvernote.fr" target="_blank" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Silvernote</a>
+            <a href="https://www.silvercore.fr" target="_blank" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Silvercore</a>
+            <a href="https://www.silvernote.fr" target="_blank" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Silvernote</a>
           </nav>
         </div>
 
         <div class="space-y-7">
           <h6 class="text-[0.75rem] uppercase text-white tracking-[0.1em] font-semibold">Légal</h6>
           <nav class="space-y-4">
-            <router-link to="/politique-de-confidentialite" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Confidentialité</router-link>
-            <router-link to="/cgu" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">CGU</router-link>
-            <a href="https://www.silvercore.fr/legal" target="_blank" class="block text-[0.9rem] text-[#bbb8d8] hover:text-[#6356e5] transition-colors">Mentions légales</a>
+            <router-link to="/politique-de-confidentialite" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Confidentialité</router-link>
+            <router-link to="/cgu" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">CGU</router-link>
+            <a href="https://www.silvercore.fr/legal" target="_blank" class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-[#6356e5] transition-colors">Mentions légales</a>
           </nav>
         </div>
 
