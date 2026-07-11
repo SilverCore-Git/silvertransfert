@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatSize } from '../../../../utils/file';
+import { config, getConfigValue } from '../../../../utils/config';
 
 defineProps<{
   filesCount: number;
@@ -17,19 +18,22 @@ const emit = defineEmits(['copy', 'reset']);
       <i class="bi bi-check-lg"></i>
     </div>
     <p class="result-meta">
-      {{ filesCount }} fichier{{ filesCount > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
+      {{ getConfigValue('home.transferResult.fileCount', {
+        count: filesCount,
+        plural: filesCount > 1 ? 's' : ''
+      }) }} · {{ formatSize(totalSize) }}
     </p>
     
     <div class="link-row">
       <span class="link-text">{{ link }}</span>
       <button class="link-copy" @click="emit('copy')">
         <i :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
-        {{ copied ? 'Copié !' : 'Copier' }}
+        {{ copied ? config.home?.transferResult?.copyButton?.copied || 'Copié !' : config.home?.transferResult?.copyButton?.default || 'Copier' }}
       </button>
     </div>
     
     <button class="reset-btn" @click="emit('reset')">
-      <i class="bi bi-arrow-counterclockwise"></i> Nouveau transfert
+      <i class="bi bi-arrow-counterclockwise"></i> {{ config.home?.transferResult?.newTransfer || 'Nouveau transfert' }}
     </button>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { config } from '../../utils/config';
 
 const isMenuOpen = ref(false);
 
@@ -22,9 +23,7 @@ function closeMenu() {
   <nav class="top-nav-wrapper">
     <!-- Desktop Navigation Menu -->
     <div class="top-nav-desktop">
-      <a href="/#accueil" class="nav-btn">Accueil</a>
-      <a href="/#presentation" class="nav-btn">Présentation</a>
-      <a href="/#faq" class="nav-btn">FAQ</a>
+      <a v-for="item in config.navigation?.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
     </div>
 
     <!-- Mobile Hamburguer Trigger -->
@@ -46,18 +45,12 @@ function closeMenu() {
           </button>
           
           <div class="drawer-brand">
-            <span class="brand-text">Silver<span>Transfert</span></span>
+            <span class="brand-text" v-html="config.navigation?.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
           </div>
 
           <div class="mobile-menu-links">
-            <a href="/#accueil" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-house-door"></i> Accueil
-            </a>
-            <a href="/#presentation" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-lightning-charge"></i> Présentation
-            </a>
-            <a href="/#faq" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-question-circle"></i> FAQ
+            <a v-for="item in config.navigation?.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
+              <i class="bi" :class="item.icon"></i> {{ item.label }}
             </a>
           </div>
 

@@ -4,7 +4,7 @@
       
       <header class="text-center mb-16">
         <h2 class="font-['Space_Grotesk'] text-[clamp(1.8rem,4vw,2.75rem)] font-bold text-white tracking-tight">
-          Vos questions, nos réponses
+          {{ config.faq?.title || 'Vos questions, nos réponses' }}
         </h2>
       </header>
 
@@ -83,13 +83,15 @@ div[v-show] {
 <script setup lang="ts">
 
 import { ref } from 'vue';
+import { config } from '../../../../utils/config';
 
 interface FaqItem {
   q: string;
   a: string;
 }
 
-const faqData: FaqItem[] = [
+// Use config data or fallback to default
+const faqData: FaqItem[] = config.faq?.items || [
   {
     q: "Capacité de stockage ?",
     a: "Chaque envoi est limité à 10 Go."

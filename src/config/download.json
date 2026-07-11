@@ -1,0 +1,32 @@
+{
+  "pageTitle": "Réception de fichiers sécurisée",
+  "loading": {
+    "title": "Vérification du transfert…",
+    "message": "Nous vérifions la disponibilité de votre transfert"
+  },
+  "notFound": {
+    "title": "Transfert introuvable",
+    "message": "Le lien est expiré ou n'existe pas.",
+    "backButton": "Retour à l'accueil"
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "message": "{{error}}",
+    "backButton": "Retour à l'accueil"
+  },
+  "ready": {
+    "fileReady": "Fichier prêt au déchiffrement",
+    "filesReady": "Fichiers prêts au déchiffrement",
+    "fileId": "ID: {{id}}",
+    "downloadButton": {
+      "default": "Télécharger",
+      "decrypting": "Déchiffrement…",
+      "downloading": "Téléchargement…"
+    }
+  },
+  "errors": {
+    "invalidLink": "Lien de téléchargement invalide.",
+    "downloadFailed": "Erreur lors du téléchargement.",
+    "statusCheckFailed": "Erreur lors de la récupération des informations."
+  }
+}

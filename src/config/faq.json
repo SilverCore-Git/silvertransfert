@@ -1,0 +1,29 @@
+{
+  "title": "Vos questions, nos réponses",
+  "items": [
+    {
+      "question": "Capacité de stockage ?",
+      "answer": "Chaque envoi est limité à 10 Go."
+    },
+    {
+      "question": "Sécurité des serveurs ?",
+      "answer": "Nos serveurs sont durcis selon les recommandations de l'ANSSI et font l'objet d'audits réguliers."
+    },
+    {
+      "question": "Disponibilité ?",
+      "answer": "Nos services affichent un taux de disponibilité (SLA) de 99,99%, assurant la continuité de vos activités."
+    },
+    {
+      "question": "Les fichiers sont-ils conservés ?",
+      "answer": "Oui, vos fichiers sont conservés pendant 30 jours après leur envoi."
+    },
+    {
+      "question": "Les fichiers sont-ils chiffrés ?",
+      "answer": "Oui, vos fichiers sont chiffrés avec l'algorithme AES-256-CBC avant d'être stockés."
+    },
+    {
+      "question": "Peut-on perdre nos fichiers ?",
+      "answer": "Cela est très peu probable : pendant la période de 30 jours après le téléversement, les fichiers sont copiés sur 3 supports différents."
+    }
+  ]
+}

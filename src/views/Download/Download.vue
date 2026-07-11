@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { config, getConfigValue } from '../../utils/config';
 // import { formatSize } from '../../utils/file';
 
 const route = useRoute();
@@ -22,7 +23,7 @@ onMounted(async () => {
 
   if (!transferId.value || !password.value) {
     status.value = 'error';
-    errorMsg.value = 'Lien de téléchargement invalide.';
+    errorMsg.value = config.download?.errors?.invalidLink || 'Lien de téléchargement invalide.';
     return;
   }
 
@@ -44,7 +45,7 @@ async function checkStatus() {
       status.value = 'not_found';
     } else {
       status.value = 'error';
-      errorMsg.value = 'Erreur lors de la récupération des informations.';
+      errorMsg.value = config.download?.errors?.statusCheckFailed || 'Erreur lors de la récupération des informations.';
     }
   }
 }
@@ -104,7 +105,7 @@ async function startDownload() {
     }
   } catch (error: any) {
     status.value = 'error';
-    errorMsg.value = error.response?.data?.message || 'Erreur lors du téléchargement.';
+    errorMsg.value = error.response?.data?.message || config.download?.errors?.downloadFailed || 'Erreur lors du téléchargement.';
   }
 }
 </script>
@@ -122,27 +123,27 @@ async function startDownload() {
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark" @click="router.push('/')">Silver<span>Transfert</span></h1>
-        <p class="tagline">Réception de fichiers sécurisée</p>
+        <h1 class="wordmark" @click="router.push('/')" v-html="config.home?.hero?.title || 'Silver<span>Transfert</span>'"></h1>
+        <p class="tagline">{{ config.download?.pageTitle || 'Réception de fichiers sécurisée' }}</p>
 
         <div class="download-card">
           <div v-if="status === 'loading'" class="loading-state">
             <div class="spinner"></div>
-            <p>Vérification du transfert...</p>
+            <p>{{ config.download?.loading?.title || 'Vérification du transfert...' }}</p>
           </div>
 
           <div v-else-if="status === 'not_found'" class="error-state">
             <i class="bi bi-exclamation-triangle"></i>
-            <h3>Transfert introuvable</h3>
-            <p>Le lien est expiré ou n'existe pas.</p>
-            <router-link to="/" class="back-btn">Retour à l'accueil</router-link>
+            <h3>{{ config.download?.notFound?.title || 'Transfert introuvable' }}</h3>
+            <p>{{ config.download?.notFound?.message || 'Le lien est expiré ou n\'existe pas.' }}</p>
+            <router-link to="/" class="back-btn">{{ config.download?.notFound?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else-if="status === 'error'" class="error-state">
             <i class="bi bi-x-circle"></i>
-            <h3>Une erreur est survenue</h3>
+            <h3>{{ config.download?.error?.title || 'Une erreur est survenue' }}</h3>
             <p>{{ errorMsg }}</p>
-            <router-link to="/" class="back-btn">Retour à l'accueil</router-link>
+            <router-link to="/" class="back-btn">{{ config.download?.error?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else class="ready-state">
@@ -150,8 +151,8 @@ async function startDownload() {
               <i class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
             </div>
             <div class="file-info">
-              <h3>{{ transferInfo?.isZip ? 'Fichiers prêts' : 'Fichier prêt' }} au déchiffrement</h3>
-              <p class="meta">ID: {{ transferId }}</p>
+              <h3>{{ transferInfo?.isZip ? config.download?.ready?.filesReady : config.download?.ready?.fileReady || 'Fichier prêt' }} au déchiffrement</h3>
+              <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
             </div>
 
             <button 
@@ -161,13 +162,13 @@ async function startDownload() {
               @click="startDownload"
             >
               <template v-if="status === 'decrypting'">
-                <div class="spinner-small"></div> Déchiffrement...
+                <div class="spinner-small"></div> {{ config.download?.ready?.downloadButton?.decrypting || 'Déchiffrement...' }}
               </template>
               <template v-else-if="status === 'downloading'">
-                <div class="spinner-small"></div> Téléchargement...
+                <div class="spinner-small"></div> {{ config.download?.ready?.downloadButton?.downloading || 'Téléchargement...' }}
               </template>
               <template v-else>
-                <i class="bi bi-cloud-download"></i> Télécharger
+                <i class="bi bi-cloud-download"></i> {{ config.download?.ready?.downloadButton?.default || 'Télécharger' }}
               </template>
             </button>
             

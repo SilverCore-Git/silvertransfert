@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { config, getConfigValue } from '../../../../utils/config';
 
 const props = defineProps<{
   uploadPct: number;
@@ -57,15 +58,15 @@ const formattedSpeed = computed(() => {
     </div>
     <span class="upload-lbl">
       <template v-if="!isFinalizing">
-        Envoi en cours<span v-if="uploadPct >= 100">.</span><span v-else>…</span>
+        {{ config.home?.uploadProgress?.uploading || 'Envoi en cours' }}<span v-if="uploadPct >= 100">.</span><span v-else>…</span>
       </template>
       <template v-else>
-        Finalisation
+        {{ config.home?.uploadProgress?.finalizing || 'Finalisation' }}
       </template>
     </span>
-    <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ estimatedTime }} restants</span>
+    <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ getConfigValue('home.uploadProgress.timeRemaining', { time: estimatedTime }) }}</span>
     <span v-if="formattedSpeed && !isFinalizing" class="upload-speed">{{ formattedSpeed }}</span>
-    <span v-else-if="isFinalizing" class="finalizing-lbl">Préparation du lien…</span>
+    <span v-else-if="isFinalizing" class="finalizing-lbl">{{ config.home?.uploadProgress?.preparingLink || 'Préparation du lien…' }}</span>
   </div>
 </template>
 

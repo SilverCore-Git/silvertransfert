@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { config } from '../../../../utils/config';
+
 interface FileItem {
   id: string;
   file: File;
@@ -41,8 +43,8 @@ function onDragLeave() {
     <!-- Empty State -->
     <div v-if="files.length === 0 && !isUploading" class="ring-empty">
       <i class="bi bi-cloud-upload-fill ring-icon"></i>
-      <span class="ring-label">Glissez vos fichiers ici</span>
-      <span class="ring-sub">ou cliquez pour parcourir</span>
+      <span class="ring-label">{{ config.home?.dropZone?.emptyLabel || 'Glissez vos fichiers ici' }}</span>
+      <span class="ring-sub">{{ config.home?.dropZone?.emptySub || 'ou cliquez pour parcourir' }}</span>
     </div>
 
     <!-- Files Slot (will be used by FileList) -->

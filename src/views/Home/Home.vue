@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { formatSize } from '../../utils/file';
+import { config, getConfigValue } from '../../utils/config';
 import axios from 'axios';
 
 // Components
@@ -37,6 +38,13 @@ const MIN_PASSWORD_LENGTH = 10;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 const termsAccepted = ref(false);
+
+// Feature icons mapping
+const featureIcons: string[] = ['bi-lightning-charge', 'bi-shield-lock', 'bi-incognito'];
+
+function getFeatureIcon(index: number): string {
+  return featureIcons[index] || 'bi-lightning-charge';
+}
 
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
@@ -201,9 +209,9 @@ function reset() {
       <div class="glow g2" aria-hidden="true"></div>
 
       <div class="center px-4">
-        <h1 class="wordmark">Silver<span>Transfert</span></h1>
+        <h1 class="wordmark" v-html="config.home?.hero?.title || 'Silver<span>Transfert</span>'"></h1>
         <p class="tagline">
-          Transfert sécurisé de fichiers
+          {{ config.home?.hero?.tagline || 'Transfert sécurisé de fichiers' }}
         </p>
 
         <Transition name="fade" mode="out-in">
@@ -245,7 +253,7 @@ function reset() {
                 <div class="w-full font-sans">
                   <div class="flex justify-between items-baseline mb-2">
                     <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Complexité du chiffrement
+                      {{ config.home?.hero?.encryptionSlider?.label || 'Complexité du chiffrement' }}
                     </label>
                     <span class="text-sm font-semibold text-(--color-primary)">
                       {{ passwordLength }}
@@ -277,25 +285,29 @@ function reset() {
                     />
                     <span class="checkbox-custom"></span>
                     <span class="terms-text">
-                      J'ai lu et j'accepte les 
-                      <router-link to="/cgu" class="legal-link">Conditions Générales d'Utilisation</router-link> 
-                      et la 
-                      <router-link to="/politique-de-confidentialite" class="legal-link">Politique de Confidentialité</router-link>
+                      {{ config.home?.hero?.termsAcceptance?.checkboxLabel || 'J\'ai lu et j\'accepte les ' }}
+                      <router-link to="/cgu" class="legal-link">{{ config.home?.hero?.termsAcceptance?.cguLink || 'Conditions Générales d\'Utilisation' }}</router-link> 
+                      {{ config.home?.hero?.termsAcceptance?.checkboxLabel && ' et la ' }}
+                      <router-link to="/politique-de-confidentialite" class="legal-link">{{ config.home?.hero?.termsAcceptance?.privacyLink || 'Politique de Confidentialité' }}</router-link>
                     </span>
                   </label>
                 </div>
 
                 <div class="below-ring">
                   <span class="size-hint">
-                    {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
+                    {{ getConfigValue('home.hero.fileActions.sizeHint', {
+                      count: files.length,
+                      size: formatSize(totalSize),
+                      plural: files.length > 1 ? 's' : ''
+                    }) }}
                   </span>
                   <button class="send-btn" @click="transfer" :disabled="!termsAccepted">
-                    <i class="bi bi-send-fill"/> Envoyer
+                    <i class="bi bi-send-fill"/> {{ config.home?.hero?.sendButton?.label || 'Envoyer' }}
                   </button>
                 </div>
               </div>
               <p v-else-if="!isUploading" class="drop-hint">
-                Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go
+                {{ config.home?.hero?.dropHint || 'Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go' }}
               </p>
             </Transition>
           </div>
@@ -310,38 +322,24 @@ function reset() {
     <section class="presentation-section" id="presentation">
       <div class="content-limit">
         <header class="section-header">
-          <h2 class="section-title">L'excellence au service de vos échanges</h2>
+          <h2 class="section-title">{{ config.home?.presentation?.title || 'L\'excellence au service de vos échanges' }}</h2>
         </header>
 
         <div class="grid-features">
-          <div class="feature-card">
+          <div v-for="(feature, index) in config.home?.presentation?.features || []" :key="index" class="feature-card">
             <div class="f-icon-wrap">
-              <i class="bi bi-lightning-charge"/>
+              <i class="bi" :class="getFeatureIcon(Number(index))"/>
             </div>
-            <h3>Souveraineté</h3>
-            <p>Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et à la RGPD. Aucun Cloud Act : vos données sont françaises et restent en France.</p>
-          </div>
-          <div class="feature-card">
-            <div class="f-icon-wrap">
-              <i class="bi bi-shield-lock"/>
-            </div>
-            <h3>Sécurité</h3>
-            <p>Vos fichiers sont chiffrés avec la robustesse du AES-256-CBC, indéchiffrables par nos équipes.</p>
-          </div>
-          <div class="feature-card">
-            <div class="f-icon-wrap">
-              <i class="bi bi-incognito"/>
-            </div>
-            <h3>Redondance</h3>
-            <p>Vos fichiers sont copiés à 3 reprises pour garantir leur sécurité. Toutes ces copies sont bien évidemment supprimées après 30 jours.</p>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
           </div>
         </div>
 
         <div class="premium-banner">
           <div class="pb-content">
-            <h2>Silvertransfert, un service de Silvercore.</h2>
-            <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.</p>
-            <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">Visiter Silvercore</a>
+            <h2>{{ config.home?.presentation?.premiumBanner?.title || 'Silvertransfert, un service de Silvercore.' }}</h2>
+            <p>{{ config.home?.presentation?.premiumBanner?.description || 'Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.' }}</p>
+            <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">{{ config.home?.presentation?.premiumBanner?.button || 'Visiter Silvercore' }}</a>
           </div>
         </div>
       </div>
