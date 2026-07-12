@@ -152,7 +152,7 @@ async function startDownload() {
               <i class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
             </div>
             <div class="file-info">
-              <h3>{{ transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady || 'Fichier prêt' }} au déchiffrement</h3>
+              <h3>{{ transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady || 'Fichier prêt' }}</h3>
               <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
             </div>
 
