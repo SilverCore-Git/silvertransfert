@@ -4,7 +4,7 @@
       
       <header class="text-center mb-16">
         <h2 class="font-['Space_Grotesk'] text-[clamp(1.8rem,4vw,2.75rem)] font-bold text-white tracking-tight">
-          {{ config.faq?.title || 'Vos questions, nos réponses' }}
+          {{ faq_json.title || 'Vos questions, nos réponses' }}
         </h2>
       </header>
 
@@ -19,7 +19,7 @@
             class="w-full flex justify-between items-center py-8 text-left focus:outline-none group cursor-pointer"
           >
             <span class="text-[1.15rem] font-semibold text-white group-hover:text-[#6356e5] transition-colors">
-              {{ item.q }}
+              {{ item.question }}
             </span>
             <div class="w-8 h-8 flex items-center justify-center text-[#6356e5]">
               <i 
@@ -33,7 +33,7 @@
             v-show="openIndex === index"
             class="pb-8 text-[0.95rem] leading-[1.6] text-[var(--color-text-secondary)] font-['Outfit']"
           >
-            {{ item.a }}
+            {{ item.answer }}
           </div>
         </div>
       </div>
@@ -83,38 +83,38 @@ div[v-show] {
 <script setup lang="ts">
 
 import { ref } from 'vue';
-import { config } from '../../../../utils/config';
+import faq_json from '../../../../config/faq.json';
 
 interface FaqItem {
-  q: string;
-  a: string;
+  question: string;
+  answer: string;
 }
 
 // Use config data or fallback to default
-const faqData: FaqItem[] = config.faq?.items || [
+const faqData: FaqItem[] = faq_json.items || [
   {
-    q: "Capacité de stockage ?",
-    a: "Chaque envoi est limité à 10 Go."
+    question: "Capacité de stockage ?",
+    answer: "Chaque envoi est limité à 10 Go."
   },
   {
-    q: "Sécurité des serveurs ?",
-    a: "Nos serveurs sont durcis selon les recommandations de l'ANSSI et font l'objet d'audits réguliers."
+    question: "Sécurité des serveurs ?",
+    answer: "Nos serveurs sont durcis selon les recommandations de l'ANSSI et font l'objet d'audits réguliers."
   },
   {
-    q: "Disponibilité ?",
-    a: "Nos services affichent un taux de disponibilité (SLA) de 99,99%, assurant la continuité de vos activités."
+    question: "Disponibilité ?",
+    answer: "Nos services affichent un taux de disponibilité (SLA) de 99,99%, assurant la continuité de vos activités."
   },
   {
-    q: "Les fichiers sont-ils conservés ?",
-    a: "Oui, vos fichiers sont conservés pendant 30 jours après leur envoi."
+    question: "Les fichiers sont-ils conservés ?",
+    answer: "Oui, vos fichiers sont conservés pendant 30 jours après leur envoi."
   },
   {
-    q: "Les fichiers sont-ils chiffrés ?",
-    a: "Oui, vos fichiers sont chiffrés avec l'algorithme AES-256-CBC avant d'être stockés."
+    question: "Les fichiers sont-ils chiffrés ?",
+    answer: "Oui, vos fichiers sont chiffrés avec l'algorithme AES-256-CBC avant d'être stockés."
   },
   {
-    q: "Peut-on perdre nos fichiers ?",
-    a: "Cela est très peu probable : pendant la période de 30 jours après le téléversement, les fichiers sont copiés sur 3 supports différents."
+    question: "Peut-on perdre nos fichiers ?",
+    answer: "Cela est très peu probable : pendant la période de 30 jours après le téléversement, les fichiers sont copiés sur 3 supports différents."
   }
 ];
 

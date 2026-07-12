@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { config, getConfigValue } from '../../../../utils/config';
+import { getConfigValue } from '../../../../utils/config';
+import home_json from '../../../../config/home.json';
 
 const props = defineProps<{
   uploadPct: number;
@@ -58,15 +59,15 @@ const formattedSpeed = computed(() => {
     </div>
     <span class="upload-lbl">
       <template v-if="!isFinalizing">
-        {{ config.home?.uploadProgress?.uploading || 'Envoi en cours' }}<span v-if="uploadPct >= 100">.</span><span v-else>…</span>
+        {{ home_json.uploadProgress?.uploading || 'Envoi en cours' }}<span v-if="uploadPct >= 100">.</span><span v-else>…</span>
       </template>
       <template v-else>
-        {{ config.home?.uploadProgress?.finalizing || 'Finalisation' }}
+        {{ home_json.uploadProgress?.finalizing || 'Finalisation' }}
       </template>
     </span>
     <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ getConfigValue('home.uploadProgress.timeRemaining', { time: estimatedTime }) }}</span>
     <span v-if="formattedSpeed && !isFinalizing" class="upload-speed">{{ formattedSpeed }}</span>
-    <span v-else-if="isFinalizing" class="finalizing-lbl">{{ config.home?.uploadProgress?.preparingLink || 'Préparation du lien…' }}</span>
+    <span v-else-if="isFinalizing" class="finalizing-lbl">{{ home_json.uploadProgress?.preparingLink || 'Préparation du lien…' }}</span>
   </div>
 </template>
 

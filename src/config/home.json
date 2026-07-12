@@ -1,6 +1,7 @@
 {
   "hero": {
-    "title": "Silver<span>Transfert</span>",
+    "title1": "Silver",
+    "title2": "Transfert",
     "tagline": "Transfert sécurisé de fichiers",
     "dropHint": "Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go",
     "scrollIndicator": "Faites défiler vers le bas",

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatSize } from '../../../../utils/file';
-import { config, getConfigValue } from '../../../../utils/config';
+import { getConfigValue } from '../../../../utils/config';
+import home_json from '../../../../config/home.json';
 
 defineProps<{
   filesCount: number;
@@ -28,12 +29,12 @@ const emit = defineEmits(['copy', 'reset']);
       <span class="link-text">{{ link }}</span>
       <button class="link-copy" @click="emit('copy')">
         <i :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
-        {{ copied ? config.home?.transferResult?.copyButton?.copied || 'Copié !' : config.home?.transferResult?.copyButton?.default || 'Copier' }}
+        {{ copied ? home_json.transferResult?.copyButton?.copied || 'Copié !' : home_json.transferResult?.copyButton?.default || 'Copier' }}
       </button>
     </div>
     
     <button class="reset-btn" @click="emit('reset')">
-      <i class="bi bi-arrow-counterclockwise"></i> {{ config.home?.transferResult?.newTransfer || 'Nouveau transfert' }}
+      <i class="bi bi-arrow-counterclockwise"></i> {{ home_json.transferResult?.newTransfer || 'Nouveau transfert' }}
     </button>
   </div>
 </template>

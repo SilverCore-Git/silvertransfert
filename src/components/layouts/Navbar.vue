@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { config } from '../../utils/config';
+import navigation_json from '../../config/navigation.json';
 
 const isMenuOpen = ref(false);
 
@@ -23,7 +23,7 @@ function closeMenu() {
   <nav class="top-nav-wrapper">
     <!-- Desktop Navigation Menu -->
     <div class="top-nav-desktop">
-      <a v-for="item in config.navigation?.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
+      <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
     </div>
 
     <!-- Mobile Hamburguer Trigger -->
@@ -45,11 +45,11 @@ function closeMenu() {
           </button>
           
           <div class="drawer-brand">
-            <span class="brand-text" v-html="config.navigation?.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
+            <span class="brand-text" v-html="navigation_json.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
           </div>
 
           <div class="mobile-menu-links">
-            <a v-for="item in config.navigation?.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
+            <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
               <i class="bi" :class="item.icon"></i> {{ item.label }}
             </a>
           </div>
