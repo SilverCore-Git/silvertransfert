@@ -88,7 +88,7 @@ const emit = defineEmits(['remove', 'add']);
   min-width: 0;
   font-size: 0.77rem;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,7 +96,7 @@ const emit = defineEmits(['remove', 'add']);
 
 .fsize {
   font-size: 0.68rem;
-  color: #615c85;
+  color: var(--color-text);
   flex-shrink: 0;
 }
 
@@ -233,9 +233,9 @@ const emit = defineEmits(['remove', 'add']);
   padding: 0.35rem;
   font-size: 0.73rem;
   font-weight: 500;
-  color: #615c85;
+  color: var(--color-text-secondary);
   background: none;
-  border: 1px dashed rgba(255, 255, 255, 0.05);
+  
   border-radius: 7px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -244,9 +244,8 @@ const emit = defineEmits(['remove', 'add']);
 }
 
 .add-more:hover {
-  color: var(--color-primary);
-  border-color: rgba(99, 86, 229, 0.3);
+  color: var(--color-text);
+  border: 1px dashed var(--color-primary);
   background: rgba(99, 86, 229, 0.05);
-  transform: scale(1.02);
 }
 </style>
