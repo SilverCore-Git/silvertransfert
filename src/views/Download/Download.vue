@@ -32,10 +32,9 @@ onMounted(async () => {
 
 async function checkStatus() {
   try {
-    const response = await axios.get(`${API_URL}/data/status`, {
-      params: { id: transferId.value }
-    });
-    
+
+    const response = await axios.get(`${API_URL}/data/status?id=${transferId.value}`);
+
     if (response.data) {
       transferInfo.value = response.data;
       status.value = 'ready';
