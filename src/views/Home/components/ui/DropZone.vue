@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import home_json from '../../../../config/home.json';
+
 interface FileItem {
   id: string;
   file: File;
@@ -41,8 +43,8 @@ function onDragLeave() {
     <!-- Empty State -->
     <div v-if="files.length === 0 && !isUploading" class="ring-empty">
       <i class="bi bi-cloud-upload-fill ring-icon"></i>
-      <span class="ring-label">Glissez vos fichiers ici</span>
-      <span class="ring-sub">ou cliquez pour parcourir</span>
+      <span class="ring-label">{{ home_json.dropZone?.emptyLabel || 'Glissez vos fichiers ici' }}</span>
+      <span class="ring-sub">{{ home_json.dropZone?.emptySub || 'ou cliquez pour parcourir' }}</span>
     </div>
 
     <!-- Files Slot (will be used by FileList) -->
@@ -75,39 +77,22 @@ function onDragLeave() {
   box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.07);
 }
 
-.ring-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 2.25rem;
-  text-align: center;
-  pointer-events: none;
-}
-
-.ring-icon {
-  font-size: 1.9rem;
-  color: #6356e5;
-  opacity: 0.8;
-  margin-bottom: 0.3rem;
-}
-
 .ring-label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #bbb8d8;
+  color: var(--color-text);
 }
 
 .ring-sub {
   font-size: 0.75rem;
-  color: #615c85;
+  color: var(--color-text-secondary);
 }
 
 /* DropZone Animations */
 .drop-ring {
   width: 100%;
   min-height: 165px;
-  border: 1.5px dashed rgba(99, 86, 229, 0.18);
+  border: 1.5px dashed rgba(127, 108, 255, 0.3);
   border-radius: 16px;
   background: rgba(99, 86, 229, 0.025);
   display: flex;
@@ -132,15 +117,16 @@ function onDragLeave() {
 
 .drop-ring:hover,
 .drop-ring.active {
-  border-color: rgba(99, 86, 229, 0.5);
-  background: rgba(99, 86, 229, 0.055);
+  /* border-color: rgba(99, 86, 229, 0.5); */
+  border-color: var(--color-primary);
+  background: rgba(127, 108, 255, 0.2);
   box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.07);
   transform: scale(1.02);
 }
 
 .ring-icon {
   font-size: 1.9rem;
-  color: #6356e5;
+  color: var(--color-primary);
   opacity: 0.8;
   margin-bottom: 0.3rem;
   transition: all 0.3s;

@@ -1,0 +1,55 @@
+{
+  "menuItems": [
+    {
+      "label": "Accueil",
+      "path": "/#accueil",
+      "icon": "bi-house-door"
+    },
+    {
+      "label": "Présentation",
+      "path": "/#presentation",
+      "icon": "bi-lightning-charge"
+    },
+    {
+      "label": "FAQ",
+      "path": "/#faq",
+      "icon": "bi-question-circle"
+    }
+  ],
+  "mobileMenu": {
+    "closeButton": "Fermer",
+    "brand": "Silver<span>Transfert</span>"
+  },
+  "footer": {
+    "brand": "Silver<span>Transfert</span>",
+    "tagline": "Le transfert de fichiers, simple et sécurisé, hébergé en France et respectueux de votre vie privée.",
+    "siteMap": {
+      "title": "Plan du site",
+      "items": [
+        {"label": "Transfert", "path": "/#accueil"},
+        {"label": "Fonctionnalités", "path": "/#presentation"},
+        {"label": "Questions", "path": "/#faq"}
+      ]
+    },
+    "ourServices": {
+      "title": "Nous sommes aussi",
+      "items": [
+        {"label": "Silvercore", "url": "https://www.silvercore.fr"},
+        {"label": "Silvernote", "url": "https://www.silvernote.fr"}
+      ]
+    },
+    "legal": {
+      "title": "Légal",
+      "items": [
+        {"label": "Confidentialité", "path": "/politique-de-confidentialite"},
+        {"label": "CGU", "path": "/cgu"},
+        {"label": "Mentions légales", "url": "https://www.silvercore.fr/legal"}
+      ]
+    },
+    "copyright": "© {{year}} Silvercore. Tous droits réservés.",
+    "social": {
+      "discord": "https://taap.it/silvercore.discord",
+      "github": "https://github.com/SilverCore-Git"
+    }
+  }
+}

@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { getConfigValue } from '../../utils/config';
+import home_json from '../../config/home.json';
+import download_json from '../../config/download.json';
 // import { formatSize } from '../../utils/file';
 
 const route = useRoute();
@@ -22,7 +25,7 @@ onMounted(async () => {
 
   if (!transferId.value || !password.value) {
     status.value = 'error';
-    errorMsg.value = 'Lien de téléchargement invalide.';
+    errorMsg.value = download_json.errors?.invalidLink || 'Lien de téléchargement invalide.';
     return;
   }
 
@@ -31,8 +34,9 @@ onMounted(async () => {
 
 async function checkStatus() {
   try {
+
     const response = await axios.get(`${API_URL}/data/status?id=${transferId.value}`);
-    
+
     if (response.data) {
       transferInfo.value = response.data;
       status.value = 'ready';
@@ -42,7 +46,7 @@ async function checkStatus() {
       status.value = 'not_found';
     } else {
       status.value = 'error';
-      errorMsg.value = 'Erreur lors de la récupération des informations.';
+      errorMsg.value = download_json.errors?.statusCheckFailed || 'Erreur lors de la récupération des informations.';
     }
   }
 }
@@ -102,7 +106,7 @@ async function startDownload() {
     }
   } catch (error: any) {
     status.value = 'error';
-    errorMsg.value = error.response?.data?.message || 'Erreur lors du téléchargement.';
+    errorMsg.value = error.response?.data?.message || download_json.errors?.downloadFailed || 'Erreur lors du téléchargement.';
   }
 }
 </script>
@@ -120,27 +124,27 @@ async function startDownload() {
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark" @click="router.push('/')">Silver<span>Transfert</span></h1>
-        <p class="tagline">Réception de fichiers sécurisée</p>
+        <h1 class="wordmark cursor-pointer" @click="router.push('/')" >{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></h1>
+        <p class="tagline">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</p>
 
         <div class="download-card">
           <div v-if="status === 'loading'" class="loading-state">
             <div class="spinner"></div>
-            <p>Vérification du transfert...</p>
+            <p>{{ download_json.loading?.title || 'Vérification du transfert...' }}</p>
           </div>
 
           <div v-else-if="status === 'not_found'" class="error-state">
             <i class="bi bi-exclamation-triangle"></i>
-            <h3>Transfert introuvable</h3>
-            <p>Le lien est expiré ou n'existe pas.</p>
-            <router-link to="/" class="back-btn">Retour à l'accueil</router-link>
+            <h3>{{ download_json.notFound?.title || 'Transfert introuvable' }}</h3>
+            <p>{{ download_json.notFound?.message || 'Le lien est expiré ou n\'existe pas.' }}</p>
+            <router-link to="/" class="back-btn">{{ download_json.notFound?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else-if="status === 'error'" class="error-state">
             <i class="bi bi-x-circle"></i>
-            <h3>Une erreur est survenue</h3>
+            <h3>{{ download_json.error?.title || 'Une erreur est survenue' }}</h3>
             <p>{{ errorMsg }}</p>
-            <router-link to="/" class="back-btn">Retour à l'accueil</router-link>
+            <router-link to="/" class="back-btn">{{ download_json.error?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else class="ready-state">
@@ -148,8 +152,8 @@ async function startDownload() {
               <i class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
             </div>
             <div class="file-info">
-              <h3>{{ transferInfo?.isZip ? 'Fichiers prêts' : 'Fichier prêt' }} au déchiffrement</h3>
-              <p class="meta">ID: {{ transferId }}</p>
+              <h3>{{ transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady || 'Fichier prêt' }}</h3>
+              <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
             </div>
 
             <button 
@@ -159,13 +163,13 @@ async function startDownload() {
               @click="startDownload"
             >
               <template v-if="status === 'decrypting'">
-                <div class="spinner-small"></div> Déchiffrement...
+                <div class="spinner-small"></div> {{ download_json.ready?.downloadButton?.decrypting || 'Déchiffrement...' }}
               </template>
               <template v-else-if="status === 'downloading'">
-                <div class="spinner-small"></div> Téléchargement...
+                <div class="spinner-small"></div> {{ download_json.ready?.downloadButton?.downloading || 'Téléchargement...' }}
               </template>
               <template v-else>
-                <i class="bi bi-cloud-download"></i> Télécharger
+                <i class="bi bi-cloud-download"></i> {{ download_json.ready?.downloadButton?.default || 'Télécharger' }}
               </template>
             </button>
             
@@ -224,7 +228,7 @@ async function startDownload() {
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #fff;
+ color: var(--color-text);
   line-height: 0.9;
   margin: 0;
   animation: fadeInDown 0.6s ease-out;
@@ -239,7 +243,7 @@ async function startDownload() {
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+ color: var(--color-text);
   font-weight: 400;
   margin: 1.5rem 0 2.5rem;
   letter-spacing: 0.15em;
@@ -278,7 +282,7 @@ async function startDownload() {
   width: 40px;
   height: 40px;
   border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: #6356e5;
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite, scalePulse 1.5s ease-in-out infinite;
 }
@@ -302,7 +306,7 @@ async function startDownload() {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: #6356e5;
+  color: var(--color-primary);
   animation: scaleIn 0.5s ease-out 0.2s both;
   position: relative;
   overflow: hidden;
@@ -334,8 +338,8 @@ async function startDownload() {
 .download-btn {
   width: 100%;
   padding: 1rem;
-  background: #6356e5;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text);
   border: none;
   border-radius: 12px;
   font-size: 1rem;
@@ -361,10 +365,10 @@ async function startDownload() {
   transition: left 0.6s;
 }
 
-.download-btn:not(:disabled):hover {
-  background: #7267f0;
+.download-btn:hover:not(:disabled) {
+  background: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4);
+  /* box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4); */
 }
 
 .download-btn:not(:disabled):hover::before {
@@ -374,7 +378,7 @@ async function startDownload() {
 .download-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  background: #4a475a;
+  background: var(--color-bg);
 }
 
 .download-btn.decrypting {
@@ -386,12 +390,12 @@ async function startDownload() {
 }
 
 @keyframes decryptingPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 86, 229, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-primary); }
   50% { box-shadow: 0 0 0 10px rgba(99, 86, 229, 0); }
 }
 
 @keyframes downloadingPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 green; }
   50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
 }
 
@@ -399,7 +403,7 @@ async function startDownload() {
   width: 40px;
   height: 40px;
   border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: #6356e5;
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -470,12 +474,12 @@ async function startDownload() {
   color: #ef4444;
 }
 
-.error-state h3 { font-size: 1.25rem; color: #fff; }
+.error-state h3 { font-size: 1.25rem;color: var(--color-text); }
 .error-state p { color: #a09cb4; font-size: 0.95rem; }
 
 .back-btn {
   margin-top: 1rem;
-  color: #6356e5;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
@@ -490,39 +494,11 @@ async function startDownload() {
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: #6356e5;
+  color: var(--color-primary);
 }
 
-.file-info h3 { font-size: 1.25rem; color: #fff; margin-bottom: 0.25rem; }
-.file-info .meta { color: #635c87; font-size: 0.8rem; font-family: monospace; }
-
-.download-btn {
-  width: 100%;
-  padding: 1rem;
-  background: #6356e5;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  transition: all 0.3s;
-}
-
-.download-btn:hover:not(:disabled) {
-  background: #7267f0;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4);
-}
-
-.download-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
+.file-info h3 { font-size: 1.25rem;color: var(--color-text); margin-bottom: 0.25rem; }
+.file-info .meta { color: var(--color-text-secondary); font-size: 0.8rem; font-family: monospace; }
 
 .security-note {
   font-size: 0.75rem;

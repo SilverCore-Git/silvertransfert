@@ -10,29 +10,27 @@
   --breakpoint-3xl: 1920px;
 
   --color-bg: #06050a;
-  --color-primary: #6366F1;
-  --color-secondary: #F4F4F5;
-  --color-accent: #10B981;
-  --color-text: #18181B;
+
+
+  --color-primary: #7F6CFF;
+  --color-text: #FFFFFF;
+  --color-text-secondary: #bbb8d8;
+
+  --hover-background: rgba(99, 86, 229, 0.12);
+  --hover-border: rgba(99, 86, 229, 0.4);
+
 
   --spacing: 0.25rem;
-
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-:root {
-  --bg: #06050a;
-  --primary: #6366F1;
-  --secondary: #F4F4F5;
-  --accent: #10B981;
-  --text: #18181B;
-}
+
 
 body {
   overflow-x: hidden;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg);
-  color: var(--text);
+  color: var(color-text);
 }
 
 h1, h2, h3, h4, h5, h6 {

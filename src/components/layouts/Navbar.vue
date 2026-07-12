@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import navigation_json from '../../config/navigation.json';
 
 const isMenuOpen = ref(false);
 
@@ -22,9 +23,7 @@ function closeMenu() {
   <nav class="top-nav-wrapper">
     <!-- Desktop Navigation Menu -->
     <div class="top-nav-desktop">
-      <a href="/#accueil" class="nav-btn">Accueil</a>
-      <a href="/#presentation" class="nav-btn">Présentation</a>
-      <a href="/#faq" class="nav-btn">FAQ</a>
+      <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
     </div>
 
     <!-- Mobile Hamburguer Trigger -->
@@ -46,18 +45,12 @@ function closeMenu() {
           </button>
           
           <div class="drawer-brand">
-            <span class="brand-text">Silver<span>Transfert</span></span>
+            <span class="brand-text" v-html="navigation_json.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
           </div>
 
           <div class="mobile-menu-links">
-            <a href="/#accueil" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-house-door"></i> Accueil
-            </a>
-            <a href="/#presentation" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-lightning-charge"></i> Présentation
-            </a>
-            <a href="/#faq" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi bi-question-circle"></i> FAQ
+            <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
+              <i class="bi" :class="item.icon"></i> {{ item.label }}
             </a>
           </div>
 
@@ -91,7 +84,6 @@ function closeMenu() {
 .nav-btn {
   background: rgba(10, 8, 20, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #a09cb4;
   padding: 0.55rem 1.35rem;
   border-radius: 100px;
   text-decoration: none;
@@ -100,12 +92,12 @@ function closeMenu() {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.02em;
   backdrop-filter: blur(10px);
+  color: var(--color-text);
 }
 
 .nav-btn:hover {
-  background: rgba(99, 86, 229, 0.12);
-  border-color: rgba(99, 86, 229, 0.4);
-  color: #fff;
+  background: var(--hover-background);
+  border-color: var(--hover-border);
   transform: translateY(-1px);
 }
 
@@ -130,7 +122,7 @@ function closeMenu() {
 .mobile-menu-trigger:hover {
   background: rgba(99, 86, 229, 0.12);
   border-color: rgba(99, 86, 229, 0.4);
-  color: #fff;
+ color: var(--color-text);
 }
 
 /* Drawer overlay */
@@ -176,7 +168,7 @@ function closeMenu() {
 }
 
 .drawer-close-btn:hover {
-  color: #fff;
+ color: var(--color-text);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -189,7 +181,7 @@ function closeMenu() {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+ color: var(--color-text);
   letter-spacing: -0.03em;
 }
 
@@ -223,12 +215,12 @@ function closeMenu() {
 
 .mobile-nav-btn i {
   font-size: 1.1rem;
-  color: #6356e5;
+  color: var(--color-primary);
   transition: transform 0.3s ease;
 }
 
 .mobile-nav-btn:hover {
-  color: #fff;
+ color: var(--color-text);
   background: rgba(99, 86, 229, 0.1);
   border-color: rgba(99, 86, 229, 0.3);
   transform: translateX(4px);
@@ -295,7 +287,7 @@ function closeMenu() {
 }
 
 /* Extra small devices */
-@media (max-width: 360px) {
+@media (max-width: var(--breakpoint-xs)) {
   .top-nav-wrapper {
     top: 0.75rem;
     right: 0.75rem;
@@ -326,7 +318,7 @@ function closeMenu() {
 }
 
 /* Large devices */
-@media (min-width: 1536px) {
+@media (min-width: var(--breakpoint-2xl)) {
   .top-nav-desktop {
     gap: 1rem;
   }

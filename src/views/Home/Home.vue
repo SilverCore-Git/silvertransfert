@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { formatSize } from '../../utils/file';
 import axios from 'axios';
+import home_json from "../../config/home.json";
 
 // Components
 import DropZone from './components/ui/DropZone.vue';
@@ -37,6 +38,13 @@ const MIN_PASSWORD_LENGTH = 10;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 const termsAccepted = ref(false);
+
+// Feature icons mapping
+const featureIcons: string[] = ['bi-lightning-charge', 'bi-shield-lock', 'bi-incognito'];
+
+function getFeatureIcon(index: number): string {
+  return featureIcons[index] || 'bi-lightning-charge';
+}
 
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
@@ -201,9 +209,9 @@ function reset() {
       <div class="glow g2" aria-hidden="true"></div>
 
       <div class="center px-4">
-        <h1 class="wordmark">Silver<span>Transfert</span></h1>
+        <h1 class="wordmark" >{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></h1>
         <p class="tagline">
-          Transfert sécurisé de fichiers
+          {{ home_json.hero.tagline || 'Transfert sécurisé de fichiers' }}
         </p>
 
         <Transition name="fade" mode="out-in">
@@ -244,10 +252,15 @@ function reset() {
               <div v-if="files.length > 0 && !isUploading" class="file-actions-container">
                 <div class="w-full font-sans">
                   <div class="flex justify-between items-baseline mb-2">
-                    <label for="passwordLength" class="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Complexité du chiffrement
+                    <label 
+                      for="passwordLength" 
+                      class="text-xs font-medium text-[var(--color-text)] uppercase tracking-wider"
+                      >
+                      {{ home_json.hero.encryptionSlider?.label || 'Complexité du chiffrement' }}
                     </label>
-                    <span class="text-sm font-semibold text-(--primary)">
+                    <span 
+                      class="text-sm font-semibold text-(--color-primary)"
+                      >
                       {{ passwordLength }}
                     </span>
                   </div>
@@ -259,9 +272,9 @@ function reset() {
                       v-model.number="passwordLength" 
                       :min="MIN_PASSWORD_LENGTH" 
                       :max="32"
-                      class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--primary)/20
+                      class="w-full h-1 appearance-none cursor-pointer rounded-full outline-none bg-(--color-primary)/20
                             [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900 [&::-webkit-slider-thumb]:transition-transform active:[&::-webkit-slider-thumb]:scale-110
-                            [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-(--primary) [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:transition-transform active:[&::-moz-range-thumb]:scale-110"
+                            [&::-moz-range-thumb]:h-3.5 [&::-moz-range-thumb]:w-3.5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-(--color-primary) [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:transition-transform active:[&::-moz-range-thumb]:scale-110"
                       :style="{ '--progress': ((passwordLength - MIN_PASSWORD_LENGTH) / (32 - MIN_PASSWORD_LENGTH)) * 100 + '%' }"
                     />
                   </div>
@@ -277,10 +290,10 @@ function reset() {
                     />
                     <span class="checkbox-custom"></span>
                     <span class="terms-text">
-                      J'ai lu et j'accepte les 
-                      <router-link to="/cgu" class="legal-link">Conditions Générales d'Utilisation</router-link> 
-                      et la 
-                      <router-link to="/politique-de-confidentialite" class="legal-link">Politique de Confidentialité</router-link>
+                      {{ home_json.hero.termsAcceptance?.checkboxLabel || 'J\'ai lu et j\'accepte les ' }}
+                      <router-link to="/cgu" class="legal-link">{{ home_json.hero.termsAcceptance?.cguLink || 'Conditions Générales d\'Utilisation' }}</router-link> 
+                      {{ home_json.hero.termsAcceptance?.checkboxLabel && ' et la ' }}
+                      <router-link to="/politique-de-confidentialite" class="legal-link">{{ home_json.hero.termsAcceptance?.privacyLink || 'Politique de Confidentialité' }}</router-link>
                     </span>
                   </label>
                 </div>
@@ -290,12 +303,12 @@ function reset() {
                     {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                   </span>
                   <button class="send-btn" @click="transfer" :disabled="!termsAccepted">
-                    <i class="bi bi-send-fill"/> Envoyer
+                    <i class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
                   </button>
                 </div>
               </div>
               <p v-else-if="!isUploading" class="drop-hint">
-                Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go
+                {{ home_json.hero.dropHint || 'Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go' }}
               </p>
             </Transition>
           </div>
@@ -310,38 +323,24 @@ function reset() {
     <section class="presentation-section" id="presentation">
       <div class="content-limit">
         <header class="section-header">
-          <h2 class="section-title">L'excellence au service de vos échanges</h2>
+          <h2 class="section-title">{{ home_json.presentation?.title || 'L\'excellence au service de vos échanges' }}</h2>
         </header>
 
         <div class="grid-features">
-          <div class="feature-card">
+          <div v-for="(feature, index) in home_json.presentation?.features || []" :key="index" class="feature-card">
             <div class="f-icon-wrap">
-              <i class="bi bi-lightning-charge"/>
+              <i class="bi" :class="getFeatureIcon(Number(index))"/>
             </div>
-            <h3>Souveraineté</h3>
-            <p>Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et à la RGPD. Aucun Cloud Act : vos données sont françaises et restent en France.</p>
-          </div>
-          <div class="feature-card">
-            <div class="f-icon-wrap">
-              <i class="bi bi-shield-lock"/>
-            </div>
-            <h3>Sécurité</h3>
-            <p>Vos fichiers sont chiffrés avec la robustesse du AES-256-CBC, indéchiffrables par nos équipes.</p>
-          </div>
-          <div class="feature-card">
-            <div class="f-icon-wrap">
-              <i class="bi bi-incognito"/>
-            </div>
-            <h3>Redondance</h3>
-            <p>Vos fichiers sont copiés à 3 reprises pour garantir leur sécurité. Toutes ces copies sont bien évidemment supprimées après 30 jours.</p>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
           </div>
         </div>
 
         <div class="premium-banner">
           <div class="pb-content">
-            <h2>Silvertransfert, un service de Silvercore.</h2>
-            <p>Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.</p>
-            <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">Visiter Silvercore</a>
+            <h2>{{ home_json.presentation?.premiumBanner?.title || 'Silvertransfert, un service de Silvercore.' }}</h2>
+            <p>{{ home_json.presentation?.premiumBanner?.description || 'Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.' }}</p>
+            <a href="https://www.silvercore.fr" target="_blank" class="premium-btn">{{ home_json.presentation?.premiumBanner?.button || 'Visiter Silvercore' }}</a>
           </div>
         </div>
       </div>
@@ -416,7 +415,7 @@ html {
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+  color: var(--color-text);
   font-weight: 400;
   margin: 1.5rem 0 2.5rem;
   letter-spacing: 0.15em;
@@ -430,7 +429,7 @@ html {
 
 .file-actions-container { display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:24rem; gap:1.5rem; margin:0 auto; }
 .below-ring { display:flex; align-items:center; justify-content:space-between; width:100%; gap:1.5rem; }
-.size-hint  { font-size:0.75rem; color:#635c87; font-weight: 500; }
+.size-hint  { font-size:0.75rem; color: var(--color-text-secondary); font-weight: 500; }
 
 /* Terms Acceptance */
 .terms-container {
@@ -447,13 +446,9 @@ html {
   cursor: pointer;
   max-width: 100%;
   font-size: 0.8rem;
-  color: #a09cb4;
+  color: var(--color-text);
   line-height: 1.5;
   transition: color 0.3s;
-}
-
-.terms-checkbox:hover {
-  color: #e2e0f0;
 }
 
 .checkbox-input {
@@ -468,7 +463,7 @@ html {
   width: 18px;
   height: 18px;
   min-width: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--color-text-secondary);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.05);
   display: flex;
@@ -490,7 +485,7 @@ html {
 
 .checkbox-input:checked + .checkbox-custom {
   background: #6356e5;
-  border-color: #6356e5;
+  border-color: var(--color-primary);
 }
 
 .checkbox-input:checked + .checkbox-custom:before {
@@ -506,7 +501,7 @@ html {
 }
 
 .legal-link {
-  color: #6356e5;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s;
@@ -541,7 +536,7 @@ html {
   background:#7267f0; transform:translateY(-2px); 
   box-shadow: 0 8px 30px rgba(99, 86, 229, 0.5);
 }
-.drop-hint { font-size:0.7rem; color:#a9a9a9; letter-spacing:0.04em; text-align:center; }
+.drop-hint { font-size:0.7rem; color: var(--color-text); letter-spacing:0.04em; text-align:center; }
 
 /* Encryption Slider - Compact & Stylish */
 .encryption-slider-container {
@@ -642,7 +637,7 @@ html {
   transition: all 0.3s;
 }
 .scroll-indicator:hover {
-  color: #6356e5;
+  color: var(--color-primary);
   transform: scale(1.2);
 }
 @keyframes bounce {
@@ -664,7 +659,7 @@ html {
   padding: 2rem 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-md)) {
   .hero-section {
     min-height: 90vh;
     padding: 1rem 0;
@@ -682,14 +677,14 @@ html {
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #fff;
+  color: var(--color-text);
   line-height: 0.9;
   margin: 0;
   animation: fadeInDown 0.6s ease-out;
 }
 
 .wordmark span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  background: var(--color-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
@@ -697,7 +692,7 @@ html {
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+  color: var(--color-text);
   font-weight: 400;
   margin: 1.5rem 0 2.5rem;
   letter-spacing: 0.15em;
@@ -746,7 +741,7 @@ html {
 .f-icon-wrap {
   width: 54px; height: 54px; background: rgba(99, 86, 229, 0.1);
   border-radius: 14px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem; color: #6356e5; margin-bottom: 2rem;
+  font-size: 1.5rem; color: var(--color-primary); margin-bottom: 2rem;
   transition: all 0.4s ease;
 }
 
@@ -762,28 +757,27 @@ html {
   border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
   padding: 4rem 2rem; text-align: center; overflow: hidden;
   transition: all 0.3s ease;
-  animation: fadeInUp 0.8s ease-out 0.6s both;
 }
-
 .premium-banner h2 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  /* background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%); */
+  background: linear-gradient(135deg, #a78bfa 0%, var(--color-primary) 100%);
+
+  
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s infinite;
   background-size: 200% auto;
 }
-
 .premium-banner p {
-  color: #8a84a5;
+  color: var(--color-text-secondary);
   max-width: 600px;
   margin: 0 auto 2.5rem;
   font-size: clamp(1rem, 2.5vw, 1.1rem);
   line-height: 1.6;
 }
-
 .premium-btn {
   display: inline-block;
   padding: 1rem 2.5rem;
@@ -912,32 +906,32 @@ html {
 
 .content-limit { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .content-limit {
     padding: 0 2rem;
   }
 }
 .section-header { text-align: center; margin-bottom: 5rem; }
 .eyebrow { 
-  display: block; font-size: 0.75rem; font-weight: 700; color: #6356e5; 
+  display: block; font-size: 0.75rem; font-weight: 700; color: var(--color-primary); 
   text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem;
 }
 .section-title { 
   font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.75rem); 
-  font-weight: 700; color: #fff; letter-spacing: -0.02em;
+  font-weight: 700; color: var(--color-text); letter-spacing: -0.02em;
 }
 
 .presentation-section {
   padding: 8rem 0; background: #08070f99; position: relative; z-index: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .presentation-section {
     padding: 10rem 0;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: var(--breakpoint-lg)) {
   .presentation-section {
     padding: 12rem 0;
   }
@@ -946,7 +940,7 @@ html {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
 }
 
-@media (min-width: 1536px) {
+@media (min-width: var(--breakpoint-2xl)) {
   .grid-features {
     gap: 3rem;
   }
@@ -963,73 +957,17 @@ html {
 .f-icon-wrap {
   width: 54px; height: 54px; background: rgba(99, 86, 229, 0.1);
   border-radius: 14px; display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem; color: #6356e5; margin-bottom: 2rem;
+  font-size: 1.5rem; color: var(--color-primary); margin-bottom: 2rem;
 }
 .feature-card h3 { 
   font-family: 'Space Grotesk', sans-serif; font-size: 1.35rem; 
-  font-weight: 600; margin-bottom: 1.25rem; color: #fff; 
+  font-weight: 600; margin-bottom: 1.25rem; color: var(--color-text); 
 }
 .feature-card p { font-size: 0.95rem; line-height: 1.7; color: #7a7499; }
 
-.premium-banner {
-  margin-top: 6rem; position: relative;
-  background: linear-gradient(135deg, rgba(99, 86, 229, 0.1) 0%, transparent 100%);
-  border: 1px solid rgba(99, 86, 229, 0.2); border-radius: 40px;
-  padding: 4rem 2rem; text-align: center; overflow: hidden;
-  transition: all 0.3s ease;
-}
-.premium-banner h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2rem, 6vw, 3rem);
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s infinite;
-  background-size: 200% auto;
-}
-.premium-banner p {
-  color: #8a84a5;
-  max-width: 600px;
-  margin: 0 auto 2.5rem;
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
-  line-height: 1.6;
-}
-.premium-btn {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: #fff;
-  color: #000;
-  text-decoration: none;
-  border-radius: 100px;
-  font-weight: 700;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-  font-size: clamp(0.9rem, 2vw, 1rem);
-}
 
-.premium-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.5s;
-}
 
-.premium-btn:hover {
-  transform: scale(1.05); 
-  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
-}
-
-.premium-btn:hover::before {
-  left: 100%;
-}
-
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .premium-banner {
     margin-top: 8rem;
     padding: 5rem 3rem;
@@ -1040,7 +978,7 @@ html {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .premium-banner {
     margin-top: 8rem;
     padding: 5rem 3rem;
@@ -1056,7 +994,7 @@ html {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .premium-banner {
     margin-top: 8rem;
     padding: 5rem 3rem;
@@ -1072,7 +1010,7 @@ html {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: var(--breakpoint-lg)) {
   .premium-banner {
     margin-top: 10rem;
     padding: 6rem 4rem;
@@ -1088,7 +1026,7 @@ html {
   }
 }
 
-@media (min-width: 1536px) {
+@media (min-width: var(--breakpoint-2xl)) {
   .premium-banner {
     padding: 7rem 5rem;
   }
@@ -1100,20 +1038,20 @@ html {
 
 .faq-section { padding: 6rem 0; z-index: 1; position: relative; }
 
-@media (min-width: 768px) {
+@media (min-width: var(--breakpoint-md)) {
   .faq-section {
     padding: 8rem 0;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: var(--breakpoint-lg)) {
   .faq-section {
     padding: 10rem 0;
   }
 }
 .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 0 1rem; }
 
-@media (min-width: 1536px) {
+@media (min-width: var(--breakpoint-2xl)) {
   .faq-grid {
     gap: 2rem;
   }
@@ -1121,8 +1059,8 @@ html {
 .faq-card {
   padding: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-.faq-card h4 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: #fff; }
-.faq-card p { font-size: 0.95rem; line-height: 1.6; color: #bbb8d8; }
+.faq-card h4 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: var(--color-text); }
+.faq-card p { font-size: 0.95rem; line-height: 1.6; color: var(--color-text-secondary); }
 
 .site-footer {
   background: #030207; padding: 8rem 2rem 4rem; z-index: 1; position: relative;
@@ -1135,15 +1073,15 @@ html {
 }
 .f-logo { 
   font-family: 'Space Grotesk', sans-serif; font-size: 1.75rem; font-weight: 700; 
-  color: #fff; margin-bottom: 1.5rem; 
+  color: var(--color-text); margin-bottom: 1.5rem; 
 }
-.f-logo span { color: #6356e5; }
-.f-tagline { font-size: 0.95rem; color: #fff; line-height: 1.6; max-width: 280px; }
+.f-logo span { color: var(--color-primary); }
+.f-tagline { font-size: 0.95rem; color: var(--color-text); line-height: 1.6; max-width: 280px; }
 
 .footer-links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.f-group h6 { font-size: 0.75rem; text-transform: uppercase; color: #fff; margin-bottom: 1.75rem; letter-spacing: 0.1em; }
-.f-group a { display: block; text-decoration: none; color: #bbb8d8; font-size: 0.9rem; margin-bottom: 0.85rem; transition: 0.2s; }
-.f-group a:hover { color: #6356e5; }
+.f-group h6 { font-size: 0.75rem; text-transform: uppercase; color: var(--color-text); margin-bottom: 1.75rem; letter-spacing: 0.1em; }
+.f-group a { display: block; text-decoration: none; color: var(--color-text-secondary); font-size: 0.9rem; margin-bottom: 0.85rem; transition: 0.2s; }
+.f-group a:hover { color: var(--color-primary); }
 
 .footer-copyright {
   max-width: 1200px; margin: 0 auto;
@@ -1153,7 +1091,7 @@ html {
 }
 .f-socials { display: flex; gap: 1.5rem; }
 .f-socials a { color: #a09cb4; font-size: 1.25rem; transition: 0.3s; }
-.f-socials a:hover { color: #6356e5; transform: translateY(-3px); }
+.f-socials a:hover { color: var(--color-primary); transform: translateY(-3px); }
 
 .fade-enter-active,.fade-leave-active { transition:opacity 0.25s ease; }
 .fade-enter-from,.fade-leave-to { opacity:0; }
@@ -1168,7 +1106,7 @@ html {
 }
 
 /* Large devices */
-@media (min-width: 1536px) {
+@media (min-width: var(--breakpoint-2xl)) {
   .feature-card {
     padding: 4rem 3rem;
   }

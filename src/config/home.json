@@ -1,0 +1,73 @@
+{
+  "hero": {
+    "title1": "Silver",
+    "title2": "Transfert",
+    "tagline": "Transfert sécurisé de fichiers",
+    "dropHint": "Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go",
+    "scrollIndicator": "Faites défiler vers le bas",
+    "encryptionSlider": {
+      "label": "Complexité du chiffrement",
+      "min": 10,
+      "max": 32
+    },
+    "termsAcceptance": {
+      "checkboxLabel": "J'ai lu et j'accepte les ",
+      "cguLink": "Conditions Générales d'Utilisation",
+      "privacyLink": "Politique de Confidentialité"
+    },
+    "sendButton": {
+      "label": "Envoyer",
+      "disabled": "Vous devez accepter les conditions pour envoyer"
+    },
+    "fileActions": {
+      "sizeHint": "{{count}} fichier{{plural}} · {{size}}",
+      "addMore": "Ajouter des fichiers"
+    }
+  },
+  "presentation": {
+    "title": "L'excellence au service de vos échanges",
+    "features": [
+      {
+        "title": "Souveraineté",
+        "description": "Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et à la RGPD. Aucun Cloud Act : vos données sont françaises et restent en France."
+      },
+      {
+        "title": "Sécurité",
+        "description": "Vos fichiers sont chiffrés avec la robustesse du AES-256-CBC, indéchiffrables par nos équipes."
+      },
+      {
+        "title": "Redondance",
+        "description": "Vos fichiers sont copiés à 3 reprises pour garantir leur sécurité. Toutes ces copies sont bien évidemment supprimées après 30 jours."
+      }
+    ],
+    "premiumBanner": {
+      "title": "Silvertransfert, un service de Silvercore.",
+      "description": "Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.",
+      "button": "Visiter Silvercore"
+    }
+  },
+  "transferResult": {
+    "success": "Fichier{{plural}} transféré avec succès",
+    "fileCount": "{{count}} fichier{{plural}}",
+    "copyButton": {
+      "default": "Copier",
+      "copied": "Copié !"
+    },
+    "newTransfer": "Nouveau transfert"
+  },
+  "dropZone": {
+    "emptyLabel": "Glissez vos fichiers ici",
+    "emptySub": "ou cliquez pour parcourir",
+    "fileList": {
+      "remove": "Supprimer",
+      "preview": "Aperçu"
+    }
+  },
+  "uploadProgress": {
+    "uploading": "Envoi en cours",
+    "finalizing": "Finalisation",
+    "preparingLink": "Préparation du lien…",
+    "timeRemaining": "{{time}} restants",
+    "speed": "{{speed}}"
+  }
+}

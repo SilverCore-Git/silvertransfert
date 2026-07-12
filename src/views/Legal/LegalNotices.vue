@@ -77,7 +77,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #fff;
+ color: var(--color-text);
   line-height: 0.9;
   margin: 0 0 1rem;
 }
@@ -89,7 +89,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: #fff;
+ color: var(--color-text);
   font-weight: 400;
   margin-bottom: 3rem;
   letter-spacing: 0.15em;
@@ -109,7 +109,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+ color: var(--color-text);
   margin-bottom: 2rem;
   letter-spacing: -0.02em;
 }
@@ -137,7 +137,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 .legal-content p {
   font-size: 0.95rem;
   line-height: 1.8;
-  color: #bbb8d8;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 </style>
