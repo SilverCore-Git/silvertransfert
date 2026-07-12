@@ -72,7 +72,7 @@ const emit = defineEmits(['remove', 'add']);
   align-items: center;
   justify-content: center;
   font-size: 0.82rem;
-  color: #7c6ff5;
+  color: var(--color-primary);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -140,7 +140,7 @@ const emit = defineEmits(['remove', 'add']);
 }
 
 .add-more:hover {
-  color: #7c6ff5;
+  color: var(--color-primary);
   border-color: rgba(99, 86, 229, 0.3);
 }
 
@@ -192,7 +192,7 @@ const emit = defineEmits(['remove', 'add']);
   align-items: center;
   justify-content: center;
   font-size: 0.82rem;
-  color: #7c6ff5;
+  color: var(--color-primary);
   flex-shrink: 0;
   overflow: hidden;
   transition: all 0.3s;
@@ -244,7 +244,7 @@ const emit = defineEmits(['remove', 'add']);
 }
 
 .add-more:hover {
-  color: #7c6ff5;
+  color: var(--color-primary);
   border-color: rgba(99, 86, 229, 0.3);
   background: rgba(99, 86, 229, 0.05);
   transform: scale(1.02);

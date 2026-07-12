@@ -68,7 +68,7 @@ const emit = defineEmits(['copy', 'reset']);
   align-items: center;
   justify-content: center;
   font-size: 1.35rem;
-  color: #7c6ff5;
+  color: var(--color-primary);
   animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
   position: relative;
   overflow: hidden;
@@ -135,7 +135,7 @@ const emit = defineEmits(['copy', 'reset']);
   flex: 1;
   padding: 0.65rem 0.85rem;
   font-size: 0.8rem;
-  color: #7c6ff5;
+  color: var(--color-primary);
   font-weight: 600;
   word-break: break-all;
 }
@@ -145,7 +145,7 @@ const emit = defineEmits(['copy', 'reset']);
   background: rgba(99, 86, 229, 0.07);
   border: none;
   border-left: 1px solid rgba(99, 86, 229, 0.1);
-  color: #7c6ff5;
+  color: var(--color-primary);
   font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
@@ -168,7 +168,7 @@ const emit = defineEmits(['copy', 'reset']);
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  color: #615c85;
+  color: var(--color-text-secondary);
   font-size: 0.76rem;
   font-weight: 500;
   padding: 0.42rem 0.85rem;
@@ -178,7 +178,7 @@ const emit = defineEmits(['copy', 'reset']);
 }
 
 .reset-btn:hover {
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   border-color: rgba(255, 255, 255, 0.13);
 }
 </style>
