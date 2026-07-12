@@ -207,7 +207,7 @@ const emit = defineEmits(['close']);
 }
 
 .d-filled:hover {
-  background: #7267f0;
+  background: var(--color-primary);
 }
 
 .drawer-badges {

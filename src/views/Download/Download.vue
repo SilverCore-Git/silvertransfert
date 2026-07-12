@@ -366,7 +366,7 @@ async function startDownload() {
 }
 
 .download-btn:hover:not(:disabled) {
-  background: #7267f0;
+  background: var(--color-primary);
   transform: translateY(-2px);
   /* box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4); */
 }
@@ -378,7 +378,7 @@ async function startDownload() {
 .download-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  background: #4a475a;
+  background: #12d300;
 }
 
 .download-btn.decrypting {
