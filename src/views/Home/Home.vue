@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { formatSize } from '../../utils/file';
 import axios from 'axios';
 import home_json from "../../config/home.json";
 
@@ -294,7 +295,7 @@ function reset() {
 
                 <div class="below-ring">
                   <span class="size-hint">
-                    {{ home_json.hero.fileActions?.sizeHint || 'Fichiers prêts à être envoyés' }}
+                    {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                   </span>
                   <button class="send-btn" @click="transfer" :disabled="!termsAccepted">
                     <i class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
