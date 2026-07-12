@@ -124,7 +124,7 @@ async function startDownload() {
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark" @click="router.push('/')" v-html="(home_json.hero?.title1 || 'Silver') + '<span>' + (home_json.hero?.title2 || 'Transfert') + '</span>'"></h1>
+        <h1 class="wordmark cursor-pointer" @click="router.push('/')" >{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></h1>
         <p class="tagline">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</p>
 
         <div class="download-card">
@@ -378,7 +378,7 @@ async function startDownload() {
 .download-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  background: #12d300;
+  background: var(--color-bg);
 }
 
 .download-btn.decrypting {
@@ -390,12 +390,12 @@ async function startDownload() {
 }
 
 @keyframes decryptingPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 86, 229, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-primary); }
   50% { box-shadow: 0 0 0 10px rgba(99, 86, 229, 0); }
 }
 
 @keyframes downloadingPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 green; }
   50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
 }
 
@@ -498,7 +498,7 @@ async function startDownload() {
 }
 
 .file-info h3 { font-size: 1.25rem;color: var(--color-text); margin-bottom: 0.25rem; }
-.file-info .meta { color: #635c87; font-size: 0.8rem; font-family: monospace; }
+.file-info .meta { color: var(--color-text-secondary); font-size: 0.8rem; font-family: monospace; }
 
 .security-note {
   font-size: 0.75rem;
