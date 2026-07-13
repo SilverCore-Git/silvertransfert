@@ -56,39 +56,7 @@ function onDragLeave() {
 </template>
 
 <style scoped>
-.drop-ring {
-  width: 100%;
-  min-height: 165px;
-  border: 1.5px dashed rgba(99, 86, 229, 0.18);
-  border-radius: 16px;
-  background: rgba(99, 86, 229, 0.025);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-  overflow: hidden;
-}
-
-.drop-ring:hover,
-.drop-ring.active {
-  border-color: rgba(99, 86, 229, 0.5);
-  background: rgba(99, 86, 229, 0.055);
-  box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.07);
-}
-
-.ring-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.ring-sub {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-/* DropZone Animations */
+/* drop-ring */
 .drop-ring {
   width: 100%;
   min-height: 165px;
@@ -122,6 +90,17 @@ function onDragLeave() {
   background: rgba(127, 108, 255, 0.2);
   box-shadow: 0 0 0 4px rgba(99, 86, 229, 0.07);
   transform: scale(1.02);
+}
+
+.ring-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.ring-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
 }
 
 .ring-icon {

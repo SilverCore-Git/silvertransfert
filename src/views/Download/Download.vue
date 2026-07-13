@@ -277,7 +277,7 @@ async function startDownload() {
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-/* Spinner Animation */
+/* spinner */
 .spinner {
   width: 40px;
   height: 40px;
@@ -297,6 +297,7 @@ async function startDownload() {
   animation: fadeInUp 0.6s ease-out;
 }
 
+/* file-icon */
 .file-icon {
   width: 64px;
   height: 64px;
@@ -331,8 +332,21 @@ async function startDownload() {
   50% { opacity: 0.5; transform: scale(1.1); }
 }
 
+/* file-info */
 .file-info {
   animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.file-info h3 {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.file-info .meta {
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-family: monospace;
 }
 
 .download-btn {
@@ -397,15 +411,6 @@ async function startDownload() {
 @keyframes downloadingPulse {
   0%, 100% { box-shadow: 0 0 0 green; }
   50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 .spinner-small {
@@ -484,21 +489,6 @@ async function startDownload() {
   font-weight: 600;
   font-size: 0.9rem;
 }
-
-.file-icon {
-  width: 64px;
-  height: 64px;
-  background: rgba(99, 86, 229, 0.1);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: var(--color-primary);
-}
-
-.file-info h3 { font-size: 1.25rem;color: var(--color-text); margin-bottom: 0.25rem; }
-.file-info .meta { color: var(--color-text-secondary); font-size: 0.8rem; font-family: monospace; }
 
 .security-note {
   font-size: 0.75rem;

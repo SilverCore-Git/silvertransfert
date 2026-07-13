@@ -40,15 +40,7 @@ const emit = defineEmits(['copy', 'reset']);
 </template>
 
 <style scoped>
-.result-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  width: 100%;
-  max-width: 430px;
-}
-
+/* result-box */
 .result-box {
   display: flex;
   flex-direction: column;

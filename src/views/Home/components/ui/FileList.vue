@@ -63,7 +63,28 @@ const emit = defineEmits(['remove', 'add']);
   border: 1px dashed var(--color-primary);
 }
 
+/* Animations */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* fthumb */
 .fthumb {
   width: 27px;
   height: 27px;
@@ -76,6 +97,7 @@ const emit = defineEmits(['remove', 'add']);
   color: var(--color-primary);
   flex-shrink: 0;
   overflow: hidden;
+  transition: all 0.3s;
 }
 
 .fthumb img {
@@ -101,90 +123,7 @@ const emit = defineEmits(['remove', 'add']);
   flex-shrink: 0;
 }
 
-.fdelete {
-  width: 19px;
-  height: 19px;
-  border-radius: 5px;
-  border: none;
-  background: none;
-  color: #615c85;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.88rem;
-  transition: color 0.15s, background 0.15s;
-  flex-shrink: 0;
-}
-
-.fdelete:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.08);
-}
-
-.add-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding: 0.35rem;
-  font-size: 0.73rem;
-  font-weight: 500;
-  color: #615c85;
-  background: none;
-  border: 1px dashed rgba(255, 255, 255, 0.05);
-  border-radius: 7px;
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-  font-family: 'Outfit', sans-serif;
-  margin-top: 0.08rem;
-}
-
-.add-more:hover {
-  color: var(--color-primary);
-  border-color: rgba(99, 86, 229, 0.3);
-}
-
-/* Animations */
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.list-enter-from {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-/* File row animations */
-
-.fthumb {
-  width: 27px;
-  height: 27px;
-  border-radius: 6px;
-  background: rgba(99, 86, 229, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.82rem;
-  color: var(--color-primary);
-  flex-shrink: 0;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-
-
-
+/* fdelete */
 .fdelete {
   width: 19px;
   height: 19px;
@@ -208,6 +147,7 @@ const emit = defineEmits(['remove', 'add']);
   transform: rotate(90deg);
 }
 
+/* add-more */
 .add-more {
   display: flex;
   align-items: center;
@@ -218,7 +158,7 @@ const emit = defineEmits(['remove', 'add']);
   font-weight: 500;
   color: var(--color-text-secondary);
   background: none;
-  
+  border: 1px dashed rgba(255, 255, 255, 0.05);
   border-radius: 7px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
