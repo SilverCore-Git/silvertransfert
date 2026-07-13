@@ -124,7 +124,6 @@ const emit = defineEmits(['copy', 'reset']);
 
 .link-row {
   display: flex;
-  align-items: center;
   width: 100%;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(99, 86, 229, 0.14);
