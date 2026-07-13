@@ -133,7 +133,7 @@ const formattedSpeed = computed(() => {
 
 .upload-lbl {
   font-size: 0.76rem;
-  color: #635c87;
+  color: var(--color-text);
   transition: all 0.3s;
 }
 

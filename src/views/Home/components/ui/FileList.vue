@@ -56,12 +56,13 @@ const emit = defineEmits(['remove', 'add']);
   border-radius: 7px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: border-color 0.15s, transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .frow:hover {
-  border-color: rgba(99, 86, 229, 0.18);
+  border: 1px dashed var(--color-primary);
 }
+
 
 .fthumb {
   width: 27px;
@@ -166,22 +167,6 @@ const emit = defineEmits(['remove', 'add']);
 }
 
 /* File row animations */
-.frow {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.38rem 0.45rem;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.frow:hover {
-  border-color: rgba(99, 86, 229, 0.18);
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateX(5px);
-}
 
 .fthumb {
   width: 27px;
@@ -198,10 +183,7 @@ const emit = defineEmits(['remove', 'add']);
   transition: all 0.3s;
 }
 
-.frow:hover .fthumb {
-  background: rgba(99, 86, 229, 0.15);
-  transform: scale(1.1);
-}
+
 
 .fdelete {
   width: 19px;
@@ -209,7 +191,7 @@ const emit = defineEmits(['remove', 'add']);
   border-radius: 5px;
   border: none;
   background: none;
-  color: #615c85;
+  color: red;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -217,12 +199,13 @@ const emit = defineEmits(['remove', 'add']);
   font-size: 0.88rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  transform: scale(1.2)
 }
 
 .fdelete:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.08);
-  transform: scale(1.2) rotate(90deg);
+  color: var(--color-text);
+  background: rgba(255, 0, 0, 0.5);
+  transform: rotate(90deg);
 }
 
 .add-more {
