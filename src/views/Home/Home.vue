@@ -38,6 +38,10 @@ const MIN_PASSWORD_LENGTH = 10;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 const termsAccepted = ref(false);
+// Le site annonce 10 Go, mais le serveur garde une marge technique jusqu'à
+// 16 Go : on aligne le blocage côté client sur cette vraie limite plutôt
+// que d'être rigide pile à 10 Go.
+const MAX_TOTAL_SIZE = 16 * 1024 * 1024 * 1024;
 
 // Feature icons mapping
 const featureIcons: string[] = ['bi-lightning-charge', 'bi-shield-lock', 'bi-incognito'];
@@ -48,6 +52,7 @@ function getFeatureIcon(index: number): string {
 
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
+const exceedsLimit = computed(() => totalSize.value > MAX_TOTAL_SIZE);
 
 const estimatedTimeRemaining = computed(() => {
   if (uploadPct.value <= 0 || uploadSpeed.value <= 0) return null;
@@ -135,8 +140,8 @@ function openPicker() {
 }
 
 async function transfer() {
-  if (!files.value.length || isUploading.value) return;
-  
+  if (!files.value.length || isUploading.value || exceedsLimit.value) return;
+
   isUploading.value = true;
   uploadPct.value = 0;
   uploadStartTime.value = Date.now();
@@ -298,11 +303,15 @@ function reset() {
                   </label>
                 </div>
 
+                <p v-if="exceedsLimit" class="size-limit-warning">
+                  Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 16 Go par envoi.
+                </p>
+
                 <div class="below-ring">
                   <span class="size-hint">
                     {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                   </span>
-                  <button class="send-btn" @click="transfer" :disabled="!termsAccepted">
+                  <button class="send-btn" @click="transfer" :disabled="!termsAccepted || exceedsLimit">
                     <i class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
                   </button>
                 </div>
@@ -430,6 +439,7 @@ html {
 .file-actions-container { display:flex; flex-direction:column; align-items:stretch; width:100%; max-width:24rem; gap:1.5rem; margin:0 auto; }
 .below-ring { display:flex; align-items:center; justify-content:space-between; width:100%; gap:1.5rem; }
 .size-hint  { font-size:0.75rem; color: var(--color-text-secondary); font-weight: 500; }
+.size-limit-warning { font-size:0.75rem; color:#f87171; font-weight: 500; text-align:center; margin: 0; }
 
 /* Terms Acceptance */
 .terms-container {
