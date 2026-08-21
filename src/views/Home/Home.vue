@@ -38,10 +38,10 @@ const MIN_PASSWORD_LENGTH = 10;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 const termsAccepted = ref(false);
-// Le site annonce 10 Go, mais le serveur garde une marge technique jusqu'à
-// 16 Go : on aligne le blocage côté client sur cette vraie limite plutôt
-// que d'être rigide pile à 10 Go.
-const MAX_TOTAL_SIZE = 16 * 1024 * 1024 * 1024;
+// Le site annonce 10 Go, mais le serveur garde une petite marge technique
+// jusqu'à 11.5 Go : on aligne le blocage côté client sur cette vraie limite
+// plutôt que d'être rigide pile à 10 Go.
+const MAX_TOTAL_SIZE = 11.5 * 1024 * 1024 * 1024;
 
 // Feature icons mapping
 const featureIcons: string[] = ['bi-lightning-charge', 'bi-shield-lock', 'bi-incognito'];
@@ -304,7 +304,7 @@ function reset() {
                 </div>
 
                 <p v-if="exceedsLimit" class="size-limit-warning">
-                  Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 16 Go par envoi.
+                  Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 11.5 Go par envoi.
                 </p>
 
                 <div class="below-ring">
