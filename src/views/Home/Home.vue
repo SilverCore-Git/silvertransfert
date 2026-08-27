@@ -304,7 +304,7 @@ function reset() {
                 </div>
 
                 <p v-if="exceedsLimit" class="size-limit-warning">
-                  Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 11.5 Go par envoi.
+                  Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 10 Go par envoi.
                 </p>
 
                 <div class="below-ring">
