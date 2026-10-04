@@ -3,7 +3,6 @@ import Home from './views/Home/Home.vue';
 import Download from './views/Download/Download.vue';
 import TermsOfService from './views/Legal/TermsOfService.vue';
 import PrivacyPolicy from './views/Legal/PrivacyPolicy.vue';
-import LegalNotices from './views/Legal/LegalNotices.vue';
 
 
 const routes = [
@@ -33,9 +32,10 @@ const routes = [
   },
   {
     path: '/mentions-legales',
-    name: 'LegalNotices',
-    component: LegalNotices,
-    meta: { title: 'Mentions légales - Silvertransfert' }
+    redirect: () => {
+      window.location.replace('https://www.silvercore.fr/legal');
+      return '/';
+    }
   },
   {
     path: '/politique-de-confidentialite',
@@ -51,13 +51,23 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, _from, _savedPosition) {
-    if (to.hash) {
-      const el = document.querySelector(to.hash);
-      if (el) return { top: (el as HTMLElement).offsetTop, behavior: 'smooth' };
+    // `el` is resolved against the page, so the header above <main> is accounted for
+    if (to.hash && document.querySelector(to.hash)) {
+      return { el: to.hash, behavior: 'smooth' };
     }
     return { top: 0 };
   }
 });
+
+// router-link ignores a click on the section it is already on (same path + hash):
+// scroll there anyway, like a plain anchor would.
+export function scrollToCurrentHash(path: string) {
+  const target = router.resolve(path);
+  const current = router.currentRoute.value;
+  if (target.hash && target.path === current.path && target.hash === current.hash) {
+    document.querySelector(target.hash)?.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 
 router.beforeEach((to: any, _from: any, next: any) => {
   const title = to.meta.title as string;

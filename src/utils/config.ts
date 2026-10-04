@@ -15,24 +15,17 @@ const configState: ConfigState = reactive({
   faq: {}
 });
 
-async function loadConfigFiles() {
-  try {
-    const modules = import.meta.glob<{ default: any }>('/src/config/*.json');
-    
-    for (const path in modules) {
-      const importFn = modules[path];
-      if (typeof importFn === 'function') {
-        const module = await importFn();
-        const filename = path.split('/').pop()?.replace('.json', '');
-        if (filename && module?.default) {
-          configState[filename] = module.default;
-        }
-      }
+// Loaded synchronously (eager glob): the first render must already see the values, otherwise
+// getConfigValue() falls back to printing the raw path (e.g. "navigation.footer.copyright").
+// These JSON files are statically imported by the components anyway, so this adds nothing.
+function loadConfigFiles() {
+  const modules = import.meta.glob<{ default: any }>('/src/config/*.json', { eager: true });
+  for (const path in modules) {
+    const filename = path.split('/').pop()?.replace('.json', '');
+    const module = modules[path];
+    if (filename && module?.default) {
+      configState[filename] = module.default;
     }
-    
-    console.log('Configuration files loaded successfully');
-  } catch (error) {
-    console.error('Failed to load configuration files:', error);
   }
 }
 

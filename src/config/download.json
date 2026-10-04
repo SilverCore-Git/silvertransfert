@@ -17,7 +17,7 @@
   "ready": {
     "fileReady": "Fichier prêt au déchiffrement",
     "filesReady": "Fichiers prêts au déchiffrement",
-    "fileId": "ID: {{id}}",
+    "fileId": "ID : {{id}}",
     "downloadButton": {
       "default": "Télécharger",
       "decrypting": "Déchiffrement…",

@@ -9,32 +9,98 @@
   --breakpoint-2xl: 1536px;
   --breakpoint-3xl: 1920px;
 
-  --color-bg: #06050a;
+  --font-sans: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Space Grotesk is reserved for the SilverTransfert wordmark */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
+  /* Type scale: nothing functional below 13px */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 
+  /* Surfaces */
+  --color-bg: #111117;
+  --color-bg-deep: #0c0c11;
+  --color-surface: #18181f;
+  --color-surface-2: #202029;
+  --color-border: #2a2a34;
+
+  /* One accent, three shades: base for text on dark, strong for filled buttons (white text), soft for gradients */
   --color-primary: #7F6CFF;
-  --color-text: #FFFFFF;
-  --color-text-secondary: #bbb8d8;
+  --color-primary-strong: #6356e5;
+  --color-primary-strong-hover: #7267f0;
+  --color-primary-soft: #a78bfa;
+
+  /* Text, one neutral gray family so the violet accent stands out */
+  --color-text: #f2f2f5;
+  --color-text-soft: #e4e4ea;
+  --color-text-secondary: #b6b6c2;
+  --color-text-muted: #8d8d9a;
+  --color-disabled: #3a3a44;
+
+  /* Radius rule: panels 16px (2xl), buttons 10px, chips/badges full */
+  --radius-button: 10px;
+
+  --color-danger: #ef4444;
+  --color-danger-soft: #f87171;
+  --color-danger-light: #fca5a5;
+  --color-success: #22c55e;
+
+  /* Containers */
+  --container-page: 1200px;
+  --container-prose: 900px;
+  --container-card: 480px;
 
   --hover-background: rgba(99, 86, 229, 0.12);
   --hover-border: rgba(99, 86, 229, 0.4);
-
 
   --spacing: 0.25rem;
   --ease-spring: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-
 body {
   overflow-x: hidden;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg);
-  color: var(color-text);
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+html {
+  color-scheme: dark;
+}
+
+.tagline {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Sora', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* ==================== ANIMATIONS GLOBALES ==================== */
@@ -85,18 +151,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Fade In Right */
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 /* Scale In */
 @keyframes scaleIn {
   from {
@@ -119,48 +173,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Glow Pulse */
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 86, 229, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(99, 86, 229, 0.6);
-  }
-}
-
-/* Float */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Breathe */
-@keyframes breathe {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-/* Shimmer */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 /* Spin */
 @keyframes spin {
   from {
@@ -170,63 +182,3 @@ h1, h2, h3, h4, h5, h6 {
     transform: rotate(360deg);
   }
 }
-
-/* Slide In From Bottom */
-@keyframes slideInBottom {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-/* Classes d'animation réutilisables */
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.6s ease-out forwards;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.4s ease-out forwards;
-}
-
-.animate-pulse {
-  animation: pulse 2s infinite;
-}
-
-.animate-glow-pulse {
-  animation: glowPulse 2s infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Animation delay utilities */
-.animation-delay-100 { animation-delay: 0.1s; }
-.animation-delay-200 { animation-delay: 0.2s; }
-.animation-delay-300 { animation-delay: 0.3s; }
-.animation-delay-400 { animation-delay: 0.4s; }
-.animation-delay-500 { animation-delay: 0.5s; }
-
-/* Transition utilities */
-.transition-smooth {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.transition-fast {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.transition-slow {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-

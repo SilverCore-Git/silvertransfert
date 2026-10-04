@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import Navbar from '../../components/layouts/Navbar.vue';
 </script>
 
 <template>
   <div class="legal-container">
     <div class="site-container">
-      <div class="bg-grid" aria-hidden="true"></div>
       
-      <Navbar />
 
       <section class="legal-section">
         <div class="center">
-          <h1 class="wordmark">Silver<span>Transfert</span></h1>
-          <p class="tagline">Politique de Confidentialité</p>
           
           <div class="legal-content">
             <div class="last-updated">
-              <i class="bi bi-calendar-check"></i>
+              <i aria-hidden="true" class="bi bi-calendar-check"></i>
               Dernière mise à jour : Juin 2026
             </div>
             
-            <h2>Politique de Confidentialité</h2>
+            <h1>Politique de confidentialité</h1>
             <p class="intro">
               Chez <strong>Silvertransfert</strong>, nous prenons votre vie privée au sérieux. 
               Cette politique de confidentialité explique comment nous traitons vos données. 
@@ -28,7 +23,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </p>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-person-check"></i> 1. Identité du Responsable de Traitement</h3>
+              <h2><i aria-hidden="true" class="bi bi-person-check"></i> 1. Identité du Responsable de Traitement</h2>
               <p>
                 Le service <strong>Silvertransfert</strong> est édité par :
               </p>
@@ -41,9 +36,9 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-shield-check"></i> 2. Déresponsabilisation Totale sur le Contenu</h3>
+              <h2><i aria-hidden="true" class="bi bi-shield-check"></i> 2. Déresponsabilisation Totale sur le Contenu</h2>
               <div class="warning-box">
-                <i class="bi bi-exclamation-triangle-fill"></i>
+                <i aria-hidden="true" class="bi bi-exclamation-triangle-fill"></i>
                 <p>
                   <strong>Silvercore et Silvertransfert ne peuvent en AUCUN CAS être tenus responsables du contenu des fichiers transférés via notre service.</strong>
                 </p>
@@ -72,18 +67,18 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-file-earmark-lock"></i> 3. Données Personnelles Collectées</h3>
+              <h2><i aria-hidden="true" class="bi bi-file-earmark-lock"></i> 3. Données Personnelles Collectées</h2>
               <p>
                 Nous collectons <strong>uniquement les données strictement nécessaires</strong> au fonctionnement du service. 
                 Aucune donnée n'est utilisée à des fins commerciales, analytiques ou publicitaires.
               </p>
               
-              <h4>a) Données fournies par l'utilisateur</h4>
+              <h3>a) Données fournies par l'utilisateur</h3>
               <ul class="info-list">
                 <li><strong>Fichiers transférés</strong> : Les fichiers que vous téléversez via notre service. <strong>Ces fichiers sont chiffrés de bout en bout (E2EE)</strong> et ne sont jamais accessibles en clair par nos équipes ou quiconque ne possède pas le mot de passe de déchiffrement.</li>
               </ul>
               
-              <h4>b) Données techniques collectées automatiquement</h4>
+              <h3>b) Données techniques collectées automatiquement</h3>
               <ul class="info-list">
                 <li><strong>Adresses IP</strong> : Pour assurer la sécurité et la stabilité du service.</li>
                 <li><strong>Informations du navigateur</strong> (user-agent, type de navigateur) : Pour optimiser la compatibilité du service.</li>
@@ -91,15 +86,15 @@ import Navbar from '../../components/layouts/Navbar.vue';
               </ul>
               
               <p class="highlight">
-                <i class="bi bi-cookie"></i>
+                <i aria-hidden="true" class="bi bi-cookie"></i>
                 <strong>Nous n'utilisons aucun cookie, aucun tracker, aucune technologie de profiling.</strong>
               </p>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-key-fill"></i> 4. Chiffrement de Bout en Bout (E2EE)</h3>
+              <h2><i aria-hidden="true" class="bi bi-key-fill"></i> 4. Chiffrement de Bout en Bout (E2EE)</h2>
               
-              <h4>Comment cela fonctionne ?</h4>
+              <h3>Comment cela fonctionne ?</h3>
               <ol class="process-list">
                 <li><strong>Vous téléversez un fichier</strong> : Il arrive non chiffré sur nos serveurs.</li>
                 <li><strong>Chiffrement immédiat</strong> : Notre serveur génère une clé de chiffrement unique dérivée du mot de passe que vous recevez dans l'URL de téléchargement.</li>
@@ -114,7 +109,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-globe"></i> 5. Stockage et Localisation des Données</h3>
+              <h2><i aria-hidden="true" class="bi bi-globe"></i> 5. Stockage et Localisation des Données</h2>
               <p>
                 ✅ <strong>100% hébergé en France</strong>
               </p>
@@ -126,7 +121,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-clock"></i> 6. Durée de Conservation</h3>
+              <h2><i aria-hidden="true" class="bi bi-clock"></i> 6. Durée de Conservation</h2>
               <div class="table-container">
                 <table class="conservation-table">
                   <thead>
@@ -156,34 +151,34 @@ import Navbar from '../../components/layouts/Navbar.vue';
                 </table>
               </div>
               <p class="note">
-                <i class="bi bi-info-circle"></i>
+                <i aria-hidden="true" class="bi bi-info-circle"></i>
                 Pourquoi 30 jours ? C'est un compromis entre praticité (laisser le temps aux destinataires de télécharger) et sécurité (limiter la fenêtre d'exposition).
               </p>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-check2-square"></i> 7. Finalités du Traitement</h3>
+              <h2><i aria-hidden="true" class="bi bi-check2-square"></i> 7. Finalités du Traitement</h2>
               <p>
                 Vos données sont <strong>uniquement traitées</strong> pour :
               </p>
               <ul class="check-list">
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Fournir le service de transfert de fichiers</strong> (chiffrement, stockage, mise à disposition)</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Assurer la sécurité et la stabilité du service</strong> (détection d'abus, maintenance)</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Respecter nos obligations légales</strong> (si requête judiciaire valide)</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Fournir le service de transfert de fichiers</strong> (chiffrement, stockage, mise à disposition)</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Assurer la sécurité et la stabilité du service</strong> (détection d'abus, maintenance)</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Respecter nos obligations légales</strong> (si requête judiciaire valide)</li>
               </ul>
               <p>
                 ❌ <strong>Nous ne faisons PAS :</strong>
               </p>
               <ul class="cross-list">
-                <li><i class="bi bi-x-circle-fill"></i> Analyse du contenu des fichiers</li>
-                <li><i class="bi bi-x-circle-fill"></i> Profilage utilisateur</li>
-                <li><i class="bi bi-x-circle-fill"></i> Partage avec des tiers (sauf obligation légale)</li>
-                <li><i class="bi bi-x-circle-fill"></i> Utilisation à des fins marketing</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Analyse du contenu des fichiers</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Profilage utilisateur</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Partage avec des tiers (sauf obligation légale)</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Utilisation à des fins marketing</li>
               </ul>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-people"></i> 8. Partage des Données</h3>
+              <h2><i aria-hidden="true" class="bi bi-people"></i> 8. Partage des Données</h2>
               <p>
                 <strong>Vos données restent exclusives à Silvercore.</strong>
               </p>
@@ -195,7 +190,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-shield-lock"></i> 9. Sécurité des Données</h3>
+              <h2><i aria-hidden="true" class="bi bi-shield-lock"></i> 9. Sécurité des Données</h2>
               <p>
                 Nous mettons en œuvre <strong>toutes les mesures techniques et organisationnelles</strong> pour protéger vos données :
               </p>
@@ -208,7 +203,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-person-check"></i> 10. Vos Droits (RGPD)</h3>
+              <h2><i aria-hidden="true" class="bi bi-person-check"></i> 10. Vos Droits (RGPD)</h2>
               <p>
                 Conformément au <strong>Règlement Général sur la Protection des Données (RGPD)</strong>, vous disposez des droits suivants :
               </p>
@@ -251,27 +246,27 @@ import Navbar from '../../components/layouts/Navbar.vue';
                 </table>
               </div>
               <p class="note">
-                <i class="bi bi-calendar"></i>
+                <i aria-hidden="true" class="bi bi-calendar"></i>
                 <strong>Délai de réponse :</strong> Nous nous engageons à répondre à toute demande <strong>sous 1 mois</strong> (comme exigé par le RGPD).
               </p>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-cookie"></i> 11. Cookies et Technologies de Suivi</h3>
+              <h2><i aria-hidden="true" class="bi bi-cookie"></i> 11. Cookies et Technologies de Suivi</h2>
               <p class="highlight">
-                <i class="bi bi-ban"></i>
+                <i aria-hidden="true" class="bi bi-ban"></i>
                 <strong>Nous n'utilisons AUCUN cookie, AUCUN tracker, AUCUNE technologie de suivi.</strong>
               </p>
               <ul class="cross-list">
-                <li><i class="bi bi-x-circle-fill"></i> Pas de cookies analytiques (Google Analytics, etc.)</li>
-                <li><i class="bi bi-x-circle-fill"></i> Pas de cookies publicitaires</li>
-                <li><i class="bi bi-x-circle-fill"></i> Pas de localStorage ou sessionStorage à des fins de tracking</li>
-                <li><i class="bi bi-x-circle-fill"></i> Pas de balises tierces (Facebook Pixel, etc.)</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de cookies analytiques (Google Analytics, etc.)</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de cookies publicitaires</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de localStorage ou sessionStorage à des fins de tracking</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de balises tierces (Facebook Pixel, etc.)</li>
               </ul>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-file-earmark-check"></i> 12. Acceptation de la Politique de Confidentialité</h3>
+              <h2><i aria-hidden="true" class="bi bi-file-earmark-check"></i> 12. Acceptation de la Politique de Confidentialité</h2>
               <p>
                 En utilisant <strong>Silvertransfert</strong>, vous <strong>acceptez automatiquement</strong> cette politique de confidentialité. 
                 <strong>Aucune création de compte n'est requise</strong> : l'acceptation est implicite lors de l'utilisation du service.
@@ -282,13 +277,13 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-envelope"></i> 13. Contact et Réclamations</h3>
+              <h2><i aria-hidden="true" class="bi bi-envelope"></i> 13. Contact et Réclamations</h2>
               <p>
                 Pour toute question concernant cette politique ou vos données personnelles :
               </p>
               <ul class="info-list">
-                <li><i class="bi bi-geo-alt"></i> <strong>Organisation :</strong> Silvercore, Lyon, France</li>
-                <li><i class="bi bi-envelope"></i> <strong>Email :</strong> <a href="mailto:contact@silvercore.fr" class="link">contact@silvercore.fr</a></li>
+                <li><i aria-hidden="true" class="bi bi-geo-alt"></i> <strong>Organisation :</strong> Silvercore, Lyon, France</li>
+                <li><i aria-hidden="true" class="bi bi-envelope"></i> <strong>Email :</strong> <a href="mailto:contact@silvercore.fr" class="link">contact@silvercore.fr</a></li>
               </ul>
               <p>
                 <strong>Droit de déposer une réclamation auprès de la CNIL :</strong><br>
@@ -301,7 +296,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-calendar"></i> 14. Mises à Jour</h3>
+              <h2><i aria-hidden="true" class="bi bi-calendar"></i> 14. Mises à Jour</h2>
               <p>
                 Cette politique peut être mise à jour pour refléter des changements dans nos pratiques ou des évolutions légales. 
                 <strong>La date de la dernière mise à jour sera toujours indiquée en haut de cette page.</strong>
@@ -319,87 +314,38 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 <style scoped>
 .site-container {
-  background: #06050a;
-  color: #e2e0f0;
-  font-family: 'Outfit', sans-serif;
-  min-height: 100vh;
-  position: relative;
+  background: var(--color-bg);
+  color: var(--color-text-soft);
 }
-
-.bg-grid {
-  position: fixed; inset: 0; z-index: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
 
 .legal-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  padding: 6rem 2rem 4rem;
+  padding: 3.5rem 1.25rem 6rem;
 }
 
 .center {
-  display: flex; flex-direction: column; align-items: center;
-  z-index: 1; width: 100%;
-  max-width: 900px;
-}
-
-.wordmark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
- color: var(--color-text);
-  line-height: 0.9;
-  margin: 0 0 1rem;
-}
-.wordmark span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.tagline {
-  font-size: clamp(0.85rem, 2.2vw, 1rem);
- color: var(--color-text);
-  font-weight: 400;
-  margin-bottom: 3rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .legal-content {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 3rem;
-  backdrop-filter: blur(20px);
 }
 
 .last-updated {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #a09cb4;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.legal-content h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
+.legal-content h1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
   font-weight: 700;
  color: var(--color-text);
   margin-bottom: 1.5rem;
@@ -408,67 +354,56 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 .legal-section-item {
   margin-bottom: 3rem;
-  opacity: 0;
-  transform: translateY(20px);
+  scroll-margin-top: 1.5rem;
 }
 
-/* Staggered animations for sections */
-.legal-section-item:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
-.legal-section-item:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
-.legal-section-item:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
-.legal-section-item:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
-.legal-section-item:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
-.legal-section-item:nth-child(6) { animation: fadeInUp 0.6s ease-out 0.7s both; }
-.legal-section-item:nth-child(7) { animation: fadeInUp 0.6s ease-out 0.8s both; }
-.legal-section-item:nth-child(8) { animation: fadeInUp 0.6s ease-out 0.9s both; }
-.legal-section-item:nth-child(9) { animation: fadeInUp 0.6s ease-out 1s both; }
-.legal-section-item:nth-child(10) { animation: fadeInUp 0.6s ease-out 1.1s both; }
-.legal-section-item:nth-child(11) { animation: fadeInUp 0.6s ease-out 1.2s both; }
-.legal-section-item:nth-child(12) { animation: fadeInUp 0.6s ease-out 1.3s both; }
-
-.legal-section-item h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.35rem;
+.legal-section-item h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
   font-weight: 600;
-  color: #a78bfa;
+  color: var(--color-text);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.legal-section-item h4 {
+.legal-section-item h2 i {
+  color: var(--color-primary);
+}
+
+.legal-section-item h3 {
   font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
+  font-size: var(--text-base);
   font-weight: 600;
-  color: #e2e0f0;
+  color: var(--color-text-soft);
   margin: 1.5rem 0 0.75rem;
 }
 
 .legal-section-item p {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   line-height: 1.8;
   color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 
 .intro {
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   line-height: 1.7;
-  color: #e2e0f0;
+  color: var(--color-text-soft);
   margin-bottom: 2.5rem;
 }
 
 .highlight {
-  background: rgba(99, 86, 229, 0.1);
+  background: color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
   padding: 1rem;
-  border-radius: 12px;
-  border-left: 4px solid #6356e5;
+  border-radius: var(--radius-xl);
+  border-left: 4px solid var(--color-primary-strong);
   margin: 1rem 0;
 }
 
 .highlight i {
-  color: #a78bfa;
+  color: var(--color-primary-soft);
 }
 
 /* Lists */
@@ -506,7 +441,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   line-height: 1.6;
 }
 .check-list i {
-  color: #22c55e;
+  color: var(--color-success);
   margin-top: 0.1rem;
 }
 
@@ -524,7 +459,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   line-height: 1.6;
 }
 .cross-list i {
-  color: #ef4444;
+  color: var(--color-danger);
   margin-top: 0.1rem;
 }
 
@@ -541,21 +476,21 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 /* Warning Box */
 .warning-box {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 30%, transparent);
+  border-radius: var(--radius-2xl);
   padding: 1.5rem;
   margin: 1rem 0;
 }
 .warning-box > i {
-  color: #ef4444;
-  font-size: 1.5rem;
+  color: var(--color-danger);
+  font-size: var(--text-xl);
   display: block;
   margin-bottom: 1rem;
 }
 .warning-box p {
-  color: #fca5a5;
-  font-size: 0.95rem;
+  color: var(--color-danger-light);
+  font-size: var(--text-base);
   line-height: 1.7;
   margin-bottom: 1rem;
 }
@@ -567,12 +502,12 @@ import Navbar from '../../components/layouts/Navbar.vue';
 .warning-list li {
   padding: 0.35rem 0;
   position: relative;
-  color: #fca5a5;
+  color: var(--color-danger-light);
   line-height: 1.6;
 }
 .warning-list li:before {
   content: "•";
-  color: #ef4444;
+  color: var(--color-danger);
   font-weight: bold;
   position: absolute;
   left: -1.5rem;
@@ -588,7 +523,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   width: 100%;
   border-collapse: collapse;
   background: rgba(255, 255, 255, 0.02);
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
 }
 .conservation-table th,
@@ -602,16 +537,16 @@ import Navbar from '../../components/layouts/Navbar.vue';
 .conservation-table th,
 .rights-table th {
   background: rgba(255, 255, 255, 0.03);
-  color: #a09cb4;
+  color: var(--color-text-muted);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 .conservation-table td,
 .rights-table td {
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
 .conservation-table tr:last-child td,
 .rights-table tr:last-child td {
@@ -619,7 +554,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
 }
 .conservation-table strong,
 .rights-table strong {
-  color: #e2e0f0;
+  color: var(--color-text-soft);
 }
 
 /* Links */
@@ -629,19 +564,21 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-weight: 500;
   transition: color 0.3s;
 }
-.link:hover {
-  color: #a78bfa;
-  text-decoration: underline;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-primary-soft);
+    text-decoration: underline;
+  }
 }
 
 /* Code */
 code {
-  background: rgba(99, 86, 229, 0.15);
+  background: color-mix(in srgb, var(--color-primary-strong) 15%, transparent);
   padding: 0.15rem 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius-lg);
   font-family: 'Courier New', monospace;
   font-size: 0.9em;
-  color: #a78bfa;
+  color: var(--color-primary-soft);
 }
 
 /* Note */
@@ -649,20 +586,16 @@ code {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #635c87;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   margin-top: 1rem;
   font-style: italic;
 }
 .note i {
-  color: #a09cb4;
+  color: var(--color-text-muted);
 }
 
-@media (max-width: var(--breakpoint-md)) {
-  .legal-content {
-    padding: 2rem 1.5rem;
-  }
-  
+@media (max-width: 768px) {
   .process-list {
     padding-left: 1.25rem;
   }

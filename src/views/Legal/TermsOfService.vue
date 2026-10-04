@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import Navbar from '../../components/layouts/Navbar.vue';
 </script>
 
 <template>
   <div class="legal-container">
     <div class="site-container">
-      <div class="bg-grid" aria-hidden="true"></div>
       
-      <Navbar />
 
       <section class="legal-section">
         <div class="center">
-          <h1 class="wordmark">Silver<span>Transfert</span></h1>
-          <p class="tagline">Conditions Générales d'Utilisation</p>
           
           <div class="legal-content">
             <div class="last-updated">
-              <i class="bi bi-calendar-check"></i>
+              <i aria-hidden="true" class="bi bi-calendar-check"></i>
               Dernière mise à jour : Juin 2026
             </div>
             
-            <h2>Conditions Générales d'Utilisation</h2>
+            <h1>Conditions générales d'utilisation</h1>
             <p class="intro">
               Les présentes Conditions Générales d'Utilisation (ci-après "CGU") constituent le contrat légal entre 
               <strong>Silvercore</strong>, éditeur du service <strong>Silvertransfert</strong>, et 
@@ -30,7 +25,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </p>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-file-earmark-text"></i> Préambule</h3>
+              <h2><i aria-hidden="true" class="bi bi-file-earmark-text"></i> Préambule</h2>
               <p>
                 Silvertransfert est un service de transfert de fichiers sécurisé, conçu pour offrir une alternative 
                 française et respectueuse de la vie privée aux solutions existantes. Grâce à notre architecture de 
@@ -44,7 +39,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-dictionary"></i> Définitions</h3>
+              <h2><i aria-hidden="true" class="bi bi-dictionary"></i> Définitions</h2>
               <p>
                 Dans les présentes CGU, les termes suivants auront la signification indiquée ci-dessous :
               </p>
@@ -93,15 +88,15 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-info-circle"></i> 1. Objet du Service</h3>
+              <h2><i aria-hidden="true" class="bi bi-info-circle"></i> 1. Objet du Service</h2>
               <p>
                 Le Service permet aux Utilisateurs de :
               </p>
               <ul class="check-list">
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Transférer des fichiers</strong> de manière sécurisée grâce au chiffrement E2EE (AES-256-CBC).</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Stocker temporairement</strong> ces fichiers sur nos serveurs situés en France.</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Partager un Lien de Téléchargement</strong> avec les destinataires de leur choix.</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Bénéficier d'une conservation</strong> des Fichiers pendant <strong>30 jours</strong> à compter de leur téléversement.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Transférer des fichiers</strong> de manière sécurisée grâce au chiffrement E2EE (AES-256-CBC).</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Stocker temporairement</strong> ces fichiers sur nos serveurs situés en France.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Partager un Lien de Téléchargement</strong> avec les destinataires de leur choix.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Bénéficier d'une conservation</strong> des Fichiers pendant <strong>30 jours</strong> à compter de leur téléversement.</li>
               </ul>
               
               <p>
@@ -117,7 +112,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-box-arrow-in-right"></i> 2. Accès au Service</h3>
+              <h2><i aria-hidden="true" class="bi bi-box-arrow-in-right"></i> 2. Accès au Service</h2>
               <p>
                 L'accès au Service est <strong>ouvert à toute personne</strong>, sans restriction géographique, sous réserve :
               </p>
@@ -136,20 +131,20 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-person-check"></i> 3. Obligations de l'Utilisateur</h3>
+              <h2><i aria-hidden="true" class="bi bi-person-check"></i> 3. Obligations de l'Utilisateur</h2>
               <p>
                 L'Utilisateur s'engage à :
               </p>
               <ul class="check-list">
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Respecter les lois et règlements en vigueur</strong>, notamment le droit français et européen.</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Utiliser le Service conformément à son objet</strong> tel que défini à l'Article 1.</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Protéger son Lien de Téléchargement et son Mot de Passe</strong>, qui sont sa seule responsabilité.</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Ne pas transférer de Contenu Interdit</strong> (voir Article 4).</li>
-                <li><i class="bi bi-check-circle-fill"></i> <strong>Respecter les limites techniques</strong> du Service (voir Article 4.2).</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Respecter les lois et règlements en vigueur</strong>, notamment le droit français et européen.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Utiliser le Service conformément à son objet</strong> tel que défini à l'Article 1.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Protéger son Lien de Téléchargement et son Mot de Passe</strong>, qui sont sa seule responsabilité.</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Ne pas transférer de Contenu Interdit</strong> (voir Article 4).</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Respecter les limites techniques</strong> du Service (voir Article 4.2).</li>
               </ul>
               
               <div class="warning-box">
-                <i class="bi bi-exclamation-triangle-fill"></i>
+                <i aria-hidden="true" class="bi bi-exclamation-triangle-fill"></i>
                 <p>
                   <strong>L'Utilisateur est le SEUL responsable du contenu des Fichiers qu'il transfère via le Service.</strong>
                 </p>
@@ -167,41 +162,41 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-slash-circle"></i> 4. Interdictions</h3>
+              <h2><i aria-hidden="true" class="bi bi-slash-circle"></i> 4. Interdictions</h2>
               
-              <h4>4.1 Contenu Interdit</h4>
+              <h3>4.1 Contenu Interdit</h3>
               <p>
                 Il est strictement interdit de transférer via le Service tout Fichier contenant :
               </p>
               <ul class="cross-list">
-                <li><i class="bi bi-x-circle-fill"></i> Du contenu <strong>illégal</strong> selon les lois françaises et européennes (drogues, armes, contenu pédopornographique, etc.) ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Du contenu <strong>viant les droits d'auteur</strong> ou la propriété intellectuelle ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Du contenu <strong>haineux, discriminatoire, raciste ou xénophobe</strong> ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Du contenu <strong>violent, choquant ou pornographique</strong> non autorisé ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Des <strong>malwares, virus, cheats, logiciels malveillants</strong> ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Des <strong>données personnelles de tiers</strong> sans leur consentement exprès ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Tout autre contenu <strong>illicite ou contraire à l'ordre public</strong>.</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Du contenu <strong>illégal</strong> selon les lois françaises et européennes (drogues, armes, contenu pédopornographique, etc.) ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Du contenu <strong>viant les droits d'auteur</strong> ou la propriété intellectuelle ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Du contenu <strong>haineux, discriminatoire, raciste ou xénophobe</strong> ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Du contenu <strong>violent, choquant ou pornographique</strong> non autorisé ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Des <strong>malwares, virus, cheats, logiciels malveillants</strong> ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Des <strong>données personnelles de tiers</strong> sans leur consentement exprès ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Tout autre contenu <strong>illicite ou contraire à l'ordre public</strong>.</li>
               </ul>
               
-              <h4>4.2 Comportements Interdits</h4>
+              <h3>4.2 Comportements Interdits</h3>
               <p>
                 Il est strictement interdit :
               </p>
               <ul class="cross-list">
-                <li><i class="bi bi-x-circle-fill"></i> D'effectuer des <strong>attaques par déni de service (DDoS)</strong> ou toute autre action visant à perturber le Service ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> De <strong>dépasser 100 Transfers par jour</strong> depuis une même adresse IP ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> D'utiliser des <strong>méthodes automatisées</strong> (bots, scripts, scraping) sans autorisation écrite de Silvercore ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> De <strong>tenter d'accéder</strong> à des zones restreintes du Service ou à des Transfers ne vous appartenant pas ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> De <strong>contourner les mesures de sécurité</strong> du Service ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> De <strong>utiliser le Service à des fins frauduleuses</strong> (phishing, arnaque, etc.) ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> De <strong>falsifier des informations</strong> de quelque manière que ce soit.</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> D'effectuer des <strong>attaques par déni de service (DDoS)</strong> ou toute autre action visant à perturber le Service ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> De <strong>dépasser 100 Transfers par jour</strong> depuis une même adresse IP ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> D'utiliser des <strong>méthodes automatisées</strong> (bots, scripts, scraping) sans autorisation écrite de Silvercore ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> De <strong>tenter d'accéder</strong> à des zones restreintes du Service ou à des Transfers ne vous appartenant pas ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> De <strong>contourner les mesures de sécurité</strong> du Service ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> De <strong>utiliser le Service à des fins frauduleuses</strong> (phishing, arnaque, etc.) ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> De <strong>falsifier des informations</strong> de quelque manière que ce soit.</li>
               </ul>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-shield-exclamation"></i> 5. Responsabilité</h3>
+              <h2><i aria-hidden="true" class="bi bi-shield-exclamation"></i> 5. Responsabilité</h2>
               
-              <h4>5.1 Responsabilité de l'Utilisateur</h4>
+              <h3>5.1 Responsabilité de l'Utilisateur</h3>
               <p>
                 <strong>L'Utilisateur est seul et entièrement responsable</strong> :
               </p>
@@ -219,9 +214,9 @@ import Navbar from '../../components/layouts/Navbar.vue';
                 par l'Utilisateur ou par des tiers ayant accès à ses Lien de Téléchargement.
               </p>
               
-              <h4>5.2 Déresponsabilisation de Silvercore</h4>
+              <h3>5.2 Déresponsabilisation de Silvercore</h3>
               <div class="warning-box">
-                <i class="bi bi-exclamation-triangle-fill"></i>
+                <i aria-hidden="true" class="bi bi-exclamation-triangle-fill"></i>
                 <p>
                   <strong>Silvercore décline toute responsabilité concernant :</strong>
                 </p>
@@ -244,7 +239,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
                 </p>
               </div>
               
-              <h4>5.3 Limitation de Responsabilité</h4>
+              <h3>5.3 Limitation de Responsabilité</h3>
               <p>
                 Dans la mesure maximale permise par la loi applicable, <strong>la responsabilité totale et cumulative de Silvercore</strong> 
                 pour toute réclamation liée à l'utilisation du Service <strong>ne dépassera pas le montant payé par l'Utilisateur</strong> 
@@ -254,7 +249,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-c-brown"></i> 6. Propriété Intellectuelle</h3>
+              <h2><i aria-hidden="true" class="bi bi-c-brown"></i> 6. Propriété Intellectuelle</h2>
               <p>
                 Tous les éléments du Service, y compris mais sans s'y limiter :
               </p>
@@ -276,7 +271,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-pencil-square"></i> 7. Modification des CGU</h3>
+              <h2><i aria-hidden="true" class="bi bi-pencil-square"></i> 7. Modification des CGU</h2>
               <p>
                 Silvercore se réserve le droit de <strong>modifier les présentes CGU à tout moment</strong>, notamment pour :
               </p>
@@ -294,15 +289,15 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-calendar-range"></i> 8. Durée et Résiliation</h3>
+              <h2><i aria-hidden="true" class="bi bi-calendar-range"></i> 8. Durée et Résiliation</h2>
               
-              <h4>8.1 Durée</h4>
+              <h3>8.1 Durée</h3>
               <p>
                 Le Service est disponible <strong>sans limite de durée</strong>. Les Fichiers transférés sont conservés 
                 <strong>pendant 30 jours</strong> à compter de leur téléversement, puis supprimés de manière <strong>irréversible</strong>.
               </p>
               
-              <h4>8.2 Suppression Anticipée</h4>
+              <h3>8.2 Suppression Anticipée</h3>
               <p>
                 <strong>Les Fichiers ne peuvent pas être supprimés manuellement avant les 30 jours</strong> via le Service. 
                 Cependant, l'Utilisateur peut <strong>demander la suppression anticipée</strong> d'un Transfert en contactant Silvercore 
@@ -312,16 +307,16 @@ import Navbar from '../../components/layouts/Navbar.vue';
                 Silvercore s'engage à traiter toute demande de suppression <strong>dans les meilleurs délais</strong>.
               </p>
               
-              <h4>8.3 Résiliation pour Violation des CGU</h4>
+              <h3>8.3 Résiliation pour Violation des CGU</h3>
               <p>
                 Silvercore se réserve le droit de <strong>supprimer immédiatement et sans préavis</strong> tout Transfert 
                 ou d'<strong>interdire l'accès au Service</strong> à tout Utilisateur en cas de :
               </p>
               <ul class="cross-list">
-                <li><i class="bi bi-x-circle-fill"></i> Violation des présentes CGU ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Transfert de Contenu Interdit ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Comportement frauduleux ou malveillant ;</li>
-                <li><i class="bi bi-x-circle-fill"></i> Activité suspecte ou abusives.</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Violation des présentes CGU ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Transfert de Contenu Interdit ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Comportement frauduleux ou malveillant ;</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Activité suspecte ou abusives.</li>
               </ul>
               <p>
                 <strong>Aucun remboursement</strong> ne sera effectué en cas de résiliation pour violation des CGU.
@@ -329,18 +324,18 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-envelope-exclamation"></i> 9. Contact et Support</h3>
+              <h2><i aria-hidden="true" class="bi bi-envelope-exclamation"></i> 9. Contact et Support</h2>
               <p>
                 Pour toute question concernant les présentes CGU ou le Service :
               </p>
               <ul class="info-list">
-                <li><i class="bi bi-envelope"></i> <strong>Email :</strong> <a href="mailto:contact@silvercore.fr" class="link">contact@silvercore.fr</a></li>
-                <li><i class="bi bi-discord"></i> <strong>Support Discord :</strong> <a href="https://taap.it/silvercore.discord" target="_blank" rel="noopener noreferrer" class="link">taap.it/silvercore.discord</a></li>
+                <li><i aria-hidden="true" class="bi bi-envelope"></i> <strong>Email :</strong> <a href="mailto:contact@silvercore.fr" class="link">contact@silvercore.fr</a></li>
+                <li><i aria-hidden="true" class="bi bi-discord"></i> <strong>Support Discord :</strong> <a href="https://taap.it/silvercore.discord" target="_blank" rel="noopener noreferrer" class="link">taap.it/silvercore.discord</a></li>
               </ul>
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-gavel"></i> 10. Loi Applicable et Juridiction Compétente</h3>
+              <h2><i aria-hidden="true" class="bi bi-gavel"></i> 10. Loi Applicable et Juridiction Compétente</h2>
               <p>
                 Les présentes CGU sont régies par le <strong>droit français</strong>.
               </p>
@@ -354,7 +349,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-file-earmark-check"></i> 11. Acceptation des CGU</h3>
+              <h2><i aria-hidden="true" class="bi bi-file-earmark-check"></i> 11. Acceptation des CGU</h2>
               <p>
                 <strong>L'utilisation du Service implique l'acceptation pleine, entière et sans réserve des présentes CGU.</strong>
               </p>
@@ -369,7 +364,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
             </section>
 
             <section class="legal-section-item">
-              <h3><i class="bi bi-calendar"></i> 12. Divers</h3>
+              <h2><i aria-hidden="true" class="bi bi-calendar"></i> 12. Divers</h2>
               <p>
                 Si une disposition des présentes CGU était jugée nulle ou non applicable par une autorité compétente, 
                 les autres dispositions resteront en vigueur.
@@ -388,87 +383,38 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 <style scoped>
 .site-container {
-  background: #06050a;
-  color: #e2e0f0;
-  font-family: 'Outfit', sans-serif;
-  min-height: 100vh;
-  position: relative;
+  background: var(--color-bg);
+  color: var(--color-text-soft);
 }
-
-.bg-grid {
-  position: fixed; inset: 0; z-index: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
 
 .legal-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  padding: 6rem 2rem 4rem;
+  padding: 3.5rem 1.25rem 6rem;
 }
 
 .center {
-  display: flex; flex-direction: column; align-items: center;
-  z-index: 1; width: 100%;
-  max-width: 900px;
-}
-
-.wordmark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
- color: var(--color-text);
-  line-height: 0.9;
-  margin: 0 0 1rem;
-}
-.wordmark span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.tagline {
-  font-size: clamp(0.85rem, 2.2vw, 1rem);
- color: var(--color-text);
-  font-weight: 400;
-  margin-bottom: 3rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .legal-content {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 3rem;
-  backdrop-filter: blur(20px);
 }
 
 .last-updated {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #a09cb4;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.legal-content h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
+.legal-content h1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
   font-weight: 700;
  color: var(--color-text);
   margin-bottom: 1.5rem;
@@ -477,66 +423,56 @@ import Navbar from '../../components/layouts/Navbar.vue';
 
 .legal-section-item {
   margin-bottom: 3rem;
-  opacity: 0;
-  transform: translateY(20px);
+  scroll-margin-top: 1.5rem;
 }
 
-/* Staggered animations for sections */
-.legal-section-item:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
-.legal-section-item:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
-.legal-section-item:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
-.legal-section-item:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
-.legal-section-item:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
-.legal-section-item:nth-child(6) { animation: fadeInUp 0.6s ease-out 0.7s both; }
-.legal-section-item:nth-child(7) { animation: fadeInUp 0.6s ease-out 0.8s both; }
-.legal-section-item:nth-child(8) { animation: fadeInUp 0.6s ease-out 0.9s both; }
-.legal-section-item:nth-child(9) { animation: fadeInUp 0.6s ease-out 1s both; }
-.legal-section-item:nth-child(10) { animation: fadeInUp 0.6s ease-out 1.1s both; }
-.legal-section-item:nth-child(11) { animation: fadeInUp 0.6s ease-out 1.2s both; }
-
-.legal-section-item h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.35rem;
+.legal-section-item h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
   font-weight: 600;
-  color: #a78bfa;
+  color: var(--color-text);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.legal-section-item h4 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
+.legal-section-item h2 i {
+  color: var(--color-primary);
+}
+
+.legal-section-item h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
   font-weight: 600;
-  color: #e2e0f0;
+  color: var(--color-text-soft);
   margin: 1.5rem 0 0.75rem;
 }
 
 .legal-section-item p {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   line-height: 1.8;
   color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 
 .intro {
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   line-height: 1.7;
-  color: #e2e0f0;
+  color: var(--color-text-soft);
   margin-bottom: 2.5rem;
 }
 
 .highlight {
-  background: rgba(99, 86, 229, 0.1);
+  background: color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
   padding: 1rem;
-  border-radius: 12px;
-  border-left: 4px solid #6356e5;
+  border-radius: var(--radius-xl);
+  border-left: 4px solid var(--color-primary-strong);
   margin: 1rem 0;
 }
 
 .highlight i {
-  color: #a78bfa;
+  color: var(--color-primary-soft);
 }
 
 /* Definition List */
@@ -555,10 +491,10 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-weight: 600;
 }
 .def-term {
-  background: rgba(99, 86, 229, 0.15);
+  background: color-mix(in srgb, var(--color-primary-strong) 15%, transparent);
   padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  color: #a78bfa;
+  border-radius: var(--radius-lg);
+  color: var(--color-primary-soft);
   font-weight: 600;
   font-family: 'Outfit', sans-serif;
 }
@@ -603,7 +539,7 @@ import Navbar from '../../components/layouts/Navbar.vue';
   line-height: 1.6;
 }
 .check-list i {
-  color: #22c55e;
+  color: var(--color-success);
   margin-top: 0.1rem;
 }
 
@@ -621,27 +557,27 @@ import Navbar from '../../components/layouts/Navbar.vue';
   line-height: 1.6;
 }
 .cross-list i {
-  color: #ef4444;
+  color: var(--color-danger);
   margin-top: 0.1rem;
 }
 
 /* Warning Box */
 .warning-box {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 30%, transparent);
+  border-radius: var(--radius-2xl);
   padding: 1.5rem;
   margin: 1rem 0;
 }
 .warning-box > i {
-  color: #ef4444;
-  font-size: 1.5rem;
+  color: var(--color-danger);
+  font-size: var(--text-xl);
   display: block;
   margin-bottom: 1rem;
 }
 .warning-box p {
-  color: #fca5a5;
-  font-size: 0.95rem;
+  color: var(--color-danger-light);
+  font-size: var(--text-base);
   line-height: 1.7;
   margin-bottom: 1rem;
 }
@@ -653,12 +589,12 @@ import Navbar from '../../components/layouts/Navbar.vue';
 .warning-list li {
   padding: 0.35rem 0;
   position: relative;
-  color: #fca5a5;
+  color: var(--color-danger-light);
   line-height: 1.6;
 }
 .warning-list li:before {
   content: "•";
-  color: #ef4444;
+  color: var(--color-danger);
   font-weight: bold;
   position: absolute;
   left: -1.5rem;
@@ -671,9 +607,11 @@ import Navbar from '../../components/layouts/Navbar.vue';
   font-weight: 500;
   transition: color 0.3s;
 }
-.link:hover {
-  color: #a78bfa;
-  text-decoration: underline;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--color-primary-soft);
+    text-decoration: underline;
+  }
 }
 
 /* Note */
@@ -681,20 +619,16 @@ import Navbar from '../../components/layouts/Navbar.vue';
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #635c87;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   margin-top: 1rem;
   font-style: italic;
 }
 .note i {
-  color: #a09cb4;
+  color: var(--color-text-muted);
 }
 
-@media (max-width: var(--breakpoint-md)) {
-  .legal-content {
-    padding: 2rem 1.5rem;
-  }
-  
+@media (max-width: 768px) {
   .definitions-list {
     gap: 0.75rem;
   }

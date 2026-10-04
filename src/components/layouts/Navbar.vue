@@ -1,57 +1,83 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import navigation_json from '../../config/navigation.json';
+import { scrollToCurrentHash } from '../../router';
 
 const isMenuOpen = ref(false);
+const triggerRef = ref<HTMLButtonElement | null>(null);
+const closeRef = ref<HTMLButtonElement | null>(null);
+const drawerRef = ref<HTMLElement | null>(null);
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value;
-  if (isMenuOpen.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  if (isMenuOpen.value) return closeMenu();
+  isMenuOpen.value = true;
+  document.body.style.overflow = 'hidden';
+  nextTick(() => closeRef.value?.focus());
 }
 
 function closeMenu() {
+  if (!isMenuOpen.value) return;
   isMenuOpen.value = false;
   document.body.style.overflow = '';
+  triggerRef.value?.focus();
+}
+
+// Keep Tab / Shift+Tab cycling inside the open drawer
+function trapFocus(e: KeyboardEvent) {
+  const items = drawerRef.value?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+  if (!items?.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (!first || !last) return;
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
 }
 </script>
 
 <template>
-  <nav class="top-nav-wrapper">
-    <!-- Desktop Navigation Menu -->
-    <div class="top-nav-desktop">
-      <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <router-link to="/" class="brand" aria-label="SilverTransfert, accueil">
+        <img src="/logo_silvertransfert/logo_dark.svg" width="32" height="32" alt="" class="brand-mark" />
+        <span class="brand-text" v-html="navigation_json.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
+      </router-link>
+
+      <nav class="top-nav-desktop" aria-label="Navigation principale">
+        <router-link v-for="item in navigation_json.menuItems || []" :key="item.path" :to="item.path" class="nav-link" @click="scrollToCurrentHash(item.path)">{{ item.label }}</router-link>
+      </nav>
+
+      <button
+        ref="triggerRef"
+        class="mobile-menu-trigger"
+        @click="toggleMenu"
+        :aria-expanded="isMenuOpen"
+        aria-controls="mobile-nav"
+        :aria-label="isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+      >
+        <i aria-hidden="true" class="bi" :class="isMenuOpen ? 'bi-x' : 'bi-list'"></i>
+      </button>
     </div>
 
-    <!-- Mobile Hamburguer Trigger -->
-    <button 
-      class="mobile-menu-trigger" 
-      @click="toggleMenu" 
-      :aria-expanded="isMenuOpen" 
-      aria-label="Menu de navigation"
-    >
-      <i class="bi" :class="isMenuOpen ? 'bi-x' : 'bi-list'"></i>
-    </button>
-
-    <!-- Mobile Navigation Drawer Overlay -->
     <Transition name="slide-fade">
-      <div v-if="isMenuOpen" class="mobile-nav-overlay" @click.self="closeMenu">
-        <div class="mobile-nav-drawer">
-          <button class="drawer-close-btn" @click="closeMenu" aria-label="Fermer">
-            <i class="bi bi-x-lg"></i>
+      <div v-if="isMenuOpen" class="mobile-nav-overlay" @click.self="closeMenu" @keydown.esc="closeMenu" @keydown.tab="trapFocus">
+        <div id="mobile-nav" ref="drawerRef" class="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+          <button ref="closeRef" class="drawer-close-btn" @click="closeMenu" aria-label="Fermer le menu">
+            <i aria-hidden="true" class="bi bi-x-lg"></i>
           </button>
-          
+
           <div class="drawer-brand">
             <span class="brand-text" v-html="navigation_json.mobileMenu?.brand || 'Silver<span>Transfert</span>'"></span>
           </div>
 
           <div class="mobile-menu-links">
-            <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi" :class="item.icon"></i> {{ item.label }}
-            </a>
+            <router-link v-for="item in navigation_json.menuItems || []" :key="item.path" :to="item.path" class="mobile-nav-btn" @click="closeMenu(); scrollToCurrentHash(item.path)">
+              <i aria-hidden="true" class="bi" :class="item.icon"></i> {{ item.label }}
+            </router-link>
           </div>
 
           <div class="drawer-footer">
@@ -60,141 +86,150 @@ function closeMenu() {
         </div>
       </div>
     </Transition>
-  </nav>
+  </header>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
-.top-nav-wrapper {
-  position: absolute;
-  top: clamp(0.75rem, 2vh, 1.5rem);
-  right: clamp(0.5rem, 2vw, 2rem);
-  z-index: 10000;
-  font-family: 'Outfit', sans-serif;
+.site-header {
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-deep);
 }
 
-/* Desktop Styles */
+.header-inner {
+  max-width: var(--container-page);
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  border-radius: var(--radius-button);
+}
+
+.brand-mark {
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.brand-text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+}
+
+.brand-text :deep(span) {
+  color: var(--color-primary);
+}
+
 .top-nav-desktop {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 2rem;
 }
 
-.nav-btn {
-  background: rgba(10, 8, 20, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.55rem 1.35rem;
-  border-radius: 100px;
-  text-decoration: none;
-  font-size: 0.8rem;
+.nav-link {
+  font-size: var(--text-sm);
   font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  letter-spacing: 0.02em;
-  backdrop-filter: blur(10px);
-  color: var(--color-text);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 0.75rem 0;
+  border-radius: 4px;
+  transition: color 0.2s ease;
 }
 
-.nav-btn:hover {
-  background: var(--hover-background);
-  border-color: var(--hover-border);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .nav-link:hover {
+    color: var(--color-text);
+  }
 }
 
-/* Mobile Trigger Button */
 .mobile-menu-trigger {
   display: none;
-  background: rgba(10, 8, 20, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #a09cb4;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  outline: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-xl);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.mobile-menu-trigger:hover {
-  background: rgba(99, 86, 229, 0.12);
-  border-color: rgba(99, 86, 229, 0.4);
- color: var(--color-text);
+@media (hover: hover) {
+  .mobile-menu-trigger:hover {
+    background: var(--color-surface-2);
+  }
 }
 
-/* Drawer overlay */
 .mobile-nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(6, 5, 10, 0.7);
-  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  backdrop-filter: blur(6px);
   z-index: 9999;
   display: flex;
   justify-content: flex-end;
 }
 
-/* Drawer panel */
 .mobile-nav-drawer {
-  width: min(290px, 90vw);
-  height: 100vh;
-  background: #0d0b19;
-  border-left: 1px solid rgba(99, 86, 229, 0.1);
-  padding: clamp(1.5rem, 5vh, 3rem) clamp(1rem, 5vw, 2rem);
+  width: min(300px, 90vw);
+  height: 100dvh;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  padding: 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
-  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
   position: relative;
+  overscroll-behavior: contain;
 }
 
 .drawer-close-btn {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  color: #635c87;
-  font-size: 1.25rem;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  border-radius: var(--radius-button);
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  cursor: pointer;
 }
 
-.drawer-close-btn:hover {
- color: var(--color-text);
-  background: rgba(255, 255, 255, 0.05);
+@media (hover: hover) {
+  .drawer-close-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface-2);
+  }
 }
 
 .drawer-brand {
-  margin-top: 1.5rem;
-  margin-bottom: 3.5rem;
-}
-
-.brand-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
- color: var(--color-text);
-  letter-spacing: -0.03em;
-}
-
-.brand-text span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin: 0.5rem 0 2.5rem;
 }
 
 .mobile-menu-links {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-grow: 1;
 }
 
@@ -202,130 +237,64 @@ function closeMenu() {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
-  color: #a09cb4;
-  font-size: 1rem;
+  min-height: 48px;
+  padding: 0 1rem;
+  border-radius: var(--radius-button);
+  color: var(--color-text-secondary);
+  font-size: var(--text-base);
   font-weight: 500;
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .mobile-nav-btn i {
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   color: var(--color-primary);
-  transition: transform 0.3s ease;
 }
 
-.mobile-nav-btn:hover {
- color: var(--color-text);
-  background: rgba(99, 86, 229, 0.1);
-  border-color: rgba(99, 86, 229, 0.3);
-  transform: translateX(4px);
-}
-
-.mobile-nav-btn:hover i {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .mobile-nav-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface-2);
+  }
 }
 
 .drawer-footer {
-  font-size: 0.75rem;
-  color: #635c87;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 1.5rem;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
 }
 
-/* Animations using Transition tags */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: opacity 0.3s ease;
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: opacity 0.25s ease;
 }
 
-.slide-fade-enter-active .mobile-nav-drawer,
-.slide-fade-leave-active .mobile-nav-drawer {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.slide-fade-enter-active .mobile-nav-drawer, .slide-fade-leave-active .mobile-nav-drawer {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
+.slide-fade-enter-from, .slide-fade-leave-to {
   opacity: 0;
 }
 
-.slide-fade-enter-from .mobile-nav-drawer,
-.slide-fade-leave-to .mobile-nav-drawer {
+.slide-fade-enter-from .mobile-nav-drawer, .slide-fade-leave-to .mobile-nav-drawer {
   transform: translateX(100%);
 }
 
-/* Media Query breakpoints */
+@media (min-width: 768px) {
+  .header-inner {
+    padding: 0 2rem;
+  }
+}
+
 @media (max-width: 1023px) {
   .top-nav-desktop {
     display: none;
   }
-  
+
   .mobile-menu-trigger {
     display: flex;
-  }
-  
-  .top-nav-wrapper {
-    top: clamp(0.75rem, 2vh, 1.5rem);
-    right: clamp(0.5rem, 2vw, 2rem);
-  }
-}
-
-/* Tablettes et petits écrans */
-@media (max-width: 900px) and (min-width: 769px) {
-  .top-nav-desktop {
-    gap: 0.5rem;
-  }
-  
-  .nav-btn {
-    padding: 0.45rem 1rem;
-    font-size: 0.75rem;
-  }
-}
-
-/* Extra small devices */
-@media (max-width: var(--breakpoint-xs)) {
-  .top-nav-wrapper {
-    top: 0.75rem;
-    right: 0.75rem;
-  }
-  
-  .mobile-menu-trigger {
-    width: 40px;
-    height: 40px;
-    font-size: 1.25rem;
-  }
-}
-
-/* Très petits écrans */
-@media (max-width: 320px) {
-  .mobile-nav-drawer {
-    width: 100vw;
-    padding: 1rem;
-  }
-  
-  .drawer-brand {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
-  
-  .brand-text {
-    font-size: 1.3rem;
-  }
-}
-
-/* Large devices */
-@media (min-width: var(--breakpoint-2xl)) {
-  .top-nav-desktop {
-    gap: 1rem;
-  }
-  
-  .nav-btn {
-    padding: 0.65rem 1.5rem;
-    font-size: 0.85rem;
   }
 }
 </style>

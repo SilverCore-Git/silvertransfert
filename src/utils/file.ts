@@ -2,7 +2,8 @@ export function formatSize(bytes: number) {
   if (!bytes) return '0 o';
   const units = ['o', 'Ko', 'Mo', 'Go', 'To'];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + units[i];
+  const value = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: i ? 1 : 0 }).format(bytes / Math.pow(1024, i));
+  return value + '\u00a0' + units[i];
 }
 
 export function getFileIcon(type: string) {

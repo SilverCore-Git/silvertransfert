@@ -12,9 +12,6 @@ import Navbar from './components/layouts/Navbar.vue';
     </main>
     
     <Footer />
-    
-    <!-- Fond de gradient contenu dans l'app -->
-    <div class="app-background"></div>
   </div>
 </template>
 
@@ -33,7 +30,7 @@ html, body {
 
 .app-wrapper {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -50,38 +47,4 @@ html, body {
   overflow-x: hidden;
 }
 
-.app-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--color-bg);
-  background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
-  background-size: 2rem 2rem;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-@media (min-width: var(--breakpoint-sm)) {
-  .app-background {
-    background-size: 3rem 3rem;
-  }
-}
-
-@media (min-width: var(--breakpoint-md)) {
-  .app-background {
-    background-size: 4rem 4rem;
-  }
-}
-
-@media (min-width: var(--breakpoint-lg)) {
-  .app-background {
-    background-size: 5rem 5rem;
-  }
-}
-</style>
+</style>

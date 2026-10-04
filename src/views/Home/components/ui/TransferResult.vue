@@ -8,6 +8,7 @@ defineProps<{
   totalSize: number;
   link: string;
   copied: boolean;
+  copyFailed?: boolean;
 }>();
 
 const emit = defineEmits(['copy', 'reset']);
@@ -16,7 +17,7 @@ const emit = defineEmits(['copy', 'reset']);
 <template>
   <div class="result-box">
     <div class="result-check">
-      <i class="bi bi-check-lg"></i>
+      <i aria-hidden="true" class="bi bi-check-lg"></i>
     </div>
     <p class="result-meta">
       {{ getConfigValue('home.transferResult.fileCount', {
@@ -24,161 +25,134 @@ const emit = defineEmits(['copy', 'reset']);
         plural: filesCount > 1 ? 's' : ''
       }) }} · {{ formatSize(totalSize) }}
     </p>
-    
+
     <div class="link-row">
       <span class="link-text">{{ link }}</span>
-      <button class="link-copy" @click="emit('copy')">
-        <i :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
-        {{ copied ? home_json.transferResult?.copyButton?.copied || 'Copié !' : home_json.transferResult?.copyButton?.default || 'Copier' }}
+      <button class="link-copy" aria-live="polite" @click="emit('copy')">
+        <i aria-hidden="true" :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
+        {{ copied ? home_json.transferResult?.copyButton?.copied || 'Lien copié' : home_json.transferResult?.copyButton?.default || 'Copier' }}
       </button>
     </div>
-    
+    <p v-if="copyFailed" role="alert" class="copy-failed">Copie impossible : sélectionnez le lien ci-dessus et copiez-le manuellement.</p>
+
     <button class="reset-btn" @click="emit('reset')">
-      <i class="bi bi-arrow-counterclockwise"></i> {{ home_json.transferResult?.newTransfer || 'Nouveau transfert' }}
+      <i aria-hidden="true" class="bi bi-arrow-counterclockwise"></i> {{ home_json.transferResult?.newTransfer || 'Nouveau transfert' }}
     </button>
   </div>
 </template>
 
 <style scoped>
+/* Fills the tool panel (no own max-width), so it stays centred whatever the panel width */
 .result-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.9rem;
   width: 100%;
-  max-width: 430px;
+  padding: 1.5rem 0.25rem 0.5rem;
+  animation: result-in 0.35s cubic-bezier(0.32, 0.72, 0, 1) 0.1s both;
 }
 
-.result-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  width: 100%;
-  max-width: 430px;
-  animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes result-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
 .result-check {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(99, 86, 229, 0.1);
-  border: 1.5px solid rgba(99, 86, 229, 0.28);
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.35rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-primary-strong) 16%, var(--color-surface-2));
   color: var(--color-primary);
-  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
-  position: relative;
-  overflow: hidden;
-}
-
-.result-check::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(99, 86, 229, 0.4);
-  animation: pulse-ring 2s infinite;
+  font-size: var(--text-xl);
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
 }
 
 @keyframes pop {
-  from {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse-ring {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .result-meta {
-  font-size: 0.76rem;
-  color: #615c85;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
 }
 
 .link-row {
   display: flex;
   width: 100%;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(99, 86, 229, 0.14);
-  border-radius: 10px;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
   overflow: hidden;
 }
 
 .link-text {
   flex: 1;
-  padding: 0.65rem 0.85rem;
-  font-size: 0.8rem;
-  color: var(--color-primary);
-  font-weight: 600;
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
   word-break: break-all;
+  user-select: all;
 }
 
 .link-copy {
-  padding: 0.65rem 0.85rem;
-  background: rgba(99, 86, 229, 0.07);
-  border: none;
-  border-left: 1px solid rgba(99, 86, 229, 0.1);
-  color: var(--color-primary);
-  font-size: 0.76rem;
-  font-weight: 600;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  font-family: 'Outfit', sans-serif;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0 1.1rem;
+  border: none;
+  background: var(--color-primary-strong);
+  color: #fff;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
   white-space: nowrap;
-  transition: background 0.15s;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.link-copy:hover {
-  background: rgba(99, 86, 229, 0.13);
+@media (hover: hover) {
+  .link-copy:hover {
+    background: var(--color-primary-strong-hover);
+  }
+}
+
+.copy-failed {
+  font-size: var(--text-sm);
+  color: var(--color-danger-soft);
+  text-align: center;
 }
 
 .reset-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: none;
+  border-radius: var(--radius-button);
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
   color: var(--color-text-secondary);
-  font-size: 0.76rem;
+  font-family: inherit;
+  font-size: var(--text-sm);
   font-weight: 500;
-  padding: 0.42rem 0.85rem;
   cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.reset-btn:hover {
-  color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.13);
+@media (hover: hover) {
+  .reset-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
 }
 </style>
