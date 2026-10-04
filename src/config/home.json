@@ -3,6 +3,23 @@
     "title1": "Silver",
     "title2": "Transfert",
     "tagline": "Transfert sécurisé de fichiers",
+    "headline": "Envoyez vos fichiers.",
+    "headlineAccent": "Ils restent en France.",
+    "subtitle": "Chiffrés, hébergés en France et supprimés après 30 jours.",
+    "toolFacts": [
+      {
+        "icon": "bi-hdd",
+        "label": "10 Go par envoi"
+      },
+      {
+        "icon": "bi-lock",
+        "label": "AES‑256‑CBC"
+      },
+      {
+        "icon": "bi-clock-history",
+        "label": "Supprimé après 30 jours"
+      }
+    ],
     "dropHint": "Chiffrement AES‑256‑CBC · Hébergement en France · Conservation 30 j · 10 Go",
     "scrollIndicator": "Faites défiler vers le bas",
     "encryptionSlider": {
@@ -24,8 +41,25 @@
       "addMore": "Ajouter des fichiers"
     }
   },
+  "steps": {
+    "title": "Comment ça marche",
+    "items": [
+      {
+        "title": "Déposez vos fichiers",
+        "text": "Jusqu'à 10 Go par envoi, en un ou plusieurs fichiers."
+      },
+      {
+        "title": "Partagez le lien",
+        "text": "Envoyez le lien généré à vos destinataires, par le canal de votre choix."
+      },
+      {
+        "title": "Suppression automatique",
+        "text": "Vos fichiers et leurs copies sont supprimés au bout de 30 jours."
+      }
+    ]
+  },
   "presentation": {
-    "title": "Hébergé en France, chiffré, supprimé après 30 jours",
+    "title": "Garanties",
     "features": [
       {
         "title": "Souveraineté",
@@ -39,12 +73,7 @@
         "title": "Redondance",
         "description": "Chaque fichier est copié sur 3 supports pour éviter toute perte. Toutes les copies sont supprimées au bout de 30 jours."
       }
-    ],
-    "premiumBanner": {
-      "title": "Silvertransfert, un service de Silvercore.",
-      "description": "Silvercore conçoit des services en ligne simples et sécurisés, hébergés en France, pour les particuliers comme pour les professionnels.",
-      "button": "Visiter Silvercore"
-    }
+    ]
   },
   "transferResult": {
     "success": "Fichier{{plural}} transféré avec succès",

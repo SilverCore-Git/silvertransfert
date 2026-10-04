@@ -33,8 +33,8 @@ function onDragLeave() {
 
 <template>
   <div 
-    class="drop-ring  backdrop-blur-md" 
-    :class="{ active: isDragging || files.length > 0 }" 
+    class="drop-ring" 
+    :class="{ active: files.length > 0, dragging: isDragging }" 
     :role="files.length === 0 && !isUploading ? 'button' : undefined"
     :tabindex="files.length === 0 && !isUploading ? 0 : undefined"
     :aria-label="files.length === 0 && !isUploading ? 'Ajouter des fichiers à envoyer' : undefined"
@@ -61,72 +61,37 @@ function onDragLeave() {
 </template>
 
 <style scoped>
-.ring-label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.ring-sub {
-  font-size: var(--text-xs);
-  color: var(--color-text-secondary);
-}
-
 .drop-ring {
   width: 100%;
-  min-height: 165px;
-  border: 1.5px dashed color-mix(in srgb, var(--color-primary) 30%, transparent);
-  border-radius: var(--radius-2xl);
-  background: color-mix(in srgb, var(--color-primary-strong) 2.5%, transparent);
+  min-height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1.5px dashed color-mix(in srgb, var(--color-text-muted) 45%, transparent);
+  border-radius: 12px;
+  background: var(--color-surface);
   cursor: pointer;
-  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s, transform 0.3s;
   overflow: hidden;
-  animation: fadeInScale 0.6s ease-out;
-}
-
-@keyframes fadeInScale {
-  from {
-  opacity: 0;
-  transform: scale(0.95);
-  }
-  to {
-  opacity: 1;
-  transform: scale(1);
-  }
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .drop-ring.active {
+  min-height: 0;
+  border-style: solid;
+  border-color: var(--color-border);
+  cursor: default;
+}
+
+.drop-ring.dragging {
+  border-style: dashed;
   border-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary-strong) 7%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
 }
+
 @media (hover: hover) {
-  .drop-ring:hover {
+  .drop-ring:not(.active):hover {
     border-color: var(--color-primary);
-    background: color-mix(in srgb, var(--color-primary) 20%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary-strong) 7%, transparent);
-  }
-}
-
-.ring-icon {
-  font-size: var(--text-2xl);
-  color: var(--color-primary);
-  opacity: 0.8;
-  margin-bottom: 0.3rem;
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
-}
-
-.drop-ring.active .ring-icon {
-  opacity: 1;
-  transform: scale(1.1);
-}
-@media (hover: hover) {
-  .drop-ring:hover .ring-icon {
-    opacity: 1;
-    transform: scale(1.1);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
   }
 }
 
@@ -135,18 +100,25 @@ function onDragLeave() {
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  padding: 2.25rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
   pointer-events: none;
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
 }
 
-.drop-ring.active .ring-empty {
-  transform: translateY(-5px);
+.ring-icon {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
 }
-@media (hover: hover) {
-  .drop-ring:hover .ring-empty {
-    transform: translateY(-5px);
-  }
+
+.ring-label {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.ring-sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 </style>

@@ -4,12 +4,10 @@
 <template>
   <div class="legal-container">
     <div class="site-container">
-      <div class="bg-grid" aria-hidden="true"></div>
       
 
       <section class="legal-section">
         <div class="center">
-          <router-link to="/" class="wordmark inline-block" aria-label="SilverTransfert, retour à l'accueil">Silver<span>Transfert</span></router-link>
           
           <div class="legal-content">
             <div class="last-updated">
@@ -387,69 +385,20 @@
 .site-container {
   background: var(--color-bg);
   color: var(--color-text-soft);
-  font-family: 'Outfit', sans-serif;
-  min-height: 100dvh;
-  position: relative;
 }
-
-.bg-grid {
-  position: fixed; inset: 0; z-index: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
 
 .legal-section {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  padding: 6rem 2rem 4rem;
+  padding: 3.5rem 1.25rem 6rem;
 }
 
 .center {
-  display: flex; flex-direction: column; align-items: center;
-  z-index: 1; width: 100%;
-  max-width: var(--container-prose);
-}
-
-.wordmark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
- color: var(--color-text);
-  line-height: 0.9;
-  margin: 0 0 3rem;
-}
-.wordmark span {
-  background: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary-soft) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.tagline {
-  font-size: clamp(0.85rem, 2.2vw, 1rem);
- color: var(--color-text);
-  font-weight: 400;
-  margin-bottom: 3rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .legal-content {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-3xl);
-  padding: 3rem;
-  backdrop-filter: blur(20px);
 }
 
 .last-updated {
@@ -464,7 +413,7 @@
 }
 
 .legal-content h1 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-sans);
   font-size: var(--text-2xl);
   font-weight: 700;
  color: var(--color-text);
@@ -474,36 +423,26 @@
 
 .legal-section-item {
   margin-bottom: 3rem;
-  opacity: 0;
-  transform: translateY(20px);
+  scroll-margin-top: 1.5rem;
 }
 
-/* Staggered animations for sections */
-.legal-section-item:nth-child(1) { animation: fadeInUp 0.6s ease-out 0.2s both; }
-.legal-section-item:nth-child(2) { animation: fadeInUp 0.6s ease-out 0.3s both; }
-.legal-section-item:nth-child(3) { animation: fadeInUp 0.6s ease-out 0.4s both; }
-.legal-section-item:nth-child(4) { animation: fadeInUp 0.6s ease-out 0.5s both; }
-.legal-section-item:nth-child(5) { animation: fadeInUp 0.6s ease-out 0.6s both; }
-.legal-section-item:nth-child(6) { animation: fadeInUp 0.6s ease-out 0.7s both; }
-.legal-section-item:nth-child(7) { animation: fadeInUp 0.6s ease-out 0.8s both; }
-.legal-section-item:nth-child(8) { animation: fadeInUp 0.6s ease-out 0.9s both; }
-.legal-section-item:nth-child(9) { animation: fadeInUp 0.6s ease-out 1s both; }
-.legal-section-item:nth-child(10) { animation: fadeInUp 0.6s ease-out 1.1s both; }
-.legal-section-item:nth-child(11) { animation: fadeInUp 0.6s ease-out 1.2s both; }
-
 .legal-section-item h2 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-sans);
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--color-primary-soft);
+  color: var(--color-text);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
+.legal-section-item h2 i {
+  color: var(--color-primary);
+}
+
 .legal-section-item h3 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   font-weight: 600;
   color: var(--color-text-soft);
@@ -690,10 +629,6 @@
 }
 
 @media (max-width: 768px) {
-  .legal-content {
-    padding: 2rem 1.5rem;
-  }
-  
   .definitions-list {
     gap: 0.75rem;
   }
@@ -704,8 +639,5 @@
   .warning-list li:before {
     left: -1rem;
   }
-}
-@media (max-width: 640px) {
-  .legal-content { padding: 2rem 1.25rem; }
 }
 </style>

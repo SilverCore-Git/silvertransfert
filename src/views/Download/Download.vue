@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { getConfigValue } from '../../utils/config';
-import home_json from '../../config/home.json';
 import download_json from '../../config/download.json';
 // import { formatSize } from '../../utils/file';
 
@@ -111,407 +110,258 @@ async function startDownload() {
 </script>
 
 <template>
+  <section class="dl">
+    <div class="dl-card">
+      <h1 class="dl-title">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</h1>
 
-  
+      <div class="dl-body" aria-live="polite">
+        <div v-if="status === 'loading'" class="state-loading">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>{{ download_json.loading?.title || 'Vérification du transfert…' }}</p>
+        </div>
 
-  <div class="site-container">
-
-    <div class="bg-grid" aria-hidden="true"></div>
-    
-    <section class="hero-section">
-
-      <div class="glow g1" aria-hidden="true"></div>
-      
-      <div class="center">
-        <router-link to="/" class="wordmark inline-block" aria-label="SilverTransfert, retour à l'accueil">{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></router-link>
-        <h1 class="tagline">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</h1>
-
-        <div class="download-card" aria-live="polite">
-          <div v-if="status === 'loading'" class="loading-state">
-            <div class="spinner"></div>
-            <p>{{ download_json.loading?.title || 'Vérification du transfert...' }}</p>
+        <div v-else-if="status === 'not_found' || status === 'error'" class="state-error">
+          <span class="state-icon" aria-hidden="true">
+            <i class="bi" :class="status === 'not_found' ? 'bi-exclamation-triangle' : 'bi-x-circle'"></i>
+          </span>
+          <div>
+            <h2>{{ status === 'not_found' ? (download_json.notFound?.title || 'Transfert introuvable') : (download_json.error?.title || 'Une erreur est survenue') }}</h2>
+            <p>{{ status === 'not_found' ? (download_json.notFound?.message || 'Le lien est expiré ou n’existe pas.') : errorMsg }}</p>
           </div>
+          <router-link to="/" class="btn-secondary">
+            <i aria-hidden="true" class="bi bi-arrow-left"></i>
+            {{ download_json.notFound?.backButton || 'Retour à l’accueil' }}
+          </router-link>
+        </div>
 
-          <div v-else-if="status === 'not_found'" class="error-state">
-            <i aria-hidden="true" class="bi bi-exclamation-triangle"></i>
-            <h2>{{ download_json.notFound?.title || 'Transfert introuvable' }}</h2>
-            <p>{{ download_json.notFound?.message || 'Le lien est expiré ou n\'existe pas.' }}</p>
-            <router-link to="/" class="back-btn">{{ download_json.notFound?.backButton || 'Retour à l\'accueil' }}</router-link>
-          </div>
-
-          <div v-else-if="status === 'error'" class="error-state">
-            <i aria-hidden="true" class="bi bi-x-circle"></i>
-            <h2>{{ download_json.error?.title || 'Une erreur est survenue' }}</h2>
-            <p>{{ errorMsg }}</p>
-            <router-link to="/" class="back-btn">{{ download_json.error?.backButton || 'Retour à l\'accueil' }}</router-link>
-          </div>
-
-          <div v-else class="ready-state">
-            <div class="file-icon">
-              <i aria-hidden="true" class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
-            </div>
+        <div v-else class="state-ready">
+          <div class="file-row">
+            <span class="file-icon" aria-hidden="true">
+              <i class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
+            </span>
             <div class="file-info">
               <h2>{{ (transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady) || 'Fichier prêt' }}</h2>
               <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
             </div>
-
-            <button 
-              class="download-btn" 
-              :class="{ 'decrypting': status === 'decrypting', 'downloading': status === 'downloading' }"
-              :disabled="status === 'decrypting' || status === 'downloading'"
-              @click="startDownload"
-            >
-              <template v-if="status === 'decrypting'">
-                <div class="spinner-small"></div> {{ download_json.ready?.downloadButton?.decrypting || 'Déchiffrement...' }}
-              </template>
-              <template v-else-if="status === 'downloading'">
-                <div class="spinner-small"></div> {{ download_json.ready?.downloadButton?.downloading || 'Téléchargement...' }}
-              </template>
-              <template v-else>
-                <i aria-hidden="true" class="bi bi-cloud-download"></i> {{ download_json.ready?.downloadButton?.default || 'Télécharger' }}
-              </template>
-            </button>
-            
           </div>
+
+          <button
+            class="download-btn"
+            :disabled="status === 'decrypting' || status === 'downloading'"
+            @click="startDownload"
+          >
+            <template v-if="status === 'decrypting'">
+              <span class="spinner-small" aria-hidden="true"></span> {{ download_json.ready?.downloadButton?.decrypting || 'Déchiffrement…' }}
+            </template>
+            <template v-else-if="status === 'downloading'">
+              <span class="spinner-small" aria-hidden="true"></span> {{ download_json.ready?.downloadButton?.downloading || 'Téléchargement…' }}
+            </template>
+            <template v-else>
+              <i aria-hidden="true" class="bi bi-cloud-download"></i> {{ download_json.ready?.downloadButton?.default || 'Télécharger' }}
+            </template>
+          </button>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.site-container {
-  background: var(--color-bg);
-  color: var(--color-text-soft);
-  font-family: 'Outfit', sans-serif;
-  min-height: 100dvh;
-  position: relative;
-}
-
-.bg-grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
-.hero-section {
-  min-height: 100dvh;
+/* Same dark top block as the home hero: a single task, centred */
+.dl {
+  min-height: calc(100dvh - 64px);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
+  padding: 3rem 1.25rem 5rem;
+  background: var(--color-bg-deep);
 }
 
-.glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(120px);
-}
-
-.g1 {
-  width: 600px;
-  height: 400px;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse, color-mix(in srgb, var(--color-primary-strong) 10%, transparent) 0%, transparent 70%);
-}
-
-.center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.dl-card {
   width: 100%;
   max-width: var(--container-card);
-  padding: 2rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: 1.75rem;
+  animation: card-in 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
-.wordmark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.dl-title {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-text);
-  line-height: 0.9;
-  margin: 0;
-  animation: fadeInDown 0.6s ease-out;
+  margin-bottom: 1.5rem;
 }
 
-.wordmark span {
-  background: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary-soft) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position: relative;
+/* Loading */
+.state-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 64px;
+  color: var(--color-text-secondary);
 }
 
-.tagline {
-  font-size: clamp(0.85rem, 2.2vw, 1rem);
-  color: var(--color-text);
-  font-weight: 400;
-  margin: 1.5rem 0 2.5rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.download-card {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-3xl);
-  padding: 3rem;
-  backdrop-filter: blur(20px);
-  text-align: center;
-  animation: fadeInScale 0.6s ease-out;
-}
-
-.loading-state, .error-state, .ready-state {
+/* Not found / error */
+.state-error {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.state-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: color-mix(in srgb, var(--color-danger) 14%, var(--color-surface-2));
+  color: var(--color-danger-soft);
+  font-size: var(--text-lg);
 }
 
-.loading-state {
-  animation: fadeIn 0.6s ease-out;
+.state-error h2,
+.file-info h2 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
-.loading-state p {
-  animation: pulse 1.5s ease-in-out infinite;
+.state-error p {
+  margin-top: 0.25rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
 }
 
-@keyframes scalePulse {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.05); }
-}
-
-.ready-state {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.file-icon {
-  animation: scaleIn 0.5s ease-out 0.2s both;
-  position: relative;
-  overflow: hidden;
-}
-
-.file-icon::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: var(--radius-2xl);
-  border: 2px solid color-mix(in srgb, var(--color-primary-strong) 30%, transparent);
-  animation: borderPulse 2s ease-in-out infinite;
-  opacity: 0;
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
 @media (hover: hover) {
-  .file-icon:hover::after {
-    opacity: 1;
+  .btn-secondary:hover {
+    background: var(--color-bg);
   }
 }
 
-@keyframes borderPulse {
-  0%, 100% { opacity: 0; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.1); }
+/* Ready */
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  margin-bottom: 1.25rem;
+}
+
+.file-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-button);
+  background: color-mix(in srgb, var(--color-primary-strong) 16%, var(--color-surface));
+  color: var(--color-primary);
+  font-size: var(--text-xl);
 }
 
 .file-info {
-  animation: fadeIn 0.6s ease-out 0.3s both;
+  min-width: 0;
+}
+
+.file-info .meta {
+  margin-top: 0.15rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
 }
 
 .download-btn {
   width: 100%;
-  padding: 1rem;
-  background: var(--color-primary);
-  color: var(--color-text);
-  border: none;
-  border-radius: var(--radius-xl);
-  font-size: var(--text-base);
-  font-weight: 700;
-  cursor: pointer;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.download-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.6s;
+  gap: 0.6rem;
+  border: none;
+  border-radius: var(--radius-button);
+  background: var(--color-primary-strong);
+  color: #fff;
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 @media (hover: hover) {
   .download-btn:hover:not(:disabled) {
-    background: var(--color-primary);
-    transform: translateY(-2px);
+    background: var(--color-primary-strong-hover);
   }
 }
 
-@media (hover: hover) {
-  .download-btn:not(:disabled):hover::before {
-    left: 100%;
-  }
+.download-btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .download-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  cursor: progress;
+  background: color-mix(in srgb, var(--color-primary-strong) 55%, var(--color-surface-2));
 }
 
-.download-btn.decrypting {
-  animation: decryptingPulse 1s ease-in-out infinite;
-}
-
-.download-btn.downloading {
-  animation: downloadingPulse 0.8s ease-in-out infinite;
-}
-
-@keyframes decryptingPulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--color-primary); }
-  50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--color-primary-strong) 0%, transparent); }
-}
-
-@keyframes downloadingPulse {
-  0%, 100% { box-shadow: 0 0 0 green; }
-  50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+.spinner,
+.spinner-small {
+  display: inline-block;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid color-mix(in srgb, var(--color-primary-strong) 20%, transparent);
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
   border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 .spinner-small {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from {
-  opacity: 0;
-  transform: translateY(20px);
-  }
-  to {
-  opacity: 1;
-  transform: translateY(0);
-  }
-}
-
-@keyframes fadeInScale {
-  from {
-  opacity: 0;
-  transform: scale(0.95);
-  }
-  to {
-  opacity: 1;
-  transform: scale(1);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-  opacity: 0;
-  transform: scale(0.9);
-  }
-  to {
-  opacity: 1;
-  transform: scale(1);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.error-state i {
-  font-size: 3rem;
-  color: var(--color-danger);
-}
-
-.error-state h2 {
-  font-size: var(--text-lg);
-  color: var(--color-text);
-}
-
-.error-state p {
-  color: var(--color-text-muted);
-  font-size: var(--text-base);
-}
-
-.back-btn {
-  margin-top: 1rem;
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: var(--text-sm);
-}
-
-.file-icon {
-  width: 64px;
-  height: 64px;
-  background: color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
-  border-radius: var(--radius-2xl);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--text-2xl);
-  color: var(--color-primary);
-}
-
-.file-info h2 {
-  font-size: var(--text-lg);
-  color: var(--color-text);
-  margin-bottom: 0.25rem;
-}
-
-.file-info .meta {
-  color: var(--color-text-secondary);
-  font-size: var(--text-xs);
-  font-family: monospace;
-}
-
-@media (max-width: 640px) {
-  .download-card {
-    padding: 2rem 1.25rem;
+@media (min-width: 768px) {
+  .dl-card {
+    padding: 2rem;
   }
 }
 </style>

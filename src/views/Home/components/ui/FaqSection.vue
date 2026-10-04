@@ -1,45 +1,28 @@
 <template>
-  <section class="bg-(--color-bg) relative z-10 py-24" id="faq">
-    <div class="max-w-4xl mx-auto px-6">
-      
-      <header class="text-center mb-16">
-        <h2 class="font-['Space_Grotesk'] text-[clamp(1.8rem,4vw,2.75rem)] font-bold text-white tracking-tight">
-          {{ faq_json.title || 'Questions fréquentes' }}
-        </h2>
-      </header>
+  <section class="faq" id="faq">
+    <div class="faq-grid">
+      <h2 class="faq-title">{{ faq_json.title || 'Questions fréquentes' }}</h2>
 
-      <div class="space-y-2">
-        <div 
-          v-for="(item, index) in faqData" 
-          :key="index"
-          class="border-b border-[rgba(255,255,255,0.05)] transition duration-300"
-        >
-          <h3 class="m-0">
-          <button 
-            @click="toggle(index)"
-            :id="`faq-q-${index}`"
-            :aria-expanded="openIndex === index"
-            :aria-controls="`faq-a-${index}`"
-            class="w-full flex justify-between items-center py-8 text-left group cursor-pointer"
-          >
-            <span class="text-[1.15rem] font-semibold text-white group-hover:text-(--color-primary-strong) transition-colors">
-              {{ item.question }}
-            </span>
-            <div class="w-8 h-8 flex items-center justify-center text-(--color-primary-strong)">
-              <i aria-hidden="true" 
-                class="bi bi-chevron-down transition-transform duration-300"
-                :class="{'rotate-180': openIndex === index}"
-              />
-            </div>
-          </button>
+      <div class="faq-list">
+        <div v-for="(item, index) in faqData" :key="index" class="faq-item">
+          <h3>
+            <button
+              @click="toggle(index)"
+              :id="`faq-q-${index}`"
+              :aria-expanded="openIndex === index"
+              :aria-controls="`faq-a-${index}`"
+              class="faq-question"
+            >
+              <span>{{ item.question }}</span>
+              <i aria-hidden="true" class="bi bi-chevron-down faq-chevron" :class="{ open: openIndex === index }"></i>
+            </button>
           </h3>
-          
-          <div 
+          <div
             v-show="openIndex === index"
             :id="`faq-a-${index}`"
             role="region"
             :aria-labelledby="`faq-q-${index}`"
-            class="pb-8 text-[0.95rem] leading-[1.6] text-[var(--color-text-secondary)] font-['Outfit']"
+            class="faq-answer"
           >
             {{ item.answer }}
           </div>
@@ -50,38 +33,97 @@
 </template>
 
 <style scoped>
-/* FAQ Animations */
-section {
-  animation: fadeInUp 0.8s ease-out;
+.faq {
+  padding: 4rem 0;
 }
 
-header h2 {
-  animation: fadeInDown 0.6s ease-out 0.2s both;
+.faq-grid {
+  max-width: var(--container-page);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: grid;
+  gap: 2rem;
 }
 
-div[class*="space-y"] > div {
-  opacity: 0;
-  transform: translateX(-20px);
+.faq-title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
-div[class*="space-y"] > div:nth-child(1) { animation: fadeInLeft 0.6s ease-out 0.3s both; }
-div[class*="space-y"] > div:nth-child(2) { animation: fadeInLeft 0.6s ease-out 0.4s both; }
-div[class*="space-y"] > div:nth-child(3) { animation: fadeInLeft 0.6s ease-out 0.5s both; }
-div[class*="space-y"] > div:nth-child(4) { animation: fadeInLeft 0.6s ease-out 0.6s both; }
-div[class*="space-y"] > div:nth-child(5) { animation: fadeInLeft 0.6s ease-out 0.7s both; }
-div[class*="space-y"] > div:nth-child(6) { animation: fadeInLeft 0.6s ease-out 0.8s both; }
-
-button {
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
 }
 
-
-button span[class*="rotate"] {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.faq-item:first-child {
+  border-top: 1px solid var(--color-border);
 }
 
-div[v-show] {
-  animation: fadeIn 0.4s ease-out;
+.faq-question {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .faq-question:hover {
+    color: var(--color-primary);
+  }
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.faq-chevron.open {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+
+.faq-answer {
+  padding: 0 0 1.4rem;
+  max-width: 65ch;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .faq {
+    padding: 6rem 0;
+  }
+
+  .faq-grid {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .faq-grid {
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .faq-title {
+    position: sticky;
+    top: 2rem;
+  }
 }
 </style>
 

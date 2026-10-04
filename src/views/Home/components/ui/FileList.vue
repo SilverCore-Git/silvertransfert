@@ -23,7 +23,7 @@ const emit = defineEmits(['remove', 'add']);
       <div v-for="f in files" :key="f.id" class="frow">
         <div class="fthumb">
           <img v-if="f.preview" :src="f.preview" :alt="f.name" />
-          <i v-else :class="'bi ' + getFileIcon(f.type)"></i>
+          <i v-else aria-hidden="true" :class="'bi ' + getFileIcon(f.type)"></i>
         </div>
         <span class="fname">{{ f.name }}</span>
         <span class="fsize">{{ formatSize(f.size) }}</span>
@@ -41,6 +41,7 @@ const emit = defineEmits(['remove', 'add']);
 
 <style scoped>
 .ring-files {
+  position: relative;
   width: 100%;
   padding: 0.6rem;
   display: flex;
@@ -98,23 +99,29 @@ const emit = defineEmits(['remove', 'add']);
   }
 }
 
-.list-enter-active, .list-leave-active {
-  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+.list-enter-active {
+  transition: opacity 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.list-enter-from, .list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
+.list-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  position: absolute;
+  width: calc(100% - 1.2rem);
+}
+
+/* remaining rows glide into place instead of jumping */
+.list-move {
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .list-enter-from {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateY(6px);
 }
 
 .list-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: scale(0.98);
 }
 
 .fthumb {

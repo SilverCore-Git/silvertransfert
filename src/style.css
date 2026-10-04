@@ -10,6 +10,7 @@
   --breakpoint-3xl: 1920px;
 
   --font-sans: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Space Grotesk is reserved for the SilverTransfert wordmark */
   --font-display: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Type scale: nothing functional below 13px */
@@ -21,9 +22,11 @@
   --text-2xl: 2rem;
 
   /* Surfaces */
-  --color-bg: #06050a;
-  --color-bg-deep: #030207;
-  --color-surface: #0d0b19;
+  --color-bg: #111117;
+  --color-bg-deep: #0c0c11;
+  --color-surface: #18181f;
+  --color-surface-2: #202029;
+  --color-border: #2a2a34;
 
   /* One accent, three shades: base for text on dark, strong for filled buttons (white text), soft for gradients */
   --color-primary: #7F6CFF;
@@ -31,12 +34,15 @@
   --color-primary-strong-hover: #7267f0;
   --color-primary-soft: #a78bfa;
 
-  /* Text, one cool-violet gray family */
-  --color-text: #FFFFFF;
-  --color-text-soft: #e2e0f0;
-  --color-text-secondary: #bbb8d8;
-  --color-text-muted: #9a95b8;
-  --color-disabled: #3a384a;
+  /* Text, one neutral gray family so the violet accent stands out */
+  --color-text: #f2f2f5;
+  --color-text-soft: #e4e4ea;
+  --color-text-secondary: #b6b6c2;
+  --color-text-muted: #8d8d9a;
+  --color-disabled: #3a3a44;
+
+  /* Radius rule: panels 16px (2xl), buttons 10px, chips/badges full */
+  --radius-button: 10px;
 
   --color-danger: #ef4444;
   --color-danger-soft: #f87171;
@@ -85,7 +91,7 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 600;
 }
 
@@ -164,28 +170,6 @@ p {
   }
   50% {
     opacity: 0.5;
-  }
-}
-
-/* Breathe */
-@keyframes breathe {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-/* Shimmer */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
   }
 }
 
