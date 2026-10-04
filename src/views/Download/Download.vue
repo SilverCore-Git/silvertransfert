@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { getConfigValue } from '../../utils/config';
 import home_json from '../../config/home.json';
@@ -8,7 +8,6 @@ import download_json from '../../config/download.json';
 // import { formatSize } from '../../utils/file';
 
 const route = useRoute();
-const router = useRouter();
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 const transferId = ref('');
@@ -124,35 +123,35 @@ async function startDownload() {
       <div class="glow g1" aria-hidden="true"></div>
       
       <div class="center">
-        <h1 class="wordmark cursor-pointer" @click="router.push('/')" >{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></h1>
-        <p class="tagline">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</p>
+        <router-link to="/" class="wordmark inline-block" aria-label="SilverTransfert, retour à l'accueil">{{ home_json.hero.title1 }}<span>{{ home_json.hero.title2 }}</span></router-link>
+        <h1 class="tagline">{{ download_json.pageTitle || 'Réception de fichiers sécurisée' }}</h1>
 
-        <div class="download-card">
+        <div class="download-card" aria-live="polite">
           <div v-if="status === 'loading'" class="loading-state">
             <div class="spinner"></div>
             <p>{{ download_json.loading?.title || 'Vérification du transfert...' }}</p>
           </div>
 
           <div v-else-if="status === 'not_found'" class="error-state">
-            <i class="bi bi-exclamation-triangle"></i>
-            <h3>{{ download_json.notFound?.title || 'Transfert introuvable' }}</h3>
+            <i aria-hidden="true" class="bi bi-exclamation-triangle"></i>
+            <h2>{{ download_json.notFound?.title || 'Transfert introuvable' }}</h2>
             <p>{{ download_json.notFound?.message || 'Le lien est expiré ou n\'existe pas.' }}</p>
             <router-link to="/" class="back-btn">{{ download_json.notFound?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else-if="status === 'error'" class="error-state">
-            <i class="bi bi-x-circle"></i>
-            <h3>{{ download_json.error?.title || 'Une erreur est survenue' }}</h3>
+            <i aria-hidden="true" class="bi bi-x-circle"></i>
+            <h2>{{ download_json.error?.title || 'Une erreur est survenue' }}</h2>
             <p>{{ errorMsg }}</p>
             <router-link to="/" class="back-btn">{{ download_json.error?.backButton || 'Retour à l\'accueil' }}</router-link>
           </div>
 
           <div v-else class="ready-state">
             <div class="file-icon">
-              <i class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
+              <i aria-hidden="true" class="bi" :class="transferInfo?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
             </div>
             <div class="file-info">
-              <h3>{{ (transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady) || 'Fichier prêt' }}</h3>
+              <h2>{{ (transferInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady) || 'Fichier prêt' }}</h2>
               <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
             </div>
 
@@ -169,7 +168,7 @@ async function startDownload() {
                 <div class="spinner-small"></div> {{ download_json.ready?.downloadButton?.downloading || 'Téléchargement...' }}
               </template>
               <template v-else>
-                <i class="bi bi-cloud-download"></i> {{ download_json.ready?.downloadButton?.default || 'Télécharger' }}
+                <i aria-hidden="true" class="bi bi-cloud-download"></i> {{ download_json.ready?.downloadButton?.default || 'Télécharger' }}
               </template>
             </button>
             
@@ -182,24 +181,24 @@ async function startDownload() {
 
 <style scoped>
 .site-container {
-  background: #06050a;
-  color: #e2e0f0;
+  background: var(--color-bg);
+  color: var(--color-text-soft);
   font-family: 'Outfit', sans-serif;
-  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
 }
 
 .bg-grid {
-  position: fixed; inset: 0; z-index: 0;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
 }
 
 .hero-section {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -209,18 +208,28 @@ async function startDownload() {
 }
 
 .glow {
-  position: absolute; border-radius: 50%; pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
   filter: blur(120px);
 }
+
 .g1 {
-  width: 600px; height: 400px; top: 10%; left: 50%;
+  width: 600px;
+  height: 400px;
+  top: 10%;
+  left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(99, 86, 229, 0.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--color-primary-strong) 10%, transparent) 0%, transparent 70%);
 }
 
 .center {
-  display: flex; flex-direction: column; align-items: center;
-  width: 100%; max-width: 500px; padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--container-card);
+  padding: 2rem;
 }
 
 .wordmark {
@@ -228,22 +237,22 @@ async function startDownload() {
   font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
   letter-spacing: -0.05em;
- color: var(--color-text);
+  color: var(--color-text);
   line-height: 0.9;
   margin: 0;
   animation: fadeInDown 0.6s ease-out;
 }
+
 .wordmark span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  background: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary-soft) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
 }
 
-
 .tagline {
   font-size: clamp(0.85rem, 2.2vw, 1rem);
- color: var(--color-text);
+  color: var(--color-text);
   font-weight: 400;
   margin: 1.5rem 0 2.5rem;
   letter-spacing: 0.15em;
@@ -254,7 +263,7 @@ async function startDownload() {
   width: 100%;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  border-radius: var(--radius-3xl);
   padding: 3rem;
   backdrop-filter: blur(20px);
   text-align: center;
@@ -268,7 +277,6 @@ async function startDownload() {
   gap: 1.5rem;
 }
 
-/* Loading Animation */
 .loading-state {
   animation: fadeIn 0.6s ease-out;
 }
@@ -277,36 +285,16 @@ async function startDownload() {
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-/* Spinner Animation */
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(99, 86, 229, 0.2);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite, scalePulse 1.5s ease-in-out infinite;
-}
-
 @keyframes scalePulse {
   0%, 100% { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.05); }
 }
 
-/* Ready State Animations */
 .ready-state {
   animation: fadeInUp 0.6s ease-out;
 }
 
 .file-icon {
-  width: 64px;
-  height: 64px;
-  background: rgba(99, 86, 229, 0.1);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: var(--color-primary);
   animation: scaleIn 0.5s ease-out 0.2s both;
   position: relative;
   overflow: hidden;
@@ -316,14 +304,16 @@ async function startDownload() {
   content: '';
   position: absolute;
   inset: -2px;
-  border-radius: 16px;
-  border: 2px solid rgba(99, 86, 229, 0.3);
+  border-radius: var(--radius-2xl);
+  border: 2px solid color-mix(in srgb, var(--color-primary-strong) 30%, transparent);
   animation: borderPulse 2s ease-in-out infinite;
   opacity: 0;
 }
 
-.file-icon:hover::after {
-  opacity: 1;
+@media (hover: hover) {
+  .file-icon:hover::after {
+    opacity: 1;
+  }
 }
 
 @keyframes borderPulse {
@@ -341,15 +331,15 @@ async function startDownload() {
   background: var(--color-primary);
   color: var(--color-text);
   border: none;
-  border-radius: 12px;
-  font-size: 1rem;
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -365,20 +355,23 @@ async function startDownload() {
   transition: left 0.6s;
 }
 
-.download-btn:hover:not(:disabled) {
-  background: var(--color-primary);
-  transform: translateY(-2px);
-  /* box-shadow: 0 8px 25px rgba(99, 86, 229, 0.4); */
+@media (hover: hover) {
+  .download-btn:hover:not(:disabled) {
+    background: var(--color-primary);
+    transform: translateY(-2px);
+  }
 }
 
-.download-btn:not(:disabled):hover::before {
-  left: 100%;
+@media (hover: hover) {
+  .download-btn:not(:disabled):hover::before {
+    left: 100%;
+  }
 }
 
 .download-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  background: var(--color-bg);
+  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
 .download-btn.decrypting {
@@ -391,7 +384,7 @@ async function startDownload() {
 
 @keyframes decryptingPulse {
   0%, 100% { box-shadow: 0 0 0 0 var(--color-primary); }
-  50% { box-shadow: 0 0 0 10px rgba(99, 86, 229, 0); }
+  50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--color-primary-strong) 0%, transparent); }
 }
 
 @keyframes downloadingPulse {
@@ -402,7 +395,7 @@ async function startDownload() {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(99, 86, 229, 0.2);
+  border: 3px solid color-mix(in srgb, var(--color-primary-strong) 20%, transparent);
   border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -428,34 +421,34 @@ async function startDownload() {
 
 @keyframes fadeInUp {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+  opacity: 0;
+  transform: translateY(20px);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
   }
 }
 
 @keyframes fadeInScale {
   from {
-    opacity: 0;
-    transform: scale(0.95);
+  opacity: 0;
+  transform: scale(0.95);
   }
   to {
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
   }
 }
 
 @keyframes scaleIn {
   from {
-    opacity: 0;
-    transform: scale(0.9);
+  opacity: 0;
+  transform: scale(0.9);
   }
   to {
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
   }
 }
 
@@ -471,40 +464,54 @@ async function startDownload() {
 
 .error-state i {
   font-size: 3rem;
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
-.error-state h3 { font-size: 1.25rem;color: var(--color-text); }
-.error-state p { color: #a09cb4; font-size: 0.95rem; }
+.error-state h2 {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.error-state p {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
 
 .back-btn {
   margin-top: 1rem;
   color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
 }
 
 .file-icon {
   width: 64px;
   height: 64px;
-  background: rgba(99, 86, 229, 0.1);
-  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
+  border-radius: var(--radius-2xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: var(--text-2xl);
   color: var(--color-primary);
 }
 
-.file-info h3 { font-size: 1.25rem;color: var(--color-text); margin-bottom: 0.25rem; }
-.file-info .meta { color: var(--color-text-secondary); font-size: 0.8rem; font-family: monospace; }
+.file-info h2 {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
 
-.security-note {
-  font-size: 0.75rem;
-  color: #635c87;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.file-info .meta {
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  font-family: monospace;
+}
+
+@media (max-width: 640px) {
+  .download-card {
+    padding: 2rem 1.25rem;
+  }
 }
 </style>

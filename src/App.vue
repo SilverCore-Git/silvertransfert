@@ -33,7 +33,7 @@ html, body {
 
 .app-wrapper {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -67,21 +67,21 @@ html, body {
   overflow: hidden;
 }
 
-@media (min-width: var(--breakpoint-sm)) {
+@media (min-width: 640px) {
   .app-background {
     background-size: 3rem 3rem;
   }
 }
 
-@media (min-width: var(--breakpoint-md)) {
+@media (min-width: 768px) {
   .app-background {
     background-size: 4rem 4rem;
   }
 }
 
-@media (min-width: var(--breakpoint-lg)) {
+@media (min-width: 1024px) {
   .app-background {
     background-size: 5rem 5rem;
   }
 }
-</style>
+</style>

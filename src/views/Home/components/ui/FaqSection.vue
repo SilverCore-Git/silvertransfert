@@ -1,10 +1,10 @@
 <template>
-  <section class="bg-[#06050a] relative z-10 py-24" id="faq">
+  <section class="bg-(--color-bg) relative z-10 py-24" id="faq">
     <div class="max-w-4xl mx-auto px-6">
       
       <header class="text-center mb-16">
         <h2 class="font-['Space_Grotesk'] text-[clamp(1.8rem,4vw,2.75rem)] font-bold text-white tracking-tight">
-          {{ faq_json.title || 'Vos questions, nos réponses' }}
+          {{ faq_json.title || 'Questions fréquentes' }}
         </h2>
       </header>
 
@@ -12,25 +12,33 @@
         <div 
           v-for="(item, index) in faqData" 
           :key="index"
-          class="border-b border-[rgba(255,255,255,0.05)] transition-all duration-300"
+          class="border-b border-[rgba(255,255,255,0.05)] transition duration-300"
         >
+          <h3 class="m-0">
           <button 
             @click="toggle(index)"
-            class="w-full flex justify-between items-center py-8 text-left focus:outline-none group cursor-pointer"
+            :id="`faq-q-${index}`"
+            :aria-expanded="openIndex === index"
+            :aria-controls="`faq-a-${index}`"
+            class="w-full flex justify-between items-center py-8 text-left group cursor-pointer"
           >
-            <span class="text-[1.15rem] font-semibold text-white group-hover:text-[#6356e5] transition-colors">
+            <span class="text-[1.15rem] font-semibold text-white group-hover:text-(--color-primary-strong) transition-colors">
               {{ item.question }}
             </span>
-            <div class="w-8 h-8 flex items-center justify-center text-[#6356e5]">
-              <i 
+            <div class="w-8 h-8 flex items-center justify-center text-(--color-primary-strong)">
+              <i aria-hidden="true" 
                 class="bi bi-chevron-down transition-transform duration-300"
                 :class="{'rotate-180': openIndex === index}"
               />
             </div>
           </button>
+          </h3>
           
           <div 
             v-show="openIndex === index"
+            :id="`faq-a-${index}`"
+            role="region"
+            :aria-labelledby="`faq-q-${index}`"
             class="pb-8 text-[0.95rem] leading-[1.6] text-[var(--color-text-secondary)] font-['Outfit']"
           >
             {{ item.answer }}
@@ -64,12 +72,9 @@ div[class*="space-y"] > div:nth-child(5) { animation: fadeInLeft 0.6s ease-out 0
 div[class*="space-y"] > div:nth-child(6) { animation: fadeInLeft 0.6s ease-out 0.8s both; }
 
 button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button:hover {
-  transform: translateX(5px);
-}
 
 button span[class*="rotate"] {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -124,4 +129,4 @@ const toggle = (index: number) => {
   openIndex.value = openIndex.value === index ? null : index;
 };
 
-</script>
+</script>

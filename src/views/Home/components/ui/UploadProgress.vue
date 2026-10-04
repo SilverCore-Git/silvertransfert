@@ -19,20 +19,20 @@ const formattedSpeed = computed(() => {
   const gigabytesPerSecond = megabytesPerSecond / 1024;
   
   if (gigabytesPerSecond >= 1) {
-    return `${gigabytesPerSecond.toFixed(1)} GB/s`;
+    return `${gigabytesPerSecond.toFixed(1)} Go/s`;
   } else if (megabytesPerSecond >= 1) {
-    return `${megabytesPerSecond.toFixed(1)} MB/s`;
+    return `${megabytesPerSecond.toFixed(1)} Mo/s`;
   } else {
     const kilobytesPerSecond = bytesPerSecond / 1024;
-    return `${kilobytesPerSecond.toFixed(1)} KB/s`;
+    return `${kilobytesPerSecond.toFixed(1)} Ko/s`;
   }
 });
 </script>
 
 <template>
   <div class="ring-uploading">
-    <div class="arc-wrap" :class="{ 'finalizing': isFinalizing }">
-      <svg viewBox="0 0 80 80" class="arc-svg">
+    <div class="arc-wrap" :class="{ 'finalizing': isFinalizing }" role="progressbar" aria-label="Progression de l'envoi" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(uploadPct)">
+      <svg viewBox="0 0 80 80" class="arc-svg" aria-hidden="true">
         <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="5"/>
         <circle cx="40" cy="40" r="34" fill="none" stroke="url(#vg)" stroke-width="5"
           stroke-linecap="round"
@@ -43,8 +43,8 @@ const formattedSpeed = computed(() => {
         />
         <defs>
           <linearGradient id="vg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#a78bfa"/>
-            <stop offset="100%" stop-color="#6356e5"/>
+            <stop offset="0%" style="stop-color: var(--color-primary-soft)"/>
+            <stop offset="100%" style="stop-color: var(--color-primary-strong)"/>
           </linearGradient>
         </defs>
       </svg>
@@ -53,11 +53,11 @@ const formattedSpeed = computed(() => {
           {{ Math.round(uploadPct) }}%
         </template>
         <template v-else>
-          <i class="bi bi-check-lg final-icon"></i>
+          <i aria-hidden="true" class="bi bi-check-lg final-icon"></i>
         </template>
       </span>
     </div>
-    <span class="upload-lbl">
+    <span class="upload-lbl" aria-live="polite">
       <template v-if="!isFinalizing">
         {{ home_json.uploadProgress?.uploading || 'Envoi en cours' }}<span v-if="uploadPct >= 100">.</span><span v-else>…</span>
       </template>
@@ -104,15 +104,15 @@ const formattedSpeed = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
   font-weight: 700;
-  color: #a78bfa;
+  color: var(--color-primary-soft);
   font-variant-numeric: tabular-nums;
 }
 
 .final-icon {
-  font-size: 1.2rem;
-  color: #22c55e;
+  font-size: var(--text-lg);
+  color: var(--color-success);
   animation: checkmark-pop 0.5s ease-out;
 }
 
@@ -132,30 +132,30 @@ const formattedSpeed = computed(() => {
 }
 
 .upload-lbl {
-  font-size: 0.76rem;
+  font-size: var(--text-xs);
   color: var(--color-text);
-  transition: all 0.3s;
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
 }
 
 .finalizing-lbl {
-  font-size: 0.7rem;
-  color: #22c55e;
+  font-size: var(--text-xs);
+  color: var(--color-success);
   font-style: italic;
   animation: pulse 1s ease-in-out infinite;
 }
 
 .time-remaining {
-  font-size: 0.7rem;
-  color: #a09cb4;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   font-style: italic;
-  transition: all 0.3s;
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
 }
 
 .upload-speed {
-  font-size: 0.7rem;
-  color: #a09cb4;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   font-style: italic;
-  transition: all 0.3s;
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
 }
 
 /* Finalization Animation */
@@ -187,4 +187,5 @@ const formattedSpeed = computed(() => {
     opacity: 1;
   }
 }
+.time-remaining, .upload-speed { font-variant-numeric: tabular-nums; }
 </style>

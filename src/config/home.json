@@ -3,7 +3,7 @@
     "title1": "Silver",
     "title2": "Transfert",
     "tagline": "Transfert sécurisé de fichiers",
-    "dropHint": "Chiffrement AES-256-CBC · Hébergement en France · Conservation 30j · 10 Go",
+    "dropHint": "Chiffrement AES‑256‑CBC · Hébergement en France · Conservation 30 j · 10 Go",
     "scrollIndicator": "Faites défiler vers le bas",
     "encryptionSlider": {
       "label": "Complexité du chiffrement",
@@ -12,8 +12,8 @@
     },
     "termsAcceptance": {
       "checkboxLabel": "J'ai lu et j'accepte les ",
-      "cguLink": "Conditions Générales d'Utilisation",
-      "privacyLink": "Politique de Confidentialité"
+      "cguLink": "conditions générales d'utilisation",
+      "privacyLink": "politique de confidentialité"
     },
     "sendButton": {
       "label": "Envoyer",
@@ -25,24 +25,24 @@
     }
   },
   "presentation": {
-    "title": "L'excellence au service de vos échanges",
+    "title": "Hébergé en France, chiffré, supprimé après 30 jours",
     "features": [
       {
         "title": "Souveraineté",
-        "description": "Vos données sont hébergées dans nos infrastructures en France, conformément au droit français et à la RGPD. Aucun Cloud Act : vos données sont françaises et restent en France."
+        "description": "Vos données sont hébergées sur nos serveurs en France et relèvent du droit français et du RGPD. Elles ne sont pas soumises au Cloud Act."
       },
       {
         "title": "Sécurité",
-        "description": "Vos fichiers sont chiffrés avec la robustesse du AES-256-CBC, indéchiffrables par nos équipes."
+        "description": "Vos fichiers sont chiffrés en AES‑256‑CBC : nos équipes ne peuvent pas les lire."
       },
       {
         "title": "Redondance",
-        "description": "Vos fichiers sont copiés à 3 reprises pour garantir leur sécurité. Toutes ces copies sont bien évidemment supprimées après 30 jours."
+        "description": "Chaque fichier est copié sur 3 supports pour éviter toute perte. Toutes les copies sont supprimées au bout de 30 jours."
       }
     ],
     "premiumBanner": {
       "title": "Silvertransfert, un service de Silvercore.",
-      "description": "Découvrez comment Silvercore redéfinit la confiance numérique pour les professionnels et les particuliers exigeants avec ses services axés sur la simplicité, la sécurité et la souveraineté.",
+      "description": "Silvercore conçoit des services en ligne simples et sécurisés, hébergés en France, pour les particuliers comme pour les professionnels.",
       "button": "Visiter Silvercore"
     }
   },
@@ -51,7 +51,7 @@
     "fileCount": "{{count}} fichier{{plural}}",
     "copyButton": {
       "default": "Copier",
-      "copied": "Copié !"
+      "copied": "Lien copié"
     },
     "newTransfer": "Nouveau transfert"
   },

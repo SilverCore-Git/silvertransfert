@@ -1,21 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import navigation_json from '../../config/navigation.json';
 
 const isMenuOpen = ref(false);
+const triggerRef = ref<HTMLButtonElement | null>(null);
+const closeRef = ref<HTMLButtonElement | null>(null);
+const drawerRef = ref<HTMLElement | null>(null);
 
 function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value;
-  if (isMenuOpen.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  if (isMenuOpen.value) return closeMenu();
+  isMenuOpen.value = true;
+  document.body.style.overflow = 'hidden';
+  nextTick(() => closeRef.value?.focus());
 }
 
 function closeMenu() {
+  if (!isMenuOpen.value) return;
   isMenuOpen.value = false;
   document.body.style.overflow = '';
+  triggerRef.value?.focus();
+}
+
+// Keep Tab / Shift+Tab cycling inside the open drawer
+function trapFocus(e: KeyboardEvent) {
+  const items = drawerRef.value?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+  if (!items?.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (!first || !last) return;
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
 }
 </script>
 
@@ -23,25 +42,27 @@ function closeMenu() {
   <nav class="top-nav-wrapper">
     <!-- Desktop Navigation Menu -->
     <div class="top-nav-desktop">
-      <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="nav-btn">{{ item.label }}</a>
+      <router-link v-for="item in navigation_json.menuItems || []" :key="item.path" :to="item.path" class="nav-btn">{{ item.label }}</router-link>
     </div>
 
     <!-- Mobile Hamburguer Trigger -->
     <button 
+      ref="triggerRef"
       class="mobile-menu-trigger" 
       @click="toggleMenu" 
       :aria-expanded="isMenuOpen" 
-      aria-label="Menu de navigation"
+      aria-controls="mobile-nav"
+      :aria-label="isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
     >
-      <i class="bi" :class="isMenuOpen ? 'bi-x' : 'bi-list'"></i>
+      <i aria-hidden="true" class="bi" :class="isMenuOpen ? 'bi-x' : 'bi-list'"></i>
     </button>
 
     <!-- Mobile Navigation Drawer Overlay -->
     <Transition name="slide-fade">
-      <div v-if="isMenuOpen" class="mobile-nav-overlay" @click.self="closeMenu">
-        <div class="mobile-nav-drawer">
-          <button class="drawer-close-btn" @click="closeMenu" aria-label="Fermer">
-            <i class="bi bi-x-lg"></i>
+      <div v-if="isMenuOpen" class="mobile-nav-overlay" @click.self="closeMenu" @keydown.esc="closeMenu" @keydown.tab="trapFocus">
+        <div id="mobile-nav" ref="drawerRef" class="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+          <button ref="closeRef" class="drawer-close-btn" @click="closeMenu" aria-label="Fermer le menu">
+            <i aria-hidden="true" class="bi bi-x-lg"></i>
           </button>
           
           <div class="drawer-brand">
@@ -49,9 +70,9 @@ function closeMenu() {
           </div>
 
           <div class="mobile-menu-links">
-            <a v-for="item in navigation_json.menuItems || []" :key="item.path" :href="item.path" class="mobile-nav-btn" @click="closeMenu">
-              <i class="bi" :class="item.icon"></i> {{ item.label }}
-            </a>
+            <router-link v-for="item in navigation_json.menuItems || []" :key="item.path" :to="item.path" class="mobile-nav-btn" @click="closeMenu">
+              <i aria-hidden="true" class="bi" :class="item.icon"></i> {{ item.label }}
+            </router-link>
           </div>
 
           <div class="drawer-footer">
@@ -64,8 +85,6 @@ function closeMenu() {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
 .top-nav-wrapper {
   position: absolute;
   top: clamp(0.75rem, 2vh, 1.5rem);
@@ -74,7 +93,6 @@ function closeMenu() {
   font-family: 'Outfit', sans-serif;
 }
 
-/* Desktop Styles */
 .top-nav-desktop {
   display: flex;
   align-items: center;
@@ -85,47 +103,48 @@ function closeMenu() {
   background: rgba(10, 8, 20, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.55rem 1.35rem;
-  border-radius: 100px;
+  border-radius: 9999px;
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   font-weight: 500;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.02em;
   backdrop-filter: blur(10px);
   color: var(--color-text);
 }
 
-.nav-btn:hover {
-  background: var(--hover-background);
-  border-color: var(--hover-border);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .nav-btn:hover {
+    background: var(--hover-background);
+    border-color: var(--hover-border);
+    transform: translateY(-1px);
+  }
 }
 
-/* Mobile Trigger Button */
 .mobile-menu-trigger {
   display: none;
   background: rgba(10, 8, 20, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #a09cb4;
+  color: var(--color-text-muted);
   width: 44px;
   height: 44px;
   border-radius: 50%;
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
+  font-size: var(--text-xl);
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
   backdrop-filter: blur(10px);
-  outline: none;
 }
 
-.mobile-menu-trigger:hover {
-  background: rgba(99, 86, 229, 0.12);
-  border-color: rgba(99, 86, 229, 0.4);
- color: var(--color-text);
+@media (hover: hover) {
+  .mobile-menu-trigger:hover {
+    background: color-mix(in srgb, var(--color-primary-strong) 12%, transparent);
+    border-color: color-mix(in srgb, var(--color-primary-strong) 40%, transparent);
+    color: var(--color-text);
+  }
 }
 
-/* Drawer overlay */
 .mobile-nav-overlay {
   position: fixed;
   inset: 0;
@@ -136,12 +155,11 @@ function closeMenu() {
   justify-content: flex-end;
 }
 
-/* Drawer panel */
 .mobile-nav-drawer {
   width: min(290px, 90vw);
-  height: 100vh;
-  background: #0d0b19;
-  border-left: 1px solid rgba(99, 86, 229, 0.1);
+  height: 100dvh;
+  background: var(--color-surface);
+  border-left: 1px solid color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
   padding: clamp(1.5rem, 5vh, 3rem) clamp(1rem, 5vw, 2rem);
   display: flex;
   flex-direction: column;
@@ -155,21 +173,21 @@ function closeMenu() {
   right: 1.5rem;
   background: none;
   border: none;
-  color: #635c87;
-  font-size: 1.25rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
   cursor: pointer;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 
-.drawer-close-btn:hover {
- color: var(--color-text);
-  background: rgba(255, 255, 255, 0.05);
+@media (hover: hover) {
+  .drawer-close-btn:hover {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.05);
+  }
 }
 
 .drawer-brand {
@@ -179,14 +197,14 @@ function closeMenu() {
 
 .brand-text {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
+  font-size: var(--text-xl);
   font-weight: 700;
- color: var(--color-text);
+  color: var(--color-text);
   letter-spacing: -0.03em;
 }
 
 .brand-text span {
-  background: linear-gradient(135deg, #6356e5 0%, #a78bfa 100%);
+  background: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary-soft) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -203,129 +221,132 @@ function closeMenu() {
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
-  color: #a09cb4;
-  font-size: 1rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
   font-weight: 500;
   padding: 0.8rem 1.2rem;
-  border-radius: 12px;
+  border-radius: var(--radius-xl);
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mobile-nav-btn i {
-  font-size: 1.1rem;
+  font-size: var(--text-lg);
   color: var(--color-primary);
   transition: transform 0.3s ease;
 }
 
-.mobile-nav-btn:hover {
- color: var(--color-text);
-  background: rgba(99, 86, 229, 0.1);
-  border-color: rgba(99, 86, 229, 0.3);
-  transform: translateX(4px);
+@media (hover: hover) {
+  .mobile-nav-btn:hover {
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--color-primary-strong) 10%, transparent);
+    border-color: color-mix(in srgb, var(--color-primary-strong) 30%, transparent);
+  }
 }
 
-.mobile-nav-btn:hover i {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .mobile-nav-btn:hover i {
+    transform: scale(1.1);
+  }
 }
 
 .drawer-footer {
-  font-size: 0.75rem;
-  color: #635c87;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding-top: 1.5rem;
 }
 
-/* Animations using Transition tags */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
+.slide-fade-enter-active, .slide-fade-leave-active {
   transition: opacity 0.3s ease;
 }
 
-.slide-fade-enter-active .mobile-nav-drawer,
-.slide-fade-leave-active .mobile-nav-drawer {
+.slide-fade-enter-active .mobile-nav-drawer, .slide-fade-leave-active .mobile-nav-drawer {
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
+.slide-fade-enter-from, .slide-fade-leave-to {
   opacity: 0;
 }
 
-.slide-fade-enter-from .mobile-nav-drawer,
-.slide-fade-leave-to .mobile-nav-drawer {
+.slide-fade-enter-from .mobile-nav-drawer, .slide-fade-leave-to .mobile-nav-drawer {
   transform: translateX(100%);
 }
 
-/* Media Query breakpoints */
 @media (max-width: 1023px) {
   .top-nav-desktop {
     display: none;
   }
-  
+
   .mobile-menu-trigger {
     display: flex;
   }
-  
+
   .top-nav-wrapper {
     top: clamp(0.75rem, 2vh, 1.5rem);
     right: clamp(0.5rem, 2vw, 2rem);
   }
 }
 
-/* Tablettes et petits écrans */
 @media (max-width: 900px) and (min-width: 769px) {
   .top-nav-desktop {
     gap: 0.5rem;
   }
-  
+
   .nav-btn {
     padding: 0.45rem 1rem;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
   }
 }
 
-/* Extra small devices */
-@media (max-width: var(--breakpoint-xs)) {
+@media (max-width: 360px) {
   .top-nav-wrapper {
     top: 0.75rem;
     right: 0.75rem;
   }
-  
+
   .mobile-menu-trigger {
     width: 40px;
     height: 40px;
-    font-size: 1.25rem;
+    font-size: var(--text-lg);
   }
 }
 
-/* Très petits écrans */
 @media (max-width: 320px) {
   .mobile-nav-drawer {
     width: 100vw;
     padding: 1rem;
   }
-  
+
   .drawer-brand {
     margin-top: 1rem;
     margin-bottom: 2rem;
   }
-  
+
   .brand-text {
-    font-size: 1.3rem;
+    font-size: var(--text-lg);
   }
 }
 
-/* Large devices */
-@media (min-width: var(--breakpoint-2xl)) {
+@media (min-width: 1536px) {
   .top-nav-desktop {
     gap: 1rem;
   }
-  
+
   .nav-btn {
     padding: 0.65rem 1.5rem;
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
   }
+}
+
+.drawer-close-btn {
+  width: 44px;
+  height: 44px;
+}
+
+.nav-btn {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 </style>

@@ -3,7 +3,6 @@ import Home from './views/Home/Home.vue';
 import Download from './views/Download/Download.vue';
 import TermsOfService from './views/Legal/TermsOfService.vue';
 import PrivacyPolicy from './views/Legal/PrivacyPolicy.vue';
-import LegalNotices from './views/Legal/LegalNotices.vue';
 
 
 const routes = [
@@ -33,9 +32,10 @@ const routes = [
   },
   {
     path: '/mentions-legales',
-    name: 'LegalNotices',
-    component: LegalNotices,
-    meta: { title: 'Mentions légales - Silvertransfert' }
+    redirect: () => {
+      window.location.replace('https://www.silvercore.fr/legal');
+      return '/';
+    }
   },
   {
     path: '/politique-de-confidentialite',
