@@ -13,7 +13,7 @@
       },
       {
         "icon": "bi-lock",
-        "label": "Chiffré de bout en bout"
+        "label": "Chiffré E2EE"
       },
       {
         "icon": "bi-clock-history",
