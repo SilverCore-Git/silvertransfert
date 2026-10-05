@@ -28,6 +28,7 @@ let key: CryptoKey | null = null;
 const password = ref('');
 const passwordError = ref('');
 const unlocking = ref(false);
+const passwordInput = ref<HTMLInputElement | null>(null);
 const progress = ref(0);           // 0..1
 const finished = ref(false);
 
@@ -77,14 +78,20 @@ onMounted(async () => {
 });
 
 async function unlock() {
-  if (!remote.value || !password.value || unlocking.value) return;
-  unlocking.value = true;
+  if (!remote.value || unlocking.value) return;
   passwordError.value = '';
+  if (!password.value) {
+    passwordError.value = 'Saisissez le mot de passe communiqué par l’expéditeur.';
+    passwordInput.value?.focus();
+    return;
+  }
+  unlocking.value = true;
   try {
     ({ key, meta: meta.value } = await openTransfer(remote.value, secret.value, password.value));
     status.value = 'ready';
   } catch {
-    passwordError.value = 'Mot de passe incorrect.';
+    passwordError.value = 'Mot de passe incorrect. Vérifiez-le auprès de l’expéditeur.';
+    passwordInput.value?.select();
   } finally {
     unlocking.value = false;
   }
@@ -198,6 +205,8 @@ async function startLegacyDownload() {
           <label for="dlPassword" class="field-label">Mot de passe</label>
           <input
             id="dlPassword"
+            ref="passwordInput"
+            name="transfer-password"
             v-model="password"
             type="password"
             class="password-input"
@@ -207,7 +216,7 @@ async function startLegacyDownload() {
             :aria-describedby="passwordError ? 'dlPasswordError' : undefined"
           />
           <p v-if="passwordError" id="dlPasswordError" role="alert" class="form-error">{{ passwordError }}</p>
-          <button type="submit" class="download-btn" :disabled="!password || unlocking">
+          <button type="submit" class="download-btn" :disabled="unlocking">
             <template v-if="unlocking"><span class="spinner-small" aria-hidden="true"></span> Vérification…</template>
             <template v-else><i aria-hidden="true" class="bi bi-unlock"></i> Déverrouiller</template>
           </button>

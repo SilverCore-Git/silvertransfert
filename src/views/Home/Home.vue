@@ -411,11 +411,12 @@ function reset() {
                       <label for="userPassword" class="sr-only">Mot de passe du transfert</label>
                       <input
                         id="userPassword"
+                        name="transfer-password"
                         v-model="userPassword"
                         :type="showPassword ? 'text' : 'password'"
                         class="password-input"
                         autocomplete="new-password"
-                        placeholder="Mot de passe"
+                        placeholder="6 caractères minimum…"
                         :aria-invalid="passwordTooShort && userPassword.length > 0"
                         aria-describedby="userPasswordHint"
                       />
