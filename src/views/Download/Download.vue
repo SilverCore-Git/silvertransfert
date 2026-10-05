@@ -118,7 +118,7 @@ async function startDownload() {
 
 async function checkLegacyStatus() {
   try {
-    const response = await axios.get(`${API_URL}/data/status?id=${transferId.value}`);
+    const response = await axios.get(`${API_URL}/data/status`, { params: { id: transferId.value } });
     legacyInfo.value = response.data;
     status.value = 'ready';
   } catch (error) {

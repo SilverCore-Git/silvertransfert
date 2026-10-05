@@ -90,12 +90,18 @@
     
 
     <script>
-      if (!window.location.pathname.startsWith('/t/') && window.location.pathname !== '/t') 
+      // Jamais sur les pages de téléchargement : la clé de déchiffrement est dans le "#".
+      // Le routeur ignore la casse (/T/...), d'où le toLowerCase().
+      const path = window.location.pathname.toLowerCase();
+      if (!path.startsWith('/t/') && path !== '/t')
       {
         const script = document.createElement('script');
         script.defer = true;
         script.src = "https://cloud.umami.is/script.js";
         script.setAttribute('data-website-id', '4d4e65cf-be18-4055-b9bd-9c7a72c3a558');
+        // Ne jamais transmettre le fragment ni la query string à Umami.
+        script.setAttribute('data-exclude-hash', 'true');
+        script.setAttribute('data-exclude-search', 'true');
         document.head.appendChild(script);
       }
     </script>
