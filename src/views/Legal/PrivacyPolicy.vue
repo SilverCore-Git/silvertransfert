@@ -96,15 +96,21 @@
               
               <h3>Comment cela fonctionne ?</h3>
               <ol class="process-list">
-                <li><strong>Vous téléversez un fichier</strong> : Il arrive non chiffré sur nos serveurs.</li>
-                <li><strong>Chiffrement immédiat</strong> : Notre serveur génère une clé de chiffrement unique dérivée du mot de passe que vous recevez dans l'URL de téléchargement.</li>
-                <li><strong>Le fichier en clair est supprimé</strong> : Une fois chiffré, le fichier original est irréversiblement supprimé de nos serveurs.</li>
-                <li><strong>Seul le fichier chiffré reste stocké</strong> : <strong>Aucune personne</strong>, y compris nos équipes, ne peut accéder à son contenu sans le mot de passe.</li>
-                <li><strong>Le mot de passe</strong> : Il est intégré à l'URL de téléchargement (ex: <code>https://silvertransfert.fr/t/abc123#motdepasse</code>). <strong>Nous ne le stockons pas</strong> et ne pouvons pas le récupérer.</li>
+                <li><strong>Chiffrement dans votre navigateur</strong> : Avant tout envoi, votre navigateur génère une clé aléatoire unique et chiffre vos fichiers ainsi que leurs noms. Rien n'arrive en clair sur nos serveurs.</li>
+                <li><strong>Seules des données chiffrées sont stockées</strong> : Nos serveurs reçoivent et conservent uniquement des blocs illisibles. <strong>Aucune personne</strong>, y compris nos équipes, ne peut accéder à leur contenu sans la clé.</li>
+                <li><strong>La clé reste dans le lien</strong> : Elle est placée après le symbole « # » de l'URL de téléchargement (ex : <code>https://silvertransfert.fr/t/abc123#cle</code>). Cette partie de l'adresse n'est jamais transmise à nos serveurs par les navigateurs : <strong>nous ne la recevons pas, ne la stockons pas</strong> et ne pouvons pas la récupérer.</li>
+                <li><strong>Mot de passe optionnel</strong> : Vous pouvez ajouter un mot de passe, qui est combiné à la clé du lien dans votre navigateur. Il n'est jamais envoyé à nos serveurs : en cas d'oubli, le transfert ne peut pas être ouvert.</li>
+                <li><strong>Déchiffrement chez le destinataire</strong> : Le fichier est déchiffré dans le navigateur de la personne qui ouvre le lien.</li>
               </ol>
-              
+
               <p>
-                <strong>Algorithme de chiffrement :</strong> AES-256-CBC – Standard industriel de chiffrement symétrique, considéré comme inviolable avec les ressources actuelles.
+                <strong>Algorithmes :</strong> AES-256-GCM (chiffrement authentifié : toute modification des données est détectée), PBKDF2-SHA256 et HKDF pour le mot de passe, via l'API de cryptographie native des navigateurs (WebCrypto).
+              </p>
+              <p>
+                <strong>Ce que nous voyons encore :</strong> la taille approximative des transferts, leur date et l'adresse IP de l'expéditeur (voir les durées de conservation ci-dessous). Comme tout service web, le code de chiffrement est fourni par notre site : sa sécurité suppose que ce code n'a pas été modifié.
+              </p>
+              <p>
+                <strong>Transferts créés avant la mise en place de ce chiffrement :</strong> ils restent téléchargeables jusqu'à leur expiration avec l'ancien procédé, dans lequel le fichier était chiffré par nos serveurs à sa réception.
               </p>
             </section>
 

@@ -93,7 +93,7 @@
                 Le Service permet aux Utilisateurs de :
               </p>
               <ul class="check-list">
-                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Transférer des fichiers</strong> de manière sécurisée grâce au chiffrement E2EE (AES-256-CBC).</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Transférer des fichiers</strong> de manière sécurisée grâce au chiffrement E2EE (AES-256-GCM, effectué dans le navigateur).</li>
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Stocker temporairement</strong> ces fichiers sur nos serveurs situés en France.</li>
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Partager un Lien de Téléchargement</strong> avec les destinataires de leur choix.</li>
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Bénéficier d'une conservation</strong> des Fichiers pendant <strong>30 jours</strong> à compter de leur téléversement.</li>
