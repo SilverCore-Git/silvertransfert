@@ -1,21 +1,23 @@
-# Frontend Dockerfile - Vue 3 + Vite (preview mode)
+# Frontend - Vue 3 + Vite (preview mode)
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copier les fichiers de configuration
-COPY package*.json tsconfig*.json vite.config.ts ./
+# URL publique de l'API, figée dans le bundle au build (Vite lit import.meta.env
+# à la compilation : une variable d'environnement au runtime serait ignorée).
+ARG VITE_API_URL=http://localhost:8080
+ENV VITE_API_URL=$VITE_API_URL
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY tsconfig*.json vite.config.ts index.html ./
 COPY public/ ./public/
 COPY src/ ./src/
-
-# Installer les dépendances
-RUN npm install
-
-# Builder pour la production
 RUN npm run build
 
-# Exposer le port 4173 (port par défaut de vite preview)
+# vite preview compile sa config dans node_modules/.vite-temp
+RUN mkdir -p node_modules/.vite-temp && chown node:node node_modules/.vite-temp
+USER node
 EXPOSE 4173
-
-# Lancer vite preview
 CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
