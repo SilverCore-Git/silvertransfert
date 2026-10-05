@@ -185,7 +185,7 @@ silvertransfert/
 | Fonctionnalité | Description | Fichiers Clés |
 |---------------|-------------|--------------|
 | Upload de fichiers | Drag & drop ou sélection manuelle | `Home.vue`, `DropZone.vue` |
-| Chiffrement | AES-256-CBC (côté backend) | API backend |
+| Chiffrement | AES-256-GCM de bout en bout, dans le navigateur | `src/lib/e2ee.ts`, `src/lib/transfer.ts` |
 | Génération de lien | Création de liens de téléchargement | `Home.vue` |
 | Progression upload | Affichage avec vitesse réseau | `UploadProgress.vue` |
 | Téléchargement | Récupération des fichiers | `Download.vue` |
