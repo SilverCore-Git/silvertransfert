@@ -19,7 +19,7 @@
     },
     {
       "question": "Mes fichiers sont-ils chiffrés ?",
-      "answer": "Oui, vos fichiers sont chiffrés avec l'algorithme AES‑256‑CBC avant d'être stockés."
+      "answer": "Oui, de bout en bout. Ils sont chiffrés dans votre navigateur (AES‑256‑GCM) avant l'envoi, avec une clé qui reste dans la partie du lien située après le « # ». Cette partie n'est jamais transmise à nos serveurs : nous ne stockons que des données illisibles. Vous pouvez ajouter un mot de passe pour protéger le transfert si le lien est partagé par erreur."
     },
     {
       "question": "Mes fichiers peuvent-ils être perdus ?",

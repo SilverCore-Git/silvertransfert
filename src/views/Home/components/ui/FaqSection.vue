@@ -157,7 +157,7 @@ const faqData: FaqItem[] = faq_json.items || [
   },
   {
     question: "Les fichiers sont-ils chiffrés ?",
-    answer: "Oui, vos fichiers sont chiffrés avec l'algorithme AES-256-CBC avant d'être stockés."
+    answer: "Oui, de bout en bout : ils sont chiffrés dans votre navigateur (AES-256-GCM) avant l'envoi, et la clé ne quitte jamais le lien."
   },
   {
     question: "Peut-on perdre nos fichiers ?",

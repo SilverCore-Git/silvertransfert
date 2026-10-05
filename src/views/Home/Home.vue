@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick } from 'vue';
 import { formatSize } from '../../utils/file';
-import axios from 'axios';
+import { uploadTransfer } from '../../lib/transfer';
 import home_json from "../../config/home.json";
 
 // Components
@@ -11,9 +11,6 @@ import UploadProgress from './components/ui/UploadProgress.vue';
 import TransferResult from './components/ui/TransferResult.vue';
 import FaqSection from './components/ui/FaqSection.vue';
 import { scrollToCurrentHash } from '../../router';
-
-// Configuration
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 // Types
 interface FileItem {
@@ -36,8 +33,11 @@ const copied = ref(false);
 const copyFailed = ref(false);
 const uploadError = ref('');
 const fileInputRef = ref<HTMLInputElement | null>(null);
-const passwordLength = ref(12);
-const MIN_PASSWORD_LENGTH = 10;
+// Mot de passe optionnel, en plus de la clé contenue dans le lien
+const protect = ref(false);
+const userPassword = ref('');
+const showPassword = ref(false);
+const MIN_USER_PASSWORD = 6;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 const termsAccepted = ref(false);
@@ -60,6 +60,7 @@ const featureIcons: string[] = ['bi-geo-alt', 'bi-shield-lock', 'bi-hdd-stack'];
 // Computed
 const totalSize = computed(() => files.value.reduce((s, f) => s + f.size, 0));
 const exceedsLimit = computed(() => totalSize.value > MAX_TOTAL_SIZE);
+const passwordTooShort = computed(() => protect.value && userPassword.value.length < MIN_USER_PASSWORD);
 
 const estimatedTimeRemaining = computed(() => {
   if (uploadPct.value <= 0 || uploadSpeed.value <= 0) return null;
@@ -84,15 +85,6 @@ function formatTime(seconds: number): string {
 }
 
 // Logic
-async function getSecurePass(len: number = 8) {
-  try {
-    const res = await axios.get(`${API_URL}/passwd/${len}`);
-    return res.data;
-  } catch {
-    return Math.random().toString(36).slice(2, 10);
-  }
-}
-
 function addFiles(list: FileList | null) {
   if (!list) return;
   for (const f of Array.from(list)) {
@@ -288,7 +280,7 @@ function onPickerCancel() {
 }
 
 async function transfer() {
-  if (!files.value.length || isUploading.value || exceedsLimit.value) return;
+  if (!files.value.length || isUploading.value || exceedsLimit.value || passwordTooShort.value) return;
 
   // Panel shrinks to the progress ring in the same smooth animation
   animateLayout(() => {
@@ -299,41 +291,21 @@ async function transfer() {
   uploadStartTime.value = Date.now();
   uploadSpeed.value = 0;
 
-  const transferId = Math.random().toString(36).slice(2, 10);
-  const passwd = await getSecurePass(passwordLength.value);
-
-  const formData = new FormData();
-  files.value.forEach(f => {
-    formData.append('file', f.file);
-  });
-
   try {
-    const response = await axios.post(`${API_URL}/upload/file`, formData, {
-      params: { id: transferId, passwd },
-      onUploadProgress: (progressEvent) => {
-        if (progressEvent.total) {
-          const now = Date.now();
-          const elapsed = (now - uploadStartTime.value) / 1000; // en secondes
-          const currentSpeed = progressEvent.loaded / elapsed;
-          uploadSpeed.value = currentSpeed > 0 ? currentSpeed : uploadSpeed.value;
-          uploadPct.value = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        }
+    // Chiffrement dans le navigateur : la clé ne quitte jamais cette page.
+    const path = await uploadTransfer(files.value.map(f => f.file), {
+      password: protect.value ? userPassword.value : undefined,
+      onProgress: (sent, total) => {
+        const elapsed = (Date.now() - uploadStartTime.value) / 1000;
+        if (elapsed > 0) uploadSpeed.value = sent / elapsed;
+        uploadPct.value = total ? Math.round((sent * 100) / total) : 100;
       }
     });
-
-    if (response.data.status === 'await_crypting' || response.data.status === 'OK') {
-      const origin = window.location.origin;
-      link.value = `${origin.replace('http://', '').replace('https://', '')}/t/${transferId}#${passwd}`;
-      animateLayout(() => {
-        done.value = true;
-        isUploading.value = false;
-      });
-    } else {
-      animateLayout(() => {
-        uploadError.value = "Le serveur n'a pas pu enregistrer l'envoi. Réessayez dans un instant.";
-        isUploading.value = false;
-      });
-    }
+    link.value = `${window.location.host}${path}`;
+    animateLayout(() => {
+      done.value = true;
+      isUploading.value = false;
+    });
   } catch (error) {
     console.error('Upload failed:', error);
     animateLayout(() => {
@@ -368,6 +340,9 @@ function reset() {
     uploadError.value = '';
     isUploading.value = false;
     termsAccepted.value = false;
+    protect.value = false;
+    userPassword.value = '';
+    showPassword.value = false;
     if (fileInputRef.value) {
       fileInputRef.value.value = '';
     }
@@ -423,23 +398,35 @@ function reset() {
               </DropZone>
 
                 <div v-if="files.length > 0 && !isUploading" class="file-actions">
-                  <div class="slider-field">
-                    <div class="slider-head">
-                      <label for="passwordLength" class="field-label">
-                        {{ home_json.hero.encryptionSlider?.label || 'Complexité du chiffrement' }}
-                      </label>
-                      <span class="slider-value">{{ passwordLength }}</span>
+                  <div class="protect-field">
+                    <label class="terms-checkbox">
+                      <input type="checkbox" v-model="protect" class="checkbox-input" aria-controls="userPassword" />
+                      <span class="checkbox-custom checkbox-square" aria-hidden="true"></span>
+                      <span class="terms-text">
+                        Protéger par un mot de passe
+                        <span class="field-hint">En plus du lien. À transmettre par un autre canal.</span>
+                      </span>
+                    </label>
+                    <div v-if="protect" class="password-row">
+                      <label for="userPassword" class="sr-only">Mot de passe du transfert</label>
+                      <input
+                        id="userPassword"
+                        v-model="userPassword"
+                        :type="showPassword ? 'text' : 'password'"
+                        class="password-input"
+                        autocomplete="new-password"
+                        placeholder="Mot de passe"
+                        :aria-invalid="passwordTooShort && userPassword.length > 0"
+                        aria-describedby="userPasswordHint"
+                      />
+                      <button type="button" class="password-toggle" :aria-pressed="showPassword" @click="showPassword = !showPassword">
+                        <i aria-hidden="true" class="bi" :class="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                        <span class="sr-only">{{ showPassword ? 'Masquer' : 'Afficher' }} le mot de passe</span>
+                      </button>
                     </div>
-                    <input
-                      type="range"
-                      id="passwordLength"
-                      v-model.number="passwordLength"
-                      :min="MIN_PASSWORD_LENGTH"
-                      :max="32"
-                      class="w-full h-1 appearance-none cursor-pointer rounded-full bg-(--color-primary)
-                            [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                            [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-0"
-                    />
+                    <p v-if="protect" id="userPasswordHint" class="field-hint" :class="{ 'is-error': passwordTooShort && userPassword.length > 0 }">
+                      {{ MIN_USER_PASSWORD }} caractères minimum. Sans lui, le fichier ne pourra pas être ouvert.
+                    </p>
                   </div>
 
                   <label class="terms-checkbox">
@@ -468,7 +455,7 @@ function reset() {
                     <span class="size-hint">
                       {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                     </span>
-                    <button class="send-btn" @click="transfer" :disabled="!termsAccepted || exceedsLimit">
+                    <button class="send-btn" @click="transfer" :disabled="!termsAccepted || exceedsLimit || passwordTooShort">
                       <i aria-hidden="true" class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
                     </button>
                   </div>
@@ -715,24 +702,85 @@ html {
   padding: 0 0.25rem;
 }
 
-.slider-head {
+.protect-field {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.6rem;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
-.field-label {
-  font-size: var(--text-sm);
-  font-weight: 500;
+.field-hint {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+}
+
+.field-hint.is-error {
+  color: var(--color-danger-soft);
+}
+
+.checkbox-custom.checkbox-square {
+  border-radius: 5px;
+}
+
+.password-row {
+  display: flex;
+  gap: 0.5rem;
+  padding-left: calc(18px + 0.75rem);
+}
+
+.password-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-bg-deep);
   color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  transition: border-color 0.2s;
 }
 
-.slider-value {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-primary);
+.password-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.password-input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.password-input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.password-toggle {
+  width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+@media (hover: hover) {
+  .password-toggle:hover {
+    background: var(--hover-background);
+    color: var(--color-text);
+  }
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.protect-field > .field-hint {
+  padding-left: calc(18px + 0.75rem);
 }
 
 .terms-checkbox {

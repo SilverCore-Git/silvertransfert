@@ -5,7 +5,7 @@
     "tagline": "Transfert sécurisé de fichiers",
     "headline": "Envoyez vos fichiers.",
     "headlineAccent": "Ils restent en France.",
-    "subtitle": "Chiffrés, hébergés en France et supprimés après 30 jours.",
+    "subtitle": "Chiffrés dans votre navigateur, hébergés en France et supprimés après 30 jours.",
     "toolFacts": [
       {
         "icon": "bi-hdd",
@@ -13,20 +13,15 @@
       },
       {
         "icon": "bi-lock",
-        "label": "AES‑256‑CBC"
+        "label": "Chiffré de bout en bout"
       },
       {
         "icon": "bi-clock-history",
         "label": "Supprimé après 30 jours"
       }
     ],
-    "dropHint": "Chiffrement AES‑256‑CBC · Hébergement en France · Conservation 30 j · 10 Go",
+    "dropHint": "Chiffrement de bout en bout · Hébergement en France · Conservation 30 j · 10 Go",
     "scrollIndicator": "Faites défiler vers le bas",
-    "encryptionSlider": {
-      "label": "Complexité du chiffrement",
-      "min": 10,
-      "max": 32
-    },
     "termsAcceptance": {
       "checkboxLabel": "J'ai lu et j'accepte les ",
       "cguLink": "conditions générales d'utilisation",
@@ -67,7 +62,7 @@
       },
       {
         "title": "Sécurité",
-        "description": "Vos fichiers sont chiffrés en AES‑256‑CBC : nos équipes ne peuvent pas les lire."
+        "description": "Vos fichiers sont chiffrés dans votre navigateur (AES‑256‑GCM) avant l'envoi. La clé reste dans le lien : nos serveurs ne la reçoivent jamais et ne peuvent pas lire vos fichiers."
       },
       {
         "title": "Redondance",
