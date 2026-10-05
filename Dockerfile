@@ -7,6 +7,9 @@ WORKDIR /app
 # à la compilation : une variable d'environnement au runtime serait ignorée).
 ARG VITE_API_URL=http://localhost:8080
 ENV VITE_API_URL=$VITE_API_URL
+# Optionnel : domaine CDN pour le téléchargement des chunks (vide = l'API)
+ARG VITE_CDN_URL=
+ENV VITE_CDN_URL=$VITE_CDN_URL
 
 COPY package.json package-lock.json ./
 RUN npm ci
