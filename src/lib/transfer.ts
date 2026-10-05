@@ -8,7 +8,10 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 const BASE = `${API_URL}/v2/transfers`;
-const PARALLEL_UPLOADS = 3;
+// Plusieurs envois en vol : un chunk lent (réseau instable, connexion
+// lointaine) ne bloque pas les autres. 6 = limite de connexions HTTP/1.1
+// par hôte dans les navigateurs.
+const PARALLEL_UPLOADS = 6;
 const RETRIES = 3;
 
 async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
