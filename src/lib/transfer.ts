@@ -8,9 +8,6 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 const BASE = `${API_URL}/v2/transfers`;
-// Téléchargement des chunks (chiffrés, cachables) : via un CDN si VITE_CDN_URL
-// est défini, sinon directement depuis l'API. L'API et les uploads restent en direct.
-const CHUNKS_BASE = `${import.meta.env.VITE_CDN_URL || API_URL}/v2/transfers`;
 const PARALLEL_UPLOADS = 3;
 const RETRIES = 3;
 
@@ -161,7 +158,7 @@ async function openSink(meta: Meta): Promise<Writable> {
 export async function saveTransfer(t: RemoteTransfer, key: CryptoKey, meta: Meta, onProgress?: (done: number, total: number) => void) {
   const sink = await openSink(meta);
   const fetchChunk = (n: number) => withRetry(async () => new Uint8Array(
-    (await axios.get<ArrayBuffer>(`${CHUNKS_BASE}/${t.id}/chunks/${n}`, { responseType: 'arraybuffer' })).data));
+    (await axios.get<ArrayBuffer>(`${BASE}/${t.id}/chunks/${n}`, { responseType: 'arraybuffer' })).data));
 
   try {
     let done = 0;
