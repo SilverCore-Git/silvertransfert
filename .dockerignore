@@ -16,3 +16,5 @@ dist/
 
 # OS
 Thumbs.db
+tests/
+.vibe/

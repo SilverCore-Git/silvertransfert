@@ -204,6 +204,27 @@
 
 ---
 
+## Session 2026-10-05 — Chiffrement de bout en bout (branche `refonte-api`)
+
+**Objectif** : passer d'un chiffrement côté serveur (présenté à tort comme E2EE) à un vrai chiffrement de bout en bout, en lien avec la refonte de l'API.
+
+**Tâches réalisées**
+- `src/lib/e2ee.ts` : WebCrypto, AES-256-GCM par chunk de 8 Mio, IV compteur, AAD `st2|id|index|dernier`, mot de passe optionnel PBKDF2-SHA256 600k + HKDF, métadonnées chiffrées.
+- `src/lib/transfer.ts` : upload chunké (3 en parallèle, reprises), zip côté client (`client-zip`), téléchargement en streaming (File System Access, sinon Blob avec avertissement au-delà de 2 Go).
+- `Home.vue` : le curseur « complexité du chiffrement » est remplacé par l'option « Protéger par un mot de passe ». Plus d'appel à `/passwd` ni de repli `Math.random`.
+- `Download.vue` : liens v2 `/t/<id>#<clé 43 car.>` déchiffrés localement (nom, taille, expiration, mot de passe, progression) ; les anciens liens `#motdepasse` passent par l'ancien flux serveur.
+- Textes (accueil, FAQ, confidentialité, CGU) alignés sur le fonctionnement réel.
+- Tests : `bun test` (`tests/e2ee.test.ts`, `tests/transfer.integration.test.ts`, ce dernier contre une API lancée).
+
+**Décisions techniques**
+- La clé n'est jamais envoyée : elle vit dans le fragment d'URL. Le mot de passe non plus.
+- `VITE_API_URL` et `CHUNK_SIZE` doivent rester alignés avec l'API (`config.chunkPlainBytes`).
+
+**Problèmes rencontrés**
+- `word-break: break-all` coupait les mots dans la carte de téléchargement → `overflow-wrap: anywhere`.
+
+---
+
 ## Prochaines améliorations identifiées
 
 - [ ] Amélioration 1

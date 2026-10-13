@@ -72,12 +72,6 @@ export function scrollToCurrentHash(path: string) {
 router.beforeEach((to: any, _from: any, next: any) => {
   const title = to.meta.title as string;
 
-  if (to.path.slice(1).startsWith('http'))
-  {
-    window.location.href = to.path.slice(1);
-    return;
-  }
-
   if (title) {
     document.title = title;
 
