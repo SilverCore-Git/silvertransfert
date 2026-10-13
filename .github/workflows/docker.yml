@@ -36,6 +36,9 @@ jobs:
         with:
           context: .
           push: true
+          # Sans attestation, ghcr reçoit une image simple et lit le label source
+          # (sinon un index : label ignoré, package rattaché à aucun dépôt).
+          provenance: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
