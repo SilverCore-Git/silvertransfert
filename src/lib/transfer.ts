@@ -3,7 +3,7 @@ import axios from 'axios';
 import { downloadZip, predictLength } from 'client-zip';
 import {
   type Meta, deriveKey, encryptChunk, decryptChunk, encryptMeta, decryptMeta,
-  rechunk, newTransferId, newLinkKey, randomBytes, toB64url, fromB64url,
+  rechunk, newLinkKey, randomBytes, toB64url, fromB64url,
 } from './e2ee';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -52,12 +52,15 @@ export interface UploadOptions {
 // Chiffre et envoie les fichiers (zippés s'il y en a plusieurs). Renvoie le
 // chemin du lien de téléchargement, clé incluse dans le fragment.
 export async function uploadTransfer(files: File[], { password, onProgress }: UploadOptions = {}): Promise<string> {
-  const id = newTransferId();
   const linkKey = newLinkKey();
   const salt = password ? randomBytes(16) : undefined;
   const key = await deriveKey(linkKey, password, salt);
 
-  const { data } = await axios.post<{ uploadToken: string }>(BASE, { id, salt: salt && toB64url(salt) });
+  // L'id est tiré par le serveur (un id choisi par le client permettait de
+  // reprendre l'id d'un transfert expiré).
+  const { data } = await axios.post<{ id: string, uploadToken: string }>(BASE, { salt: salt && toB64url(salt) });
+  const { id } = data;
+  if (!/^[A-Za-z0-9_-]{16,64}$/.test(id)) throw new Error('Identifiant de transfert invalide');
   const headers = { Authorization: `Bearer ${data.uploadToken}` };
 
   const isZip = files.length > 1;

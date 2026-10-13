@@ -37,7 +37,6 @@ export function fromB64url(s: string): Uint8Array<ArrayBuffer> {
 }
 
 export const randomBytes = (n: number) => crypto.getRandomValues(new Uint8Array(n));
-export const newTransferId = () => toB64url(randomBytes(16));   // 22 caractères
 export const newLinkKey = () => randomBytes(32);
 export const isLinkKey = (s: string) => /^[A-Za-z0-9_-]{43}$/.test(s);
 
