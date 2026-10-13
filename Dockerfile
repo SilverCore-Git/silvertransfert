@@ -1,5 +1,5 @@
-# Frontend - Vue 3 + Vite (preview mode)
-FROM node:20-alpine
+# Frontend - Vue 3 + Vite, build puis service statique par nginx
+FROM node:22-alpine AS build
 
 WORKDIR /app
 
@@ -11,13 +11,14 @@ ENV VITE_API_URL=$VITE_API_URL
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY tsconfig*.json vite.config.ts index.html ./
+COPY tsconfig*.json vite.config.ts index.html nginx.conf ./
 COPY public/ ./public/
 COPY src/ ./src/
 RUN npm run build
+# La CSP autorise l'API (connect-src, form-action) : son origine vient du même argument.
+RUN sed -i "s|__API_ORIGIN__|$(node -p 'new URL(process.env.VITE_API_URL).origin')|g" nginx.conf
 
-# vite preview compile sa config dans node_modules/.vite-temp
-RUN mkdir -p node_modules/.vite-temp && chown node:node node_modules/.vite-temp
-USER node
+FROM nginxinc/nginx-unprivileged:1.27-alpine
+COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 4173
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
