@@ -162,6 +162,10 @@ async function openSink(meta: Meta): Promise<Writable> {
 // À appeler directement depuis le clic : le sélecteur de fichier exige une
 // activation utilisateur. Lève AbortError si l'utilisateur annule.
 export async function saveTransfer(t: RemoteTransfer, key: CryptoKey, meta: Meta, onProgress?: (done: number, total: number) => void) {
+  // `chunks` vient du serveur, non authentifié : un nombre non entier ou nul
+  // arrêterait la boucle avant le chunk marqué « dernier » et un fichier
+  // tronqué passerait pour complet.
+  if (!Number.isInteger(t.chunks) || t.chunks < 1) throw new Error('Transfert corrompu');
   const sink = await openSink(meta);
   const fetchChunk = (n: number) => withRetry(async () => new Uint8Array(
     (await axios.get<ArrayBuffer>(`${BASE}/${t.id}/chunks/${n}`, { responseType: 'arraybuffer' })).data));
@@ -177,6 +181,8 @@ export async function saveTransfer(t: RemoteTransfer, key: CryptoKey, meta: Meta
       done += plain.length;
       onProgress?.(done, meta.size);
     }
+    // meta.size est chiffré avec la clé du lien : le serveur ne peut pas le falsifier.
+    if (done !== meta.size) throw new Error('Transfert corrompu');
     await sink.close();
   } catch (err) {
     await sink.abort().catch(() => {});
