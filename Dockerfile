@@ -15,8 +15,10 @@ COPY tsconfig*.json vite.config.ts index.html nginx.conf ./
 COPY public/ ./public/
 COPY src/ ./src/
 RUN npm run build
-# La CSP autorise l'API (connect-src, form-action) : son origine vient du même argument.
-RUN sed -i "s|__API_ORIGIN__|$(node -p 'new URL(process.env.VITE_API_URL).origin')|g" nginx.conf
+# La CSP autorise l'API (connect-src, form-action) : son origine vient du même
+# argument. URL vide ou invalide (variable CI absente) = build en échec, pas une
+# image qui bloquerait silencieusement l'API.
+RUN origin=$(node -p 'new URL(process.env.VITE_API_URL).origin') && sed -i "s|__API_ORIGIN__|$origin|g" nginx.conf
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine
 COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
