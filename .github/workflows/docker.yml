@@ -6,7 +6,7 @@ name: Image Docker
 
 on:
   push:
-    branches: [main, refonte-api]
+    branches: [main]
     tags: ["v*"]
   workflow_dispatch:
 
