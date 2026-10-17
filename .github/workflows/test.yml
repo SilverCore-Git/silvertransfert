@@ -1,0 +1,17 @@
+# Tests sur chaque PR : une PR rouge ne doit pas être mergée (l'image part à
+# chaque push sur main). Les tests d'intégration sont ignorés (pas d'API ici).
+name: Tests
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun test
+      # vue-tsc + vite build : erreurs de types et de build
+      - run: bun run build
