@@ -97,9 +97,9 @@
               <ol class="process-list">
                 <li><strong>Chiffrement local dans votre navigateur</strong> : Avant le moindre envoi vers nos serveurs, votre navigateur génère une clé de chiffrement unique et chiffre l'intégralité de vos fichiers. Rien ne transite en clair.</li>
                 <li><strong>Stockage exclusif de données chiffrées</strong> : Nos serveurs reçoivent et conservent uniquement un bloc de données chiffré et illisible. Aucune personne, y compris l'équipe de Silvercore, ne dispose de la clé permettant de le déchiffrer.</li>
-                <li><strong>La clé réside exclusivement dans l'URL</strong> : La clé de déchiffrement est intégrée dans le fragment (l'ancre `#`) de l'URL générée (ex : <code>https://www.silvertransfert.fr/t/id#key</code>). Le standard des navigateurs web garantit que la partie située après le `#` n'est <strong>jamais transmise à nos serveurs</strong>. Nous ne recevons pas la clé, ne la stockons pas et ne pouvons jamais la récupérer.</li>
+                <li><strong>La clé réside exclusivement dans l'URL</strong> : La clé de déchiffrement est intégrée dans le fragment (l'ancre <code>#</code>) de l'URL générée (ex : <code>https://www.silvertransfert.fr/t/id#key</code>). Le standard des navigateurs web garantit que la partie située après le <code>#</code> n'est <strong>jamais transmise à nos serveurs</strong>. Nous ne recevons pas la clé, ne la stockons pas et ne pouvons jamais la récupérer.</li>
                 <li><strong>Option de renforcement par mot de passe</strong> : Vous pouvez ajouter un mot de passe optionnel lors de la création d'un transfert. Ce mot de passe dérive et consolide directement la clé de chiffrement côté client dans votre navigateur. Il n'est jamais transmis à nos serveurs.</li>
-                <li><strong>Déchiffrement chez le destinataire</strong> : Le destinataire ouvre le lien complet contenant l'ancre `#` (et saisit le mot de passe s'il a été configuré). Le déchiffrement s'effectue entièrement en local dans son navigateur.</li>
+                <li><strong>Déchiffrement chez le destinataire</strong> : Le destinataire ouvre le lien complet contenant l'ancre <code>#</code> (et saisit le mot de passe s'il a été configuré). Le déchiffrement s'effectue entièrement en local dans son navigateur.</li>
               </ol>
 
               <div class="warning-box">
@@ -114,6 +114,9 @@
               </p>
               <p>
                 <strong>Ce que nos serveurs voient :</strong> La taille des données chiffrées, la date du transfert et l'adresse IP (conservées selon la durée de rétention définie ci-dessous).
+              </p>
+              <p>
+                <strong>Transferts créés avant la mise en place de ce chiffrement :</strong> ils restent téléchargeables jusqu'à leur expiration avec l'ancien procédé, dans lequel le fichier était chiffré par nos serveurs à sa réception.
               </p>
             </section>
 
