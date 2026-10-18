@@ -58,8 +58,12 @@ const formattedSpeed = computed(() => {
         {{ home_json.uploadProgress?.finalizing || 'Finalisation' }}
       </template>
     </span>
-    <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ getConfigValue('home.uploadProgress.timeRemaining', { time: estimatedTime }) }}</span>
-    <span v-if="formattedSpeed && !isFinalizing" class="upload-speed">{{ formattedSpeed }}</span>
+    <!-- Temps restant et débit sur une seule ligne -->
+    <p v-if="!isFinalizing && (estimatedTime || formattedSpeed)" class="upload-meta">
+      <span v-if="estimatedTime">{{ getConfigValue('home.uploadProgress.timeRemaining', { time: estimatedTime }) }}</span>
+      <span v-if="estimatedTime && formattedSpeed" class="meta-sep" aria-hidden="true">·</span>
+      <span v-if="formattedSpeed">{{ formattedSpeed }}</span>
+    </p>
     <span v-else-if="isFinalizing" class="finalizing-lbl">{{ home_json.uploadProgress?.preparingLink || 'Préparation du lien…' }}</span>
     <!-- .stop : le clic ne doit pas atteindre la zone de dépôt (sélecteur de fichiers) -->
     <button v-if="!isFinalizing" type="button" class="cancel-btn" @click.stop="emit('cancel')">
@@ -142,19 +146,7 @@ const formattedSpeed = computed(() => {
   animation: pulse 1s ease-in-out infinite;
 }
 
-.time-remaining {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  font-style: italic;
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
-}
 
-.upload-speed {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  font-style: italic;
-  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
-}
 
 /* Finalization Animation */
 @keyframes pulse {
@@ -185,7 +177,21 @@ const formattedSpeed = computed(() => {
     opacity: 1;
   }
 }
-.time-remaining, .upload-speed { font-variant-numeric: tabular-nums; }
+/* Chiffres à chasse fixe : la ligne ne bouge pas quand les valeurs changent */
+.upload-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.meta-sep {
+  opacity: 0.6;
+}
 
 /* Le conteneur ignore les clics (pointer-events: none) : le bouton les réactive */
 .cancel-btn {
