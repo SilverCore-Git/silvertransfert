@@ -389,8 +389,8 @@ git fetch origin  # Si on avait accès
 git rebase origin/develop
 
 # 4. Vérifier que tout compile et que les tests passent
-npm run build
-npm run test
+bun run build
+bun test
 
 # 5. La branche reste locale - PAS DE PUSH
 # git push origin feat/ma-nouvelle-feature  # ❌ INTERDIT
@@ -472,11 +472,10 @@ Tests Pyramid :
 
 ### Framework de test
 
-**Recommandation** : Vitest (intégré avec Vite) + @vue/test-utils
+**Utilisé** : `bun:test`, intégré à Bun (aucune dépendance à installer). Tests dans `tests/`.
 
 ```bash
-# Installer les dépendances
-npm install -D vitest @vue/test-utils jsdom
+bun test
 ```
 
 ### Structure des tests

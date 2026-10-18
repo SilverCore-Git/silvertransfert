@@ -587,16 +587,16 @@ const theme = useLocalStorage('theme', 'dark');  // OK - pas sensible
 - **Toujours vérifier les dépendances** avant de les utiliser
 - **Mettre à jour régulièrement** les dépendances
 - **Éviter les dépendances obsolètes**
-- **Vérifier les vulnérabilités** (npm audit, Snyk, etc.)
+- **Vérifier les vulnérabilités** (bun audit, Snyk, etc.)
 
 ```bash
 # ✅ BON - Vérifier les vulnérabilités
-npm audit
-npm audit fix
+bun audit
+bun update <paquet>   # corriger une vulnérabilité signalée
 
 # ✅ BON - Mettre à jour les dépendances
-npm update
-npm outdated
+bun outdated
+bun update
 ```
 
 ### Dépendances de confiance
@@ -691,7 +691,7 @@ Avant chaque commit, vérifiez :
 
 ### Dépendances
 - [ ] Toutes les dépendances sont à jour
-- [ ] Aucune vulnérabilité connue (npm audit)
+- [ ] Aucune vulnérabilité connue (bun audit)
 - [ ] Les dépendances sont de sources fiables
 
 ### Code

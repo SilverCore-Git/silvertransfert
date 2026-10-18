@@ -403,8 +403,8 @@ git blame src/views/Home/Home.vue
 - [ ] Le code est commenté là où c'est nécessaire
 
 ### Vérifications finales
-- [ ] `npm run build` fonctionne
-- [ ] `npm run test` passe (si tests existants)
+- [ ] `bun run build` fonctionne
+- [ ] `bun test` passe
 - [ ] Le code fonctionne en local
 
 ---
