@@ -77,6 +77,14 @@ export async function uploadTransfer(files: File[], { password, onProgress, sign
     let size = 0;
     let sent = 0;
     let failure: unknown;
+    // Octets déjà partis des chunks en cours d'envoi : la progression avance
+    // pendant l'envoi au lieu de bondir à la fin de chaque chunk de 8 Mio.
+    const partial = new Map<number, number>();
+    const report = () => {
+      let inFlight = 0;
+      for (const bytes of partial.values()) inFlight += bytes;
+      onProgress?.(Math.min(sent + inFlight, total), total);
+    };
 
     for await (const { data: chunk, last } of rechunk(stream)) {
       signal?.throwIfAborted();
@@ -87,10 +95,13 @@ export async function uploadTransfer(files: File[], { password, onProgress, sign
       const job: Promise<void> = withRetry(() => axios.put(`${BASE}/${id}/chunks/${n}`, body, {
         headers: { ...headers, 'Content-Type': 'application/octet-stream' },
         signal,
+        // Repart de 0 à chaque nouvelle tentative ; plafonné à la taille en
+        // clair (le chunk chiffré a 16 octets de plus).
+        onUploadProgress: e => { partial.set(n, Math.min(e.loaded, chunk.length)); report(); },
       }))
-        .then(() => { sent += chunk.length; onProgress?.(Math.min(sent, total), total); })
+        .then(() => { sent += chunk.length; })
         .catch(err => { failure ??= err; })
-        .finally(() => inflight.delete(job));
+        .finally(() => { partial.delete(n); inflight.delete(job); report(); });
       inflight.add(job);
       if (inflight.size >= PARALLEL_UPLOADS) await Promise.race(inflight);
     }
