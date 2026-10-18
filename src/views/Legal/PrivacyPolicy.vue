@@ -12,7 +12,7 @@
           <div class="legal-content">
             <div class="last-updated">
               <i aria-hidden="true" class="bi bi-calendar-check"></i>
-              Dernière mise à jour : Juin 2026
+              Dernière mise à jour : Octobre 2026
             </div>
             
             <h1>Politique de confidentialité</h1>
@@ -56,8 +56,8 @@
                 </p>
                 <ul class="warning-list">
                   <li>Du contenu qu'il transfère.</li>
-                  <li>De la sécurité du lien de téléchargement.</li>
-                  <li>Du mot de passe intégré dans l'URL.</li>
+                  <li>De la sécurité et de la conservation du lien de téléchargement.</li>
+                  <li>Du mot de passe optionnel associé au transfert.</li>
                   <li>Des personnes avec lesquelles il partage ce lien.</li>
                 </ul>
                 <p>
@@ -69,48 +69,51 @@
             <section class="legal-section-item">
               <h2><i aria-hidden="true" class="bi bi-file-earmark-lock"></i> 3. Données Personnelles Collectées</h2>
               <p>
-                Nous collectons <strong>uniquement les données strictement nécessaires</strong> au fonctionnement du service. 
+                Nous collectons <strong>uniquement les données strictement nécessaires</strong> au fonctionnement, à la sécurité et à la stabilité du service. 
                 Aucune donnée n'est utilisée à des fins commerciales, analytiques ou publicitaires.
               </p>
               
               <h3>a) Données fournies par l'utilisateur</h3>
               <ul class="info-list">
-                <li><strong>Fichiers transférés</strong> : Les fichiers que vous téléversez via notre service. <strong>Ces fichiers sont chiffrés de bout en bout (E2EE)</strong> et ne sont jamais accessibles en clair par nos équipes ou quiconque ne possède pas le mot de passe de déchiffrement.</li>
+                <li><strong>Fichiers transférés</strong> : Les fichiers que vous téléversez via notre service. <strong>Ces fichiers sont entièrement chiffrés de bout en bout (E2EE)</strong> dans votre navigateur avant leur envoi et sont strictement inaccessibles en clair par nos équipes.</li>
               </ul>
               
               <h3>b) Données techniques collectées automatiquement</h3>
               <ul class="info-list">
-                <li><strong>Adresses IP</strong> : Pour assurer la sécurité et la stabilité du service.</li>
-                <li><strong>Informations du navigateur</strong> (user-agent, type de navigateur) : Pour optimiser la compatibilité du service.</li>
-                <li><strong>Logs d'accès</strong> : Date et heure des connexions, uniquement pour le bon fonctionnement technique.</li>
+                <li><strong>Adresses IP</strong> : Pour assurer la sécurité, prévenir les abus et garantir la stabilité du service.</li>
+                <li><strong>Logs d'accès</strong> : Horodatage et journaux techniques des connexions et transferts, uniquement pour la maintenance technique et la détection d'incidents.</li>
               </ul>
               
               <p class="highlight">
                 <i aria-hidden="true" class="bi bi-cookie"></i>
-                <strong>Nous n'utilisons aucun cookie, aucun tracker, aucune technologie de profiling.</strong>
+                <strong>Nous n'utilisons aucun cookie, aucun tracker, aucun User-Agent, ni aucune technologie de profiling.</strong>
               </p>
             </section>
 
             <section class="legal-section-item">
-              <h2><i aria-hidden="true" class="bi bi-key-fill"></i> 4. Chiffrement de Bout en Bout (E2EE)</h2>
+              <h2><i aria-hidden="true" class="bi bi-key-fill"></i> 4. Chiffrement de Bout en Bout (E2EE) & Perte de Clé</h2>
               
               <h3>Comment cela fonctionne ?</h3>
               <ol class="process-list">
-                <li><strong>Chiffrement dans votre navigateur</strong> : Avant tout envoi, votre navigateur génère une clé aléatoire unique et chiffre vos fichiers ainsi que leurs noms. Rien n'arrive en clair sur nos serveurs.</li>
-                <li><strong>Seules des données chiffrées sont stockées</strong> : Nos serveurs reçoivent et conservent uniquement des blocs illisibles. <strong>Aucune personne</strong>, y compris nos équipes, ne peut accéder à leur contenu sans la clé.</li>
-                <li><strong>La clé reste dans le lien</strong> : Elle est placée après le symbole « # » de l'URL de téléchargement (ex : <code>https://silvertransfert.fr/t/abc123#cle</code>). Cette partie de l'adresse n'est jamais transmise à nos serveurs par les navigateurs : <strong>nous ne la recevons pas, ne la stockons pas</strong> et ne pouvons pas la récupérer.</li>
-                <li><strong>Mot de passe optionnel</strong> : Vous pouvez ajouter un mot de passe, qui est combiné à la clé du lien dans votre navigateur. Il n'est jamais envoyé à nos serveurs : en cas d'oubli, le transfert ne peut pas être ouvert.</li>
-                <li><strong>Déchiffrement chez le destinataire</strong> : Le fichier est déchiffré dans le navigateur de la personne qui ouvre le lien.</li>
+                <li><strong>Chiffrement local dans votre navigateur</strong> : Avant le moindre envoi vers nos serveurs, votre navigateur génère une clé de chiffrement unique et chiffre l'intégralité de vos fichiers. Rien ne transite en clair.</li>
+                <li><strong>Stockage exclusif de données chiffrées</strong> : Nos serveurs reçoivent et conservent uniquement un bloc de données chiffré et illisible. Aucune personne, y compris l'équipe de Silvercore, ne dispose de la clé permettant de le déchiffrer.</li>
+                <li><strong>La clé réside exclusivement dans l'URL</strong> : La clé de déchiffrement est intégrée dans le fragment (l'ancre `#`) de l'URL générée (ex : <code>https://www.silvertransfert.fr/t/id#key</code>). Le standard des navigateurs web garantit que la partie située après le `#` n'est <strong>jamais transmise à nos serveurs</strong>. Nous ne recevons pas la clé, ne la stockons pas et ne pouvons jamais la récupérer.</li>
+                <li><strong>Option de renforcement par mot de passe</strong> : Vous pouvez ajouter un mot de passe optionnel lors de la création d'un transfert. Ce mot de passe dérive et consolide directement la clé de chiffrement côté client dans votre navigateur. Il n'est jamais transmis à nos serveurs.</li>
+                <li><strong>Déchiffrement chez le destinataire</strong> : Le destinataire ouvre le lien complet contenant l'ancre `#` (et saisit le mot de passe s'il a été configuré). Le déchiffrement s'effectue entièrement en local dans son navigateur.</li>
               </ol>
 
+              <div class="warning-box">
+                <p>
+                  <strong>⚠️ Avertissement en cas de perte de clé ou de mot de passe :</strong><br>
+                  Puisque nous n'avons aucun moyen d'accéder à la clé située dans le fragment de l'URL ou au mot de passe, <strong>en cas de perte du lien complet ou du mot de passe, les fichiers sont définitivement et irréversiblement perdus</strong>. Silvercore est dans l'impossibilité technique absolue de les déchiffrer ou de vous les restituer.
+                </p>
+              </div>
+
               <p>
-                <strong>Algorithmes :</strong> AES-256-GCM (chiffrement authentifié : toute modification des données est détectée), PBKDF2-SHA256 et HKDF pour le mot de passe, via l'API de cryptographie native des navigateurs (WebCrypto).
+                <strong>Algorithmes :</strong> AES-256-GCM (chiffrement authentifié), PBKDF2-SHA256 / HKDF via l'API WebCrypto native des navigateurs.
               </p>
               <p>
-                <strong>Ce que nous voyons encore :</strong> la taille approximative des transferts, leur date et l'adresse IP de l'expéditeur (voir les durées de conservation ci-dessous). Comme tout service web, le code de chiffrement est fourni par notre site : sa sécurité suppose que ce code n'a pas été modifié.
-              </p>
-              <p>
-                <strong>Transferts créés avant la mise en place de ce chiffrement :</strong> ils restent téléchargeables jusqu'à leur expiration avec l'ancien procédé, dans lequel le fichier était chiffré par nos serveurs à sa réception.
+                <strong>Ce que nos serveurs voient :</strong> La taille des données chiffrées, la date du transfert et l'adresse IP (conservées selon la durée de rétention définie ci-dessous).
               </p>
             </section>
 
@@ -121,7 +124,7 @@
               </p>
               <ul class="info-list">
                 <li>Vos fichiers chiffrés sont stockés <strong>uniquement sur nos serveurs situés en France</strong>.</li>
-                <li><strong>Triple réplication</strong> : Chaque fichier est dupliqué sur <strong>3 supports physiques distincts</strong> pour garantir la disponibilité.</li>
+                <li><strong>Triple réplication</strong> : Chaque fichier chiffré est dupliqué sur <strong>3 supports physiques distincts</strong> pour garantir la disponibilité.</li>
                 <li><strong>Aucun transfert hors de l'Union Européenne</strong> : Vos données ne quittent jamais le territoire français.</li>
               </ul>
             </section>
@@ -149,7 +152,7 @@
                       <td>Suppression automatique</td>
                     </tr>
                     <tr>
-                      <td><strong>Données de connexion</strong></td>
+                      <td><strong>Données de connexion (IP)</strong></td>
                       <td>30 jours</td>
                       <td>Suppression automatique</td>
                     </tr>
@@ -158,7 +161,7 @@
               </div>
               <p class="note">
                 <i aria-hidden="true" class="bi bi-info-circle"></i>
-                Pourquoi 30 jours ? C'est un compromis entre praticité (laisser le temps aux destinataires de télécharger) et sécurité (limiter la fenêtre d'exposition).
+                Pourquoi 30 jours ? C'est un compromis optimal entre praticité (laisser le temps aux destinataires de télécharger) et sécurité (limiter la fenêtre d'exposition).
               </p>
             </section>
 
@@ -168,7 +171,7 @@
                 Vos données sont <strong>uniquement traitées</strong> pour :
               </p>
               <ul class="check-list">
-                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Fournir le service de transfert de fichiers</strong> (chiffrement, stockage, mise à disposition)</li>
+                <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Fournir le service de transfert de fichiers</strong> (stockage et mise à disposition des données chiffrées)</li>
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Assurer la sécurité et la stabilité du service</strong> (détection d'abus, maintenance)</li>
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Respecter nos obligations légales</strong> (si requête judiciaire valide)</li>
               </ul>
@@ -176,10 +179,10 @@
                 ❌ <strong>Nous ne faisons PAS :</strong>
               </p>
               <ul class="cross-list">
-                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Analyse du contenu des fichiers</li>
-                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Profilage utilisateur</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Collecte de User-Agent ou profiling utilisateur</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Analyse ou inspection du contenu des fichiers</li>
                 <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Partage avec des tiers (sauf obligation légale)</li>
-                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Utilisation à des fins marketing</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Utilisation à des fins marketing ou publicitaires</li>
               </ul>
             </section>
 
@@ -191,7 +194,7 @@
               <ul class="info-list">
                 <li><strong>Aucun tiers</strong> n'a accès à vos fichiers ou métadonnées.</li>
                 <li><strong>Pas de sous-traitance</strong> pour le stockage ou le chiffrement.</li>
-                <li><strong>Exception unique</strong> : En cas de <strong>réquisition judiciaire</strong> (mandat valide), nous pourrions être contraints de communiquer des logs techniques (mais <strong>jamais les fichiers chiffrés</strong>, car nous n'avons pas les clés de déchiffrement).</li>
+                <li><strong>Exception unique</strong> : En cas de <strong>réquisition judiciaire</strong> (mandat valide), nous pourrions être contraints de communiquer des logs techniques (adresses IP), mais <strong>jamais les fichiers en clair</strong>, car nous n'avons aucun moyen d'en posséder les clés de déchiffrement.</li>
               </ul>
             </section>
 
@@ -201,10 +204,10 @@
                 Nous mettons en œuvre <strong>toutes les mesures techniques et organisationnelles</strong> pour protéger vos données :
               </p>
               <ul class="info-list">
-                <li><strong>Chiffrement E2EE</strong> : Vos fichiers sont indéchiffrables sans le mot de passe.</li>
-                <li><strong>Hébergement en France</strong> : Soumis au droit français et à la RGPD.</li>
-                <li><strong>Accès restreint</strong> : Seuls les membres autorisés de Silvercore peuvent accéder aux infrastructures (et <strong>pas aux fichiers chiffrés</strong>).</li>
-                <li><strong>Suppression irréversible</strong> : Les fichiers sont <strong>détruits définitivement</strong> après 30 jours (pas de corbeille, pas de récupération possible).</li>
+                <li><strong>Chiffrement E2EE strict</strong> : Vos fichiers sont indéchiffrables sans l'URL complète et le mot de passe optionnel.</li>
+                <li><strong>Hébergement en France</strong> : Soumis au droit français et à la réglementation RGPD.</li>
+                <li><strong>Accès restreint</strong> : Seuls les membres autorisés de Silvercore peuvent accéder aux infrastructures d'hébergement (et <strong>jamais au contenu en clair</strong>).</li>
+                <li><strong>Suppression irréversible</strong> : Les fichiers chiffrés sont <strong>détruits définitivement</strong> après 30 jours (pas de corbeille, pas de restauration possible).</li>
               </ul>
             </section>
 
@@ -225,7 +228,7 @@
                   <tbody>
                     <tr>
                       <td><strong>Droit d'accès</strong></td>
-                      <td>Savoir quelles données nous détenons sur vous</td>
+                      <td>Savoir quelles données (logs IP) nous détenons sur vous</td>
                       <td><a href="mailto:contact@silvercore.fr" class="link">contact@silvercore.fr</a></td>
                     </tr>
                     <tr>
@@ -253,7 +256,7 @@
               </div>
               <p class="note">
                 <i aria-hidden="true" class="bi bi-calendar"></i>
-                <strong>Délai de réponse :</strong> Nous nous engageons à répondre à toute demande <strong>sous 1 mois</strong> (comme exigé par le RGPD).
+                <strong>Délai de réponse :</strong> Nous nous engageons à répondre à toute demande <strong>sous 1 mois</strong> (conformément aux exigences du RGPD).
               </p>
             </section>
 
@@ -264,9 +267,9 @@
                 <strong>Nous n'utilisons AUCUN cookie, AUCUN tracker, AUCUNE technologie de suivi.</strong>
               </p>
               <ul class="cross-list">
-                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de cookies analytiques (Google Analytics, etc.)</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de cookies analytiques (Google Analytics, Matomo, etc.)</li>
                 <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de cookies publicitaires</li>
-                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de localStorage ou sessionStorage à des fins de tracking</li>
+                <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de suivi de l'User-Agent</li>
                 <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Pas de balises tierces (Facebook Pixel, etc.)</li>
               </ul>
             </section>
@@ -275,10 +278,10 @@
               <h2><i aria-hidden="true" class="bi bi-file-earmark-check"></i> 12. Acceptation de la Politique de Confidentialité</h2>
               <p>
                 En utilisant <strong>Silvertransfert</strong>, vous <strong>acceptez automatiquement</strong> cette politique de confidentialité. 
-                <strong>Aucune création de compte n'est requise</strong> : l'acceptation est implicite lors de l'utilisation du service.
+                <strong>Aucune création de compte n'est requise</strong> : l'acceptation est implicite dès l'utilisation du service.
               </p>
               <p>
-                En utilisant ce service, vous <strong>reconnaissez avoir lu, compris et accepté</strong> cette politique dans son intégralité, y compris la section 2 concernant notre déresponsabilisation totale sur le contenu des fichiers transférés.
+                En utilisant ce service, vous <strong>reconnaissez avoir lu, compris et accepté</strong> cette politique dans son intégralité, y compris la section 2 concernant notre déresponsabilisation totale sur le contenu des fichiers transférés et l'impossibilité de récupérer des données en cas de perte de clé.
               </p>
             </section>
 
@@ -353,7 +356,7 @@
   font-family: var(--font-sans);
   font-size: var(--text-2xl);
   font-weight: 700;
- color: var(--color-text);
+  color: var(--color-text);
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
 }
@@ -583,7 +586,8 @@ code {
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-lg);
   font-family: 'Courier New', monospace;
-  font-size: 0.9em;
+  font-size: 0.85em;
+  word-break: break-all;
   color: var(--color-primary-soft);
 }
 
