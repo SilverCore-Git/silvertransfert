@@ -563,6 +563,9 @@ html {
 .hero-grid {
   width: 100%;
   display: grid;
+  /* minmax(0, …) : une colonne ne s'élargit jamais à la taille de son contenu
+     (un nom de fichier long poussait tout le panneau hors de l'écran) */
+  grid-template-columns: minmax(0, 1fr);
   gap: 2.5rem;
   align-items: center;
 }
@@ -586,7 +589,7 @@ html {
 }
 
 .hero.is-focus .hero-grid {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .hero.is-focus .tool-panel {
@@ -1121,6 +1124,58 @@ html {
 
   .tool-panel {
     justify-self: end;
+  }
+}
+
+/* Téléphone : mêmes éléments, échelle resserrée (marges, titres, cartes) */
+@media (max-width: 767px) {
+  /* Pas de hauteur d'écran imposée : le contenu commence sous l'en-tête */
+  .hero {
+    min-height: auto;
+    padding: 2rem 0 3.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+  }
+
+  .steps, .guarantees {
+    padding: 2.75rem 0;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .steps-list {
+    gap: 1.5rem;
+  }
+
+  .bento-cell {
+    padding: 1.25rem;
+  }
+
+  .bento-icon {
+    margin-bottom: 0.75rem;
+  }
+
+  .bento-main .bento-icon {
+    font-size: 2rem;
+  }
+
+  .bento-cell h3,
+  .bento-main h3 {
+    font-size: var(--text-base);
+  }
+
+  .bento-cell p {
+    font-size: var(--text-sm);
   }
 }
 
