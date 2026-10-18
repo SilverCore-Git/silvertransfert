@@ -502,7 +502,7 @@ tests/
 
 ```typescript
 // tests/unit/components/DropZone.spec.ts
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from 'bun:test';
 import { mount } from '@vue/test-utils';
 import DropZone from '@/views/Home/components/ui/DropZone.vue';
 
@@ -557,7 +557,7 @@ describe('DropZone', () => {
 
 ```typescript
 // tests/integration/Home.spec.ts
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'bun:test';
 import { mount } from '@vue/test-utils';
 import Home from '@/views/Home/Home.vue';
 import { createRouter, createWebHistory } from 'vue-router';
