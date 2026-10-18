@@ -21,6 +21,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
+      # Version de package.json : tag d'image 4.1.0, 4.2.0… à chaque merge sur main
+      - id: pkg
+        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
       - id: meta
         uses: docker/metadata-action@v5
         with:
@@ -28,6 +31,7 @@ jobs:
           # latest = main ; sinon nom de branche / tag, plus le sha court
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ steps.pkg.outputs.version }},enable={{is_default_branch}}
             type=ref,event=branch
             type=ref,event=tag
             type=sha
@@ -43,4 +47,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: VITE_API_URL=${{ vars.PUBLIC_API_URL }}
+          build-args: |
+            VITE_API_URL=${{ vars.PUBLIC_API_URL }}
+            GIT_SHA=${{ github.sha }}

@@ -78,3 +78,12 @@ test.skipIf(!up)("cancelled uploads are deleted on the server", async () => {
   const path = await uploadTransfer([new File(["ok"], "ok.txt")]);
   expect(path).toStartWith("/t/");
 }, 60_000);
+
+// La progression avance pendant l'envoi d'un chunk, pas seulement par paliers de 8 Mio.
+test.skipIf(!up)("progress reports bytes inside chunks", async () => {
+  const seen: number[] = [];
+  await uploadTransfer([new File([new Uint8Array(24 * 1024 * 1024)], "p.bin")], { onProgress: sent => seen.push(sent) });
+  // avant la fin : l'ancien code ne donnait que des multiples de 8 Mio
+  expect(seen.slice(0, -1).some(s => s % (8 * 1024 * 1024) !== 0)).toBe(true);
+  expect(seen.at(-1)).toBe(24 * 1024 * 1024);
+}, 60_000);
