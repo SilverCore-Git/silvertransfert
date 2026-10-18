@@ -92,6 +92,7 @@
     "finalizing": "Finalisation",
     "preparingLink": "Préparation du lien…",
     "timeRemaining": "{{time}} restants",
-    "speed": "{{speed}}"
+    "speed": "{{speed}}",
+    "cancel": "Annuler"
   }
 }

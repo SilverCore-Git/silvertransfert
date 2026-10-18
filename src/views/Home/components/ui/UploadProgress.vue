@@ -9,23 +9,16 @@ const props = defineProps<{
   uploadSpeed?: number | null;
 }>();
 
+const emit = defineEmits<{ cancel: [] }>();
+
 const isFinalizing = computed(() => props.uploadPct >= 100);
 
+// Débit réseau en bits (comme les box et forfaits) : Mb/s puis Gb/s
 const formattedSpeed = computed(() => {
   if (!props.uploadSpeed || props.uploadSpeed <= 0) return null;
-  
-  const bytesPerSecond = props.uploadSpeed;
-  const megabytesPerSecond = bytesPerSecond / (1024 * 1024);
-  const gigabytesPerSecond = megabytesPerSecond / 1024;
-  
-  if (gigabytesPerSecond >= 1) {
-    return `${gigabytesPerSecond.toFixed(1)} Go/s`;
-  } else if (megabytesPerSecond >= 1) {
-    return `${megabytesPerSecond.toFixed(1)} Mo/s`;
-  } else {
-    const kilobytesPerSecond = bytesPerSecond / 1024;
-    return `${kilobytesPerSecond.toFixed(1)} Ko/s`;
-  }
+  const mbps = (props.uploadSpeed * 8) / 1e6;
+  if (mbps >= 1000) return `${(mbps / 1000).toFixed(2)} Gb/s`;
+  return `${mbps.toFixed(mbps < 10 ? 1 : 0)} Mb/s`;
 });
 </script>
 
@@ -68,6 +61,11 @@ const formattedSpeed = computed(() => {
     <span v-if="estimatedTime && !isFinalizing" class="time-remaining">{{ getConfigValue('home.uploadProgress.timeRemaining', { time: estimatedTime }) }}</span>
     <span v-if="formattedSpeed && !isFinalizing" class="upload-speed">{{ formattedSpeed }}</span>
     <span v-else-if="isFinalizing" class="finalizing-lbl">{{ home_json.uploadProgress?.preparingLink || 'Préparation du lien…' }}</span>
+    <!-- .stop : le clic ne doit pas atteindre la zone de dépôt (sélecteur de fichiers) -->
+    <button v-if="!isFinalizing" type="button" class="cancel-btn" @click.stop="emit('cancel')">
+      <i aria-hidden="true" class="bi bi-x-lg"></i>
+      {{ home_json.uploadProgress?.cancel || 'Annuler' }}
+    </button>
   </div>
 </template>
 
@@ -188,4 +186,36 @@ const formattedSpeed = computed(() => {
   }
 }
 .time-remaining, .upload-speed { font-variant-numeric: tabular-nums; }
+
+/* Le conteneur ignore les clics (pointer-events: none) : le bouton les réactive */
+.cancel-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  margin-top: 0.2rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: var(--radius-button);
+  background: none;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.cancel-btn:focus-visible {
+  outline: 2px solid var(--color-primary-soft);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .cancel-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+}
 </style>

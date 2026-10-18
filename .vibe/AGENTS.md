@@ -199,16 +199,13 @@ silvertransfert/
 
 ```bash
 # Démarrer le serveur de développement
-npm run dev
+bun run dev
 
-# Build pour la production
-npm run build
+# Build pour la production (inclut la vérification des types, vue-tsc)
+bun run build
 
-# Linter le code
-npm run lint
-
-# Vérifier le typage TypeScript
-npx tsc --noEmit
+# Lancer les tests
+bun test
 ```
 
 ### Git
