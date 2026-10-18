@@ -20,8 +20,8 @@ async function withRetry<T>(fn: () => Promise<T>): Promise<T> {
       return await fn();
     } catch (err) {
       const status = axios.isAxiosError(err) ? err.response?.status : undefined;
-      // 4xx = requête refusée, inutile de réessayer
-      if (attempt >= RETRIES || (status && status >= 400 && status < 500)) throw err;
+      // 4xx = requête refusée, inutile de réessayer ; annulation = on s'arrête
+      if (attempt >= RETRIES || axios.isCancel(err) || (status && status >= 400 && status < 500)) throw err;
       await new Promise(r => setTimeout(r, 1000 * attempt));
     }
   }
@@ -47,18 +47,21 @@ export function plainSize(files: File[]): number {
 export interface UploadOptions {
   password?: string;
   onProgress?: (sent: number, total: number) => void;
+  // Annulation par l'utilisateur : les envois en cours sont coupés et le
+  // transfert est supprimé côté serveur.
+  signal?: AbortSignal;
 }
 
 // Chiffre et envoie les fichiers (zippés s'il y en a plusieurs). Renvoie le
 // chemin du lien de téléchargement, clé incluse dans le fragment.
-export async function uploadTransfer(files: File[], { password, onProgress }: UploadOptions = {}): Promise<string> {
+export async function uploadTransfer(files: File[], { password, onProgress, signal }: UploadOptions = {}): Promise<string> {
   const linkKey = newLinkKey();
   const salt = password ? randomBytes(16) : undefined;
   const key = await deriveKey(linkKey, password, salt);
 
   // L'id est tiré par le serveur (un id choisi par le client permettait de
   // reprendre l'id d'un transfert expiré).
-  const { data } = await axios.post<{ id: string, uploadToken: string }>(BASE, { salt: salt && toB64url(salt) });
+  const { data } = await axios.post<{ id: string, uploadToken: string }>(BASE, { salt: salt && toB64url(salt) }, { signal });
   const { id } = data;
   if (!/^[A-Za-z0-9_-]{16,64}$/.test(id)) throw new Error('Identifiant de transfert invalide');
   const headers = { Authorization: `Bearer ${data.uploadToken}` };
@@ -68,20 +71,22 @@ export async function uploadTransfer(files: File[], { password, onProgress }: Up
   const total = plainSize(files);
   const stream = isZip ? downloadZip(entries).body! : files[0]!.stream();
 
+  const inflight = new Set<Promise<void>>();
   try {
     let index = 0;
     let size = 0;
     let sent = 0;
     let failure: unknown;
-    const inflight = new Set<Promise<void>>();
 
     for await (const { data: chunk, last } of rechunk(stream)) {
+      signal?.throwIfAborted();
       if (failure) throw failure;
       const n = index++;
       size += chunk.length;
       const body = await encryptChunk(key, id, n, last, chunk);
       const job: Promise<void> = withRetry(() => axios.put(`${BASE}/${id}/chunks/${n}`, body, {
         headers: { ...headers, 'Content-Type': 'application/octet-stream' },
+        signal,
       }))
         .then(() => { sent += chunk.length; onProgress?.(Math.min(sent, total), total); })
         .catch(err => { failure ??= err; })
@@ -99,8 +104,11 @@ export async function uploadTransfer(files: File[], { password, onProgress }: Up
       isZip,
       files: files.length,
     };
-    await axios.post(`${BASE}/${id}/complete`, { chunks: index, meta: await encryptMeta(key, id, meta) }, { headers });
+    await axios.post(`${BASE}/${id}/complete`, { chunks: index, meta: await encryptMeta(key, id, meta) }, { headers, signal });
   } catch (err) {
+    // Attendre la fin des envois coupés : un chunk écrit après la suppression
+    // resterait orphelin sur le serveur.
+    await Promise.allSettled(inflight);
     await axios.delete(`${BASE}/${id}`, { headers }).catch(() => {});
     throw err;
   }

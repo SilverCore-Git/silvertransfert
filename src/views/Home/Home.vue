@@ -40,6 +40,8 @@ const showPassword = ref(false);
 const MIN_USER_PASSWORD = 6;
 const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
+// Annulation de l'envoi en cours (bouton "Annuler")
+let uploadAbort: AbortController | null = null;
 const termsAccepted = ref(false);
 // "Mode envoi": the tool panel glides to the centre while the hero copy fades out
 const focusMode = ref(false);
@@ -291,10 +293,14 @@ async function transfer() {
   uploadStartTime.value = Date.now();
   uploadSpeed.value = 0;
 
+  uploadAbort = new AbortController();
+  const { signal } = uploadAbort;
+
   try {
     // Chiffrement dans le navigateur : la clé ne quitte jamais cette page.
     const path = await uploadTransfer(files.value.map(f => f.file), {
       password: protect.value ? userPassword.value : undefined,
+      signal,
       onProgress: (sent, total) => {
         const elapsed = (Date.now() - uploadStartTime.value) / 1000;
         if (elapsed > 0) uploadSpeed.value = sent / elapsed;
@@ -307,12 +313,19 @@ async function transfer() {
       isUploading.value = false;
     });
   } catch (error) {
-    console.error('Upload failed:', error);
+    // Annulé : retour à la sélection, fichiers conservés pour un nouvel envoi
+    if (!signal.aborted) console.error('Upload failed:', error);
     animateLayout(() => {
-      uploadError.value = "L'envoi a échoué. Vérifiez votre connexion puis réessayez.";
+      uploadError.value = signal.aborted ? '' : "L'envoi a échoué. Vérifiez votre connexion puis réessayez.";
       isUploading.value = false;
     });
+  } finally {
+    uploadAbort = null;
   }
+}
+
+function cancelUpload() {
+  uploadAbort?.abort();
 }
 
 async function copyLink() {
@@ -393,7 +406,7 @@ function reset() {
                 />
 
                 <template #uploading>
-                  <UploadProgress :upload-pct="uploadPct" :estimated-time="estimatedTimeRemaining" />
+                  <UploadProgress :upload-pct="uploadPct" :estimated-time="estimatedTimeRemaining" :upload-speed="uploadSpeed" @cancel="cancelUpload" />
                 </template>
               </DropZone>
 

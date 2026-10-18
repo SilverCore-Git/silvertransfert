@@ -65,3 +65,16 @@ test.skipIf(!up)("empty single file", async () => {
   expect(meta.size).toBe(0);
   expect(data.length).toBe(0);
 });
+
+// Annuler supprime le transfert côté serveur : sinon la limite d'envois actifs
+// par IP (5) bloquerait le 7e envoi.
+test.skipIf(!up)("cancelled uploads are deleted on the server", async () => {
+  const file = new File([new Uint8Array(40 * 1024 * 1024)], "big.bin");
+  for (let i = 0; i < 6; i++) {
+    const ctrl = new AbortController();
+    const upload = uploadTransfer([file], { signal: ctrl.signal, onProgress: () => ctrl.abort() });
+    await expect(upload).rejects.toBeDefined();
+  }
+  const path = await uploadTransfer([new File(["ok"], "ok.txt")]);
+  expect(path).toStartWith("/t/");
+}, 60_000);
