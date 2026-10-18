@@ -125,6 +125,23 @@
     top: 2rem;
   }
 }
+
+/* Téléphone : même échelle resserrée que le reste de la page */
+@media (max-width: 767px) {
+  .faq {
+    padding: 2.75rem 0;
+  }
+
+  .faq-title {
+    font-size: 1.5rem;
+  }
+
+  .faq-question {
+    min-height: 56px;
+    padding: 0.9rem 0;
+    font-size: var(--text-base);
+  }
+}
 </style>
 
 <script setup lang="ts">
@@ -171,4 +188,4 @@ const toggle = (index: number) => {
   openIndex.value = openIndex.value === index ? null : index;
 };
 
-</script>
+</script>
