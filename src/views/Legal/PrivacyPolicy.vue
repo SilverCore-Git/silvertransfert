@@ -150,21 +150,21 @@
                       <td><strong>Irréversible</strong> après expiration</td>
                     </tr>
                     <tr>
-                      <td><strong>Logs techniques</strong></td>
-                      <td>30 jours</td>
-                      <td>Suppression automatique</td>
+                      <td><strong>Adresse IP de l'expéditeur</strong></td>
+                      <td>Jusqu'à la fin de l'envoi (anciens transferts : jusqu'à leur suppression)</td>
+                      <td>Effacement automatique</td>
                     </tr>
                     <tr>
-                      <td><strong>Données de connexion (IP)</strong></td>
-                      <td>30 jours</td>
-                      <td>Suppression automatique</td>
+                      <td><strong>Journaux techniques</strong> (adresse IP, date, requête, sans User-Agent)</td>
+                      <td>Durée limitée, sans durée fixe</td>
+                      <td>Effacés à la rotation des journaux et lors des mises à jour du service</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <p class="note">
                 <i aria-hidden="true" class="bi bi-info-circle"></i>
-                Pourquoi 30 jours ? C'est un compromis optimal entre praticité (laisser le temps aux destinataires de télécharger) et sécurité (limiter la fenêtre d'exposition).
+                Pourquoi 30 jours pour les fichiers ? C'est un compromis optimal entre praticité (laisser le temps aux destinataires de télécharger) et sécurité (limiter la fenêtre d'exposition).
               </p>
             </section>
 
