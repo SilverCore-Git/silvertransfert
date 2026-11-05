@@ -19,7 +19,7 @@ jobs:
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ secrets.GHCR_USER }}
           password: ${{ secrets.GHCR_TOKEN }}
       # Version de package.json : tag d'image 4.1.0, 4.2.0… à chaque merge sur main
       - id: pkg
