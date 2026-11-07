@@ -13,6 +13,12 @@ const app = createApp(App);
 
 app.use(router);
 
+// Umami ne suit que l'accueil : /t/:id/:mdp contient un mot de passe dans l'URL
+// (auto-track désactivé dans index.html, sinon il suivrait toutes les routes).
+router.afterEach((to) => {
+  if (to.path === '/') (window as { umami?: { track: () => void } }).umami?.track();
+});
+
 // Initialize configuration
 initConfig();
 
