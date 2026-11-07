@@ -83,6 +83,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self';
+               script-src 'self' https://u.silvercore.fr;
+               connect-src 'self' https://u.silvercore.fr;
+               img-src 'self' data:;
+               style-src 'self' 'unsafe-inline';
+               font-src 'self'">
+
     <script defer src="https://u.silvercore.fr/script.js" data-website-id="89cc7e8e-3204-4c3a-bc13-636a3ede43b6"></script>
     
   </head>
