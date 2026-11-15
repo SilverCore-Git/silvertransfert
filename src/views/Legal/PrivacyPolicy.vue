@@ -115,9 +115,6 @@
               <p>
                 <strong>Ce que nos serveurs voient :</strong> La taille des données chiffrées, la date du transfert et l'adresse IP (conservées selon la durée de rétention définie ci-dessous).
               </p>
-              <p>
-                <strong>Transferts créés avant la mise en place de ce chiffrement :</strong> ils restent téléchargeables jusqu'à leur expiration avec l'ancien procédé, dans lequel le fichier était chiffré par nos serveurs à sa réception.
-              </p>
             </section>
 
             <section class="legal-section-item">
@@ -151,7 +148,7 @@
                     </tr>
                     <tr>
                       <td><strong>Adresse IP de l'expéditeur</strong></td>
-                      <td>Jusqu'à la fin de l'envoi (anciens transferts : jusqu'à leur suppression)</td>
+                      <td>Jusqu'à la fin de l'envoi</td>
                       <td>Effacement automatique</td>
                     </tr>
                     <tr>
