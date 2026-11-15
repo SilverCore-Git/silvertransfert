@@ -516,6 +516,14 @@ function reset() {
             <i aria-hidden="true" class="bi bento-icon" :class="featureIcons[index]"></i>
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.description }}</p>
+            <!-- Sécurité : le trajet d'un fichier, chiffré de bout en bout -->
+            <div v-if="index === 1" class="e2ee-flow" aria-hidden="true">
+              <span class="flow-node"><i class="bi bi-laptop"></i>Vous</span>
+              <span class="flow-line"><span class="flow-pulse"></span></span>
+              <span class="flow-node flow-server"><i class="bi bi-hdd-stack"></i>Serveur<i class="bi bi-lock-fill flow-lock"></i></span>
+              <span class="flow-line flow-line-late"><span class="flow-pulse"></span></span>
+              <span class="flow-node"><i class="bi bi-person"></i>Destinataire</span>
+            </div>
           </article>
         </div>
       </div>
@@ -985,10 +993,121 @@ html {
   line-height: 1.6;
 }
 
+/* ---------- Schéma E2EE (carte Sécurité) ----------
+   Le contenu ne voyage que chiffré : le serveur ne voit qu'un bloc verrouillé.
+   Les impulsions tournent 3 fois puis s'arrêtent ; le survol les relance. */
+.e2ee-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.flow-node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.flow-node .bi {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.flow-server .bi:first-child {
+  color: var(--color-text-muted);
+}
+
+.flow-node .flow-lock {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  background: var(--color-primary-strong);
+  border: none;
+  color: #fff;
+}
+
+.flow-line {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  margin-bottom: 1.35rem;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.flow-pulse {
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow-pulse {
+    animation: flow-run 3s ease-in-out 3;
+  }
+
+  .flow-line-late .flow-pulse {
+    animation-delay: 1.5s;
+  }
+
+  .bento-cell:hover .flow-pulse {
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes flow-run {
+  to { left: 100%; }
+}
+
+/* ---------- Entrée du haut de page ----------
+   Une fois au chargement : titre, sous-titre, puis l'outil. "backwards" seulement :
+   rien ne reste appliqué après, l'animation de mise en page du panneau garde la main. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-title {
+    animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s backwards;
+  }
+
+  .hero-sub {
+    animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
+  }
+
+  .tool-panel {
+    animation: panel-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards;
+  }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(16px); }
+}
+
+@keyframes panel-rise {
+  from { opacity: 0; transform: translateY(20px) scale(0.985); }
+}
+
 /* ---------- Guarantees (bento) ---------- */
 .guarantees {
   padding: 4rem 0;
-  background: var(--color-surface);
+  background: var(--color-bg-deep);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
@@ -1115,6 +1234,7 @@ html {
 @media (min-width: 1024px) {
   .hero {
     padding: 4rem 0 6rem;
+    min-height: min(calc(100dvh - 64px), 760px);
   }
 
   .hero-grid {
@@ -1170,7 +1290,8 @@ html {
   }
 
   .bento-cell h3,
-  .bento-main h3 {
+  .bento-main h3,
+  .step h3 {
     font-size: var(--text-base);
   }
 
