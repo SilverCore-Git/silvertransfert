@@ -5,9 +5,11 @@ import Navbar from './components/layouts/Navbar.vue';
 
 <template>
   <div class="app-wrapper">
+    <!-- Premier arrêt de Tab : passer directement au contenu -->
+    <a href="#contenu" class="skip-link">Aller au contenu</a>
     <Navbar />
     
-    <main class="app-main">
+    <main id="contenu" class="app-main" tabindex="-1">
       <router-view />
     </main>
     

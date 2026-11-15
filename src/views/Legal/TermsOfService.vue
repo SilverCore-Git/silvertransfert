@@ -428,7 +428,7 @@
 
 .legal-section-item h2 {
   font-family: var(--font-sans);
-  font-size: var(--text-lg);
+  font-size: 1.375rem;
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 1.25rem;
@@ -606,6 +606,13 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+}
+
+/* Focus clavier : souligné en plus du contour (lien et contour de la même couleur) */
+.link:focus-visible {
+  text-decoration: underline;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 @media (hover: hover) {
   .link:hover {

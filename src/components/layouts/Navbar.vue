@@ -112,6 +112,7 @@ function trapFocus(e: KeyboardEvent) {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  min-height: 44px;
   text-decoration: none;
   border-radius: var(--radius-button);
 }

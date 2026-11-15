@@ -452,7 +452,7 @@ async function startDownload() {
   margin-top: 1rem;
   justify-content: center;
   font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .dl-progress {
