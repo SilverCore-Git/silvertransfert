@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
-import { getConfigValue } from '../../utils/config';
 import { formatSize } from '../../utils/file';
 import download_json from '../../config/download.json';
 import { isLinkKey, type Meta } from '../../lib/e2ee';
@@ -12,16 +10,15 @@ import {
 } from '../../lib/transfer';
 
 const route = useRoute();
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
-type Status = 'loading' | 'locked' | 'ready' | 'decrypting' | 'downloading' | 'error' | 'not_found';
+type Status = 'loading' | 'locked' | 'ready' | 'downloading' | 'error' | 'not_found';
 
 const transferId = ref('');
-const secret = ref('');            // clé du lien (v2) ou mot de passe (ancien format)
+const secret = ref('');            // clé du lien (fragment de l'URL)
 const status = ref<Status>('loading');
 const errorMsg = ref('');
 
-// v2 : chiffrement de bout en bout, tout se passe dans ce navigateur
+// Chiffrement de bout en bout : tout se passe dans ce navigateur
 const remote = ref<RemoteTransfer | null>(null);
 const meta = ref<Meta | null>(null);
 let key: CryptoKey | null = null;
@@ -32,10 +29,6 @@ const passwordInput = ref<HTMLInputElement | null>(null);
 const progress = ref(0);           // 0..1
 const finished = ref(false);
 
-// Ancien format : déchiffrement côté serveur (liens créés avant le passage au E2EE)
-const legacyInfo = ref<{ isZip?: boolean } | null>(null);
-
-const isV2 = computed(() => remote.value !== null);
 const memoryWarning = computed(() => !!meta.value && !canStreamToDisk() && meta.value.size > MEMORY_DOWNLOAD_LIMIT);
 const expiresOn = computed(() => remote.value
   ? new Date(remote.value.expiresAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })
@@ -54,7 +47,11 @@ onMounted(async () => {
     return fail(download_json.errors?.invalidLink || 'Lien de téléchargement invalide.');
   }
 
-  if (!isLinkKey(secret.value)) return checkLegacyStatus();
+  // Les liens de l'ancien format (mot de passe dans l'URL) ont tous expiré
+  if (!isLinkKey(secret.value)) {
+    status.value = 'not_found';
+    return;
+  }
 
   try {
     remote.value = await fetchTransfer(transferId.value);
@@ -98,9 +95,7 @@ async function unlock() {
 }
 
 async function startDownload() {
-  if (status.value !== 'ready') return;
-  if (!isV2.value) return startLegacyDownload();
-  if (!remote.value || !key || !meta.value) return;
+  if (status.value !== 'ready' || !remote.value || !key || !meta.value) return;
 
   status.value = 'downloading';
   progress.value = 0;
@@ -118,53 +113,6 @@ async function startDownload() {
     }
     console.error('Download failed:', error);
     fail('Le téléchargement a échoué. Vérifiez votre connexion puis réessayez.');
-  }
-}
-
-// --- Ancien format ---
-
-async function checkLegacyStatus() {
-  try {
-    const response = await axios.get(`${API_URL}/data/status`, { params: { id: transferId.value } });
-    legacyInfo.value = response.data;
-    status.value = 'ready';
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      status.value = 'not_found';
-    } else {
-      fail(download_json.errors?.statusCheckFailed || 'Erreur lors de la récupération des informations.');
-    }
-  }
-}
-
-async function startLegacyDownload() {
-  try {
-    status.value = 'decrypting';
-    const decryptRes = await axios.post(`${API_URL}/data/decrypt`, { id: transferId.value, passwd: secret.value });
-
-    if (decryptRes.data.status === 'processing') {
-      for (let attempts = 0; attempts < 30; attempts++) {
-        const statusRes = await axios.get(`${API_URL}/data/status`, { params: { id: transferId.value } });
-        if (statusRes.data.canBeDownload) break;
-        await new Promise(r => setTimeout(r, 2000));
-      }
-    }
-
-    status.value = 'downloading';
-    // Formulaire caché : téléchargement natif en POST, sans charger le fichier en mémoire
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = `${API_URL}/data/download`;
-    for (const [name, value] of Object.entries({ id: transferId.value, passwd: secret.value })) {
-      form.appendChild(Object.assign(document.createElement('input'), { type: 'hidden', name, value }));
-    }
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-    setTimeout(() => { status.value = 'ready'; }, 2000);
-  } catch (error) {
-    const message = axios.isAxiosError(error) ? error.response?.data?.message : undefined;
-    fail(message || download_json.errors?.downloadFailed || 'Erreur lors du téléchargement.');
   }
 }
 </script>
@@ -225,7 +173,7 @@ async function startLegacyDownload() {
         <div v-else class="state-ready">
           <div class="file-row">
             <span class="file-icon" aria-hidden="true">
-              <i class="bi" :class="(meta?.isZip ?? legacyInfo?.isZip) ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
+              <i class="bi" :class="meta?.isZip ? 'bi-file-earmark-zip' : 'bi-file-earmark-lock2'"></i>
             </span>
             <div class="file-info">
               <template v-if="meta">
@@ -234,10 +182,6 @@ async function startLegacyDownload() {
                   {{ formatSize(meta.size) }}<template v-if="meta.files > 1"> · {{ meta.files }} fichiers</template>
                   · disponible jusqu’au {{ expiresOn }}
                 </p>
-              </template>
-              <template v-else>
-                <h2>{{ (legacyInfo?.isZip ? download_json.ready?.filesReady : download_json.ready?.fileReady) || 'Fichier prêt' }}</h2>
-                <p class="meta">{{ getConfigValue('download.ready.fileId', { id: transferId }) }}</p>
               </template>
             </div>
           </div>
@@ -250,7 +194,7 @@ async function startLegacyDownload() {
             </span>
           </p>
 
-          <div v-if="status === 'downloading' && isV2" class="dl-progress">
+          <div v-if="status === 'downloading'" class="dl-progress">
             <div
               class="dl-progress-track"
               role="progressbar"
@@ -270,13 +214,10 @@ async function startLegacyDownload() {
 
           <button
             class="download-btn"
-            :disabled="status === 'decrypting' || status === 'downloading'"
+            :disabled="status === 'downloading'"
             @click="startDownload"
           >
-            <template v-if="status === 'decrypting'">
-              <span class="spinner-small" aria-hidden="true"></span> {{ download_json.ready?.downloadButton?.decrypting || 'Déchiffrement…' }}
-            </template>
-            <template v-else-if="status === 'downloading'">
+            <template v-if="status === 'downloading'">
               <span class="spinner-small" aria-hidden="true"></span> {{ download_json.ready?.downloadButton?.downloading || 'Téléchargement…' }}
             </template>
             <template v-else>
@@ -284,7 +225,7 @@ async function startLegacyDownload() {
             </template>
           </button>
 
-          <p v-if="isV2" class="dl-trust">
+          <p class="dl-trust">
             <i aria-hidden="true" class="bi bi-lock"></i>
             Déchiffré dans votre navigateur. Nos serveurs n’ont jamais eu accès à ce fichier.
           </p>

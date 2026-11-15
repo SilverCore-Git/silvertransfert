@@ -15,18 +15,13 @@
     "backButton": "Retour à l'accueil"
   },
   "ready": {
-    "fileReady": "Fichier prêt au déchiffrement",
-    "filesReady": "Fichiers prêts au déchiffrement",
-    "fileId": "ID : {{id}}",
     "downloadButton": {
       "default": "Télécharger",
-      "decrypting": "Déchiffrement…",
       "downloading": "Téléchargement…"
     }
   },
   "errors": {
     "invalidLink": "Lien de téléchargement invalide.",
-    "downloadFailed": "Erreur lors du téléchargement.",
     "statusCheckFailed": "Erreur lors de la récupération des informations."
   }
 }
