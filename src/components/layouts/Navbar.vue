@@ -95,6 +95,10 @@ function trapFocus(e: KeyboardEvent) {
   z-index: 20;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-bg-deep);
+  /* iPhone (application plein écran, mode paysage) : sous la barre d'état et hors de l'encoche */
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .header-inner {
@@ -193,6 +197,9 @@ function trapFocus(e: KeyboardEvent) {
   background: var(--color-surface);
   border-left: 1px solid var(--color-border);
   padding: 1.5rem 1.25rem;
+  padding-top: max(1.5rem, env(safe-area-inset-top));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  padding-right: max(1.25rem, env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   position: relative;

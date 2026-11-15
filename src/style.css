@@ -90,11 +90,6 @@ html {
   outline-offset: 2px;
 }
 
-/* L'en-tête collant ne recouvre ni les ancres ni l'élément qui a le focus */
-html {
-  scroll-padding-top: 5rem;
-}
-
 /* Lien d'évitement : invisible jusqu'au premier Tab, puis au-dessus de l'en-tête */
 .skip-link {
   position: absolute;
