@@ -1055,8 +1055,9 @@ html {
 .flow-pulse {
   position: absolute;
   top: 0;
-  left: -30%;
+  left: 0;
   width: 30%;
+  transform: translateX(-100%);
   height: 100%;
   background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
 }
@@ -1075,8 +1076,9 @@ html {
   }
 }
 
+/* transform plutôt que left : pas de recalcul de mise en page à chaque image */
 @keyframes flow-run {
-  to { left: 100%; }
+  to { transform: translateX(334%); }
 }
 
 /* ---------- Entrée du haut de page ----------
