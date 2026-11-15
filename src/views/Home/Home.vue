@@ -520,7 +520,7 @@ function reset() {
             <div v-if="index === 1" class="e2ee-flow" aria-hidden="true">
               <span class="flow-node"><i class="bi bi-laptop"></i>Vous</span>
               <span class="flow-line"><span class="flow-pulse"></span></span>
-              <span class="flow-node flow-server"><i class="bi bi-hdd-stack"></i>Serveur<i class="bi bi-lock-fill flow-lock"></i></span>
+              <span class="flow-node flow-server"><i class="bi bi-hdd-stack"></i>Serveur<i class="bi bi-eye-slash-fill flow-blind"></i></span>
               <span class="flow-line flow-line-late"><span class="flow-pulse"></span></span>
               <span class="flow-node"><i class="bi bi-person"></i>Destinataire</span>
             </div>
@@ -994,7 +994,7 @@ html {
 }
 
 /* ---------- Schéma E2EE (carte Sécurité) ----------
-   Le contenu ne voyage que chiffré : le serveur ne voit qu'un bloc verrouillé.
+   Le contenu ne voyage que chiffré : le serveur stocke le fichier sans pouvoir le lire.
    Les impulsions tournent 3 fois puis s'arrêtent ; le survol les relance. */
 .e2ee-flow {
   display: flex;
@@ -1030,7 +1030,7 @@ html {
   color: var(--color-text-muted);
 }
 
-.flow-node .flow-lock {
+.flow-node .flow-blind {
   position: absolute;
   top: -0.4rem;
   right: -0.4rem;
