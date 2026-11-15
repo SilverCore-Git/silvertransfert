@@ -17,8 +17,9 @@ const isFinalizing = computed(() => props.uploadPct >= 100);
 const formattedSpeed = computed(() => {
   if (!props.uploadSpeed || props.uploadSpeed <= 0) return null;
   const mbps = (props.uploadSpeed * 8) / 1e6;
-  if (mbps >= 1000) return `${(mbps / 1000).toFixed(2)} Gb/s`;
-  return `${mbps.toFixed(mbps < 10 ? 1 : 0)} Mb/s`;
+  const fmt = (n: number, d: number) => n.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  if (mbps >= 1000) return `${fmt(mbps / 1000, 2)} Gb/s`;
+  return `${fmt(mbps, mbps < 10 ? 1 : 0)} Mb/s`;
 });
 </script>
 
@@ -43,7 +44,7 @@ const formattedSpeed = computed(() => {
       </svg>
       <span class="arc-pct">
         <template v-if="!isFinalizing">
-          {{ Math.round(uploadPct) }}%
+          {{ Math.round(uploadPct) }}&nbsp;%
         </template>
         <template v-else>
           <i aria-hidden="true" class="bi bi-check-lg final-icon"></i>

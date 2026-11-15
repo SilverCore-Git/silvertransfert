@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue';
 import { formatSize } from '../../utils/file';
 import { uploadTransfer } from '../../lib/transfer';
 import home_json from "../../config/home.json";
@@ -42,7 +42,20 @@ const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 // Annulation de l'envoi en cours (bouton "Annuler")
 let uploadAbort: AbortController | null = null;
+
+// Fermer ou recharger la page pendant un envoi le perd : le navigateur demande confirmation
+function confirmLeave(e: BeforeUnloadEvent) {
+  e.preventDefault();
+}
+watch(isUploading, uploading => {
+  if (uploading) window.addEventListener('beforeunload', confirmLeave);
+  else window.removeEventListener('beforeunload', confirmLeave);
+});
+onBeforeUnmount(() => window.removeEventListener('beforeunload', confirmLeave));
 const termsAccepted = ref(false);
+// Bouton Envoyer cliqué sans les CGU cochées : erreur affichée et focus sur la case
+const termsError = ref(false);
+watch(termsAccepted, accepted => { if (accepted) termsError.value = false; });
 // "Mode envoi": the tool panel glides to the centre while the hero copy fades out
 const focusMode = ref(false);
 const panelRef = ref<HTMLElement | null>(null);
@@ -74,15 +87,15 @@ const estimatedTimeRemaining = computed(() => {
 
 function formatTime(seconds: number): string {
   if (seconds < 60) {
-    return `${Math.round(seconds)}s`;
+    return `${Math.round(seconds)} s`;
   } else if (seconds < 3600) {
     const minutes = Math.floor(seconds / 60);
     const secs = Math.round(seconds % 60);
-    return `${minutes}m ${secs}s`;
+    return `${minutes} min ${secs} s`;
   } else {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
+    return `${hours} h ${minutes} min`;
   }
 }
 
@@ -283,6 +296,11 @@ function onPickerCancel() {
 
 async function transfer() {
   if (!files.value.length || isUploading.value || exceedsLimit.value || passwordTooShort.value) return;
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    document.getElementById('acceptTerms')?.focus();
+    return;
+  }
 
   // Panel shrinks to the progress ring in the same smooth animation
   animateLayout(() => {
@@ -460,7 +478,7 @@ function reset() {
                   </label>
 
                   <p v-if="exceedsLimit" role="alert" class="form-error">
-                    Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 10 Go par envoi.
+                    Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé&nbsp;: 10&nbsp;Go par envoi.
                   </p>
 
                   <p v-if="uploadError" role="alert" class="form-error">{{ uploadError }}</p>
@@ -469,11 +487,11 @@ function reset() {
                     <span class="size-hint">
                       {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                     </span>
-                    <button class="send-btn" @click="transfer" :disabled="!termsAccepted || exceedsLimit || passwordTooShort">
+                    <button class="send-btn" @click="transfer" :disabled="exceedsLimit || passwordTooShort" :aria-describedby="!termsAccepted ? 'sendHint' : undefined">
                       <i aria-hidden="true" class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
                     </button>
                   </div>
-                  <p v-if="!termsAccepted" class="send-hint">{{ home_json.hero.sendButton?.disabled }}</p>
+                  <p v-if="!termsAccepted" id="sendHint" class="send-hint" :class="{ 'is-error': termsError }" :role="termsError ? 'alert' : undefined">{{ home_json.hero.sendButton?.disabled }}</p>
                 </div>
             </div>
 
@@ -618,7 +636,7 @@ html {
   border-radius: 9999px;
   color: var(--color-text-muted);
   font-size: var(--text-lg);
-  animation: cue-in 0.6s ease-out 0.5s both, cue-bounce 2.8s ease-in-out 1.1s infinite;
+  animation: cue-in 0.6s ease-out 0.5s both, cue-bounce 2.8s ease-in-out 1.1s 3;
   transition: color 0.2s ease;
 }
 
@@ -775,6 +793,8 @@ html {
 .password-input:focus-visible {
   outline: none;
   border-color: var(--color-primary);
+  /* anneau de 3px : la bordure seule (1px) se voyait à peine */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
 .password-input[aria-invalid='true'] {
@@ -924,6 +944,11 @@ html {
   background: var(--color-disabled);
   color: var(--color-text-muted);
   cursor: not-allowed;
+}
+
+.send-hint.is-error {
+  color: var(--color-danger-soft);
+  font-weight: 500;
 }
 
 .send-hint {
