@@ -1084,24 +1084,24 @@ html {
    rien ne reste appliqué après, l'animation de mise en page du panneau garde la main. */
 @media (prefers-reduced-motion: no-preference) {
   .hero-title {
-    animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s backwards;
+    animation: hero-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
   }
 
   .hero-sub {
-    animation: hero-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
+    animation: hero-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
   }
 
   .tool-panel {
-    animation: panel-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards;
+    animation: panel-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.55s backwards;
   }
 }
 
 @keyframes hero-rise {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(28px); }
 }
 
 @keyframes panel-rise {
-  from { opacity: 0; transform: translateY(20px) scale(0.985); }
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
 }
 
 /* ---------- Guarantees (bento) ---------- */
