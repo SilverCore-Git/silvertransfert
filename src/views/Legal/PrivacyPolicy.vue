@@ -12,7 +12,7 @@
           <div class="legal-content">
             <div class="last-updated">
               <i aria-hidden="true" class="bi bi-calendar-check"></i>
-              Dernière mise à jour : Octobre 2026
+              Dernière mise à jour&nbsp;: octobre 2026
             </div>
             
             <h1>Politique de confidentialité</h1>
@@ -104,7 +104,7 @@
 
               <div class="warning-box">
                 <p>
-                  <strong>⚠️ Avertissement en cas de perte de clé ou de mot de passe :</strong><br>
+                  <strong><span aria-hidden="true">⚠️</span> Avertissement en cas de perte de clé ou de mot de passe :</strong><br>
                   Puisque nous n'avons aucun moyen d'accéder à la clé située dans le fragment de l'URL ou au mot de passe, <strong>en cas de perte du lien complet ou du mot de passe, les fichiers sont définitivement et irréversiblement perdus</strong>. Silvercore est dans l'impossibilité technique absolue de les déchiffrer ou de vous les restituer.
                 </p>
               </div>
@@ -120,7 +120,7 @@
             <section class="legal-section-item">
               <h2><i aria-hidden="true" class="bi bi-globe"></i> 5. Stockage et Localisation des Données</h2>
               <p>
-                ✅ <strong>100% hébergé en France</strong>
+                <span aria-hidden="true">✅</span> <strong>100&nbsp;% hébergé en France</strong>
               </p>
               <ul class="info-list">
                 <li>Vos fichiers chiffrés sont stockés <strong>uniquement sur nos serveurs situés en France</strong>.</li>
@@ -176,7 +176,7 @@
                 <li><i aria-hidden="true" class="bi bi-check-circle-fill"></i> <strong>Respecter nos obligations légales</strong> (si requête judiciaire valide)</li>
               </ul>
               <p>
-                ❌ <strong>Nous ne faisons PAS :</strong>
+                <span aria-hidden="true">❌</span> <strong>Nous ne faisons PAS :</strong>
               </p>
               <ul class="cross-list">
                 <li><i aria-hidden="true" class="bi bi-x-circle-fill"></i> Collecte de User-Agent ou profiling utilisateur</li>

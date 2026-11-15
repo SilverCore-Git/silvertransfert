@@ -63,7 +63,7 @@ function getSocialIcon(platform: string): string {
     </div>
 
     <div class="max-w-[calc(var(--container-page)-4rem)] mx-auto pt-8 border-t border-(--color-border) flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
-      <span class="text-[0.8rem] sm:text-[0.85rem] text-(--color-text-muted) text-center sm:text-left" v-html="getConfigValue('navigation.footer.copyright', { year: String(new Date().getFullYear()) }) || `&copy; 2025 - ${new Date().getFullYear()} Silvercore. Tous droits réservés.`"></span>
+      <span class="text-[0.8rem] sm:text-[0.85rem] text-(--color-text-muted) text-center sm:text-left" v-html="getConfigValue('navigation.footer.copyright', { year: String(new Date().getFullYear()) }) || `&copy; 2025–${new Date().getFullYear()} Silvercore. Tous droits réservés.`"></span>
       
       <div class="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
         <a v-for="(url, platform) in navigation_json.footer?.social || {}" :key="platform" :href="url" :aria-label="String(platform).charAt(0).toUpperCase() + String(platform).slice(1)" target="_blank" rel="noopener" class="inline-flex items-center justify-center min-w-11 min-h-11 text-(--color-text-muted) hover:text-(--color-text) text-[1.25rem] transition-colors">
