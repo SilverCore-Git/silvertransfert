@@ -28,12 +28,14 @@ const emit = defineEmits(['copy', 'reset']);
 
     <div class="link-row">
       <span class="link-text">{{ link }}</span>
-      <button class="link-copy" aria-live="polite" @click="emit('copy')">
+      <button class="link-copy" @click="emit('copy')">
         <i aria-hidden="true" :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
         {{ copied ? home_json.transferResult?.copyButton?.copied || 'Lien copié' : home_json.transferResult?.copyButton?.default || 'Copier' }}
       </button>
     </div>
-    <p v-if="copyFailed" role="alert" class="copy-failed">Copie impossible : sélectionnez le lien ci-dessus et copiez-le manuellement.</p>
+    <!-- Annonce séparée : un bouton dont le libellé change n'est pas lu de façon fiable -->
+    <span role="status" class="sr-only">{{ copied ? (home_json.transferResult?.copyButton?.copied || 'Lien copié') : '' }}</span>
+    <p v-if="copyFailed" role="alert" class="copy-failed">Copie impossible&nbsp;: sélectionnez le lien ci-dessus et copiez-le manuellement.</p>
 
     <button class="reset-btn" @click="emit('reset')">
       <i aria-hidden="true" class="bi bi-arrow-counterclockwise"></i> {{ home_json.transferResult?.newTransfer || 'Nouveau transfert' }}
@@ -90,6 +92,13 @@ const emit = defineEmits(['copy', 'reset']);
   border-radius: var(--radius-button);
   background: var(--color-surface);
   overflow: hidden;
+}
+
+/* .link-row coupe ce qui dépasse : le contour de focus est dessiné à l'intérieur */
+.link-copy:focus-visible {
+  /* blanc : un contour violet disparaît sur le bouton violet */
+  outline: 2px solid #fff;
+  outline-offset: -4px;
 }
 
 .link-text {
