@@ -19,13 +19,13 @@ function getSocialIcon(platform: string): string {
 
 <template>
   <footer class="bg-(--color-bg-deep) relative z-10 border-t border-(--color-border) pt-10 pb-12 px-5 md:px-8">
-    <div v-if="navigation_json.footer?.silvercore" class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pb-10 mb-12 border-b border-(--color-border)">
+    <div v-if="navigation_json.footer?.silvercore" class="max-w-[calc(var(--container-page)-4rem)] mx-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-3 pb-10 mb-12 border-b border-(--color-border)">
       <p class="text-(--color-text-secondary)">{{ navigation_json.footer.silvercore.text }}</p>
-      <a :href="navigation_json.footer.silvercore.url" target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-medium text-(--color-primary) hover:underline">
+      <a :href="navigation_json.footer.silvercore.url" target="_blank" rel="noopener" class="inline-flex items-center gap-2 min-h-11 font-medium text-(--color-primary) hover:underline">
         {{ navigation_json.footer.silvercore.link }} <i aria-hidden="true" class="bi bi-arrow-up-right"></i>
       </a>
     </div>
-    <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1.5fr_2fr] gap-8 sm:gap-12 lg:gap-16 mb-16">
+    <div class="max-w-[calc(var(--container-page)-4rem)] mx-auto grid grid-cols-1 lg:grid-cols-[1.5fr_2fr] gap-8 sm:gap-12 lg:gap-16 mb-16">
       
       <div>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2 font-['Space_Grotesk'] text-[1.5rem] font-bold text-(--color-text) mb-5">
@@ -44,14 +44,15 @@ function getSocialIcon(platform: string): string {
           navigation_json.footer?.legal
         ].filter(Boolean)" :key="section.title" class="space-y-4">
           <h2 class="text-sm font-semibold text-(--color-text)">{{ section.title }}</h2>
-          <nav class="space-y-3">
+          <nav class="sm:space-y-3">
             <template v-for="item in section.items" :key="item.label">
               <component :is="('path' in item) ? 'router-link' : 'a'" 
                 :to="('path' in item) ? item.path : ''"
-                :href="('url' in item) ? item.url : ''"
-                :target="('url' in item) ? '_blank' : ''"
+                :href="('url' in item) ? item.url : undefined"
+                :target="('url' in item) ? '_blank' : undefined"
+                :rel="('url' in item) ? 'noopener' : undefined"
                 @click="('path' in item) && item.path && scrollToCurrentHash(item.path)"
-                class="block text-[0.9rem] text-[var(--color-text-secondary)] hover:text-(--color-text) transition-colors"
+                class="flex items-center min-h-11 sm:min-h-0 text-[0.9rem] text-[var(--color-text-secondary)] hover:text-(--color-text) transition-colors"
               >
                 {{ item.label }}
               </component>
@@ -61,11 +62,11 @@ function getSocialIcon(platform: string): string {
       </div>
     </div>
 
-    <div class="max-w-[1200px] mx-auto pt-8 border-t border-(--color-border) flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
-      <span class="text-[0.8rem] sm:text-[0.85rem] text-(--color-text-muted) text-center sm:text-left" v-html="getConfigValue('navigation.footer.copyright', { year: String(new Date().getFullYear()) }) || `&copy; 2025 - ${new Date().getFullYear()} Silvercore. Tous droits réservés.`"></span>
+    <div class="max-w-[calc(var(--container-page)-4rem)] mx-auto pt-8 border-t border-(--color-border) flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+      <span class="text-[0.8rem] sm:text-[0.85rem] text-(--color-text-muted) text-center sm:text-left" v-html="getConfigValue('navigation.footer.copyright', { year: String(new Date().getFullYear()) }) || `&copy; 2025–${new Date().getFullYear()} Silvercore. Tous droits réservés.`"></span>
       
       <div class="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
-        <a v-for="(url, platform) in navigation_json.footer?.social || {}" :key="platform" :href="url" :aria-label="String(platform).charAt(0).toUpperCase() + String(platform).slice(1)" target="_blank" rel="noopener" class="text-(--color-text-muted) hover:text-(--color-text) text-[1.25rem] transition-colors">
+        <a v-for="(url, platform) in navigation_json.footer?.social || {}" :key="platform" :href="url" :aria-label="String(platform).charAt(0).toUpperCase() + String(platform).slice(1)" target="_blank" rel="noopener" class="inline-flex items-center justify-center min-w-11 min-h-11 text-(--color-text-muted) hover:text-(--color-text) text-[1.25rem] transition-colors">
           <i aria-hidden="true" class="bi" :class="getSocialIcon(String(platform))"></i>
         </a>
       </div>

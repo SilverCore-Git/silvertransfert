@@ -90,6 +90,28 @@ html {
   outline-offset: 2px;
 }
 
+/* Lien d'évitement : invisible jusqu'au premier Tab, puis au-dessus de l'en-tête */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-button);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+.app-main:focus {
+  outline: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 600;

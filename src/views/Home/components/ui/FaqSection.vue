@@ -79,6 +79,14 @@
   transition: color 0.2s ease;
 }
 
+/* Focus clavier visible dans le bouton (le contour seul, collé au bord, se voyait à peine) */
+.faq-question:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+  color: var(--color-primary-soft);
+}
+
 @media (hover: hover) {
   .faq-question:hover {
     color: var(--color-primary);

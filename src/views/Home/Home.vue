@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue';
 import { formatSize } from '../../utils/file';
 import { uploadTransfer } from '../../lib/transfer';
 import home_json from "../../config/home.json";
@@ -42,7 +42,20 @@ const uploadStartTime = ref(0);
 const uploadSpeed = ref(0);
 // Annulation de l'envoi en cours (bouton "Annuler")
 let uploadAbort: AbortController | null = null;
+
+// Fermer ou recharger la page pendant un envoi le perd : le navigateur demande confirmation
+function confirmLeave(e: BeforeUnloadEvent) {
+  e.preventDefault();
+}
+watch(isUploading, uploading => {
+  if (uploading) window.addEventListener('beforeunload', confirmLeave);
+  else window.removeEventListener('beforeunload', confirmLeave);
+});
+onBeforeUnmount(() => window.removeEventListener('beforeunload', confirmLeave));
 const termsAccepted = ref(false);
+// Bouton Envoyer cliqué sans les CGU cochées : erreur affichée et focus sur la case
+const termsError = ref(false);
+watch(termsAccepted, accepted => { if (accepted) termsError.value = false; });
 // "Mode envoi": the tool panel glides to the centre while the hero copy fades out
 const focusMode = ref(false);
 const panelRef = ref<HTMLElement | null>(null);
@@ -74,15 +87,15 @@ const estimatedTimeRemaining = computed(() => {
 
 function formatTime(seconds: number): string {
   if (seconds < 60) {
-    return `${Math.round(seconds)}s`;
+    return `${Math.round(seconds)} s`;
   } else if (seconds < 3600) {
     const minutes = Math.floor(seconds / 60);
     const secs = Math.round(seconds % 60);
-    return `${minutes}m ${secs}s`;
+    return `${minutes} min ${secs} s`;
   } else {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
+    return `${hours} h ${minutes} min`;
   }
 }
 
@@ -283,6 +296,11 @@ function onPickerCancel() {
 
 async function transfer() {
   if (!files.value.length || isUploading.value || exceedsLimit.value || passwordTooShort.value) return;
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    document.getElementById('acceptTerms')?.focus();
+    return;
+  }
 
   // Panel shrinks to the progress ring in the same smooth animation
   animateLayout(() => {
@@ -460,7 +478,7 @@ function reset() {
                   </label>
 
                   <p v-if="exceedsLimit" role="alert" class="form-error">
-                    Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé : 10 Go par envoi.
+                    Taille totale trop importante ({{ formatSize(totalSize) }}). Maximum autorisé&nbsp;: 10&nbsp;Go par envoi.
                   </p>
 
                   <p v-if="uploadError" role="alert" class="form-error">{{ uploadError }}</p>
@@ -469,11 +487,11 @@ function reset() {
                     <span class="size-hint">
                       {{ files.length }} fichier{{ files.length > 1 ? 's' : '' }} · {{ formatSize(totalSize) }}
                     </span>
-                    <button class="send-btn" @click="transfer" :disabled="!termsAccepted || exceedsLimit || passwordTooShort">
+                    <button class="send-btn" @click="transfer" :disabled="exceedsLimit || passwordTooShort" :aria-describedby="!termsAccepted ? 'sendHint' : undefined">
                       <i aria-hidden="true" class="bi bi-send-fill"/> {{ home_json.hero.sendButton?.label || 'Envoyer' }}
                     </button>
                   </div>
-                  <p v-if="!termsAccepted" class="send-hint">{{ home_json.hero.sendButton?.disabled }}</p>
+                  <p v-if="!termsAccepted" id="sendHint" class="send-hint" :class="{ 'is-error': termsError }" :role="termsError ? 'alert' : undefined">{{ home_json.hero.sendButton?.disabled }}</p>
                 </div>
             </div>
 
@@ -516,6 +534,14 @@ function reset() {
             <i aria-hidden="true" class="bi bento-icon" :class="featureIcons[index]"></i>
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.description }}</p>
+            <!-- Sécurité : le trajet d'un fichier, chiffré de bout en bout -->
+            <div v-if="index === 1" class="e2ee-flow" aria-hidden="true">
+              <span class="flow-node"><i class="bi bi-laptop"></i>Vous</span>
+              <span class="flow-line"><span class="flow-pulse"></span></span>
+              <span class="flow-node flow-server"><i class="bi bi-hdd-stack"></i>Serveur<i class="bi bi-eye-slash-fill flow-blind"></i></span>
+              <span class="flow-line flow-line-late"><span class="flow-pulse"></span></span>
+              <span class="flow-node"><i class="bi bi-person"></i>Destinataire</span>
+            </div>
           </article>
         </div>
       </div>
@@ -610,7 +636,7 @@ html {
   border-radius: 9999px;
   color: var(--color-text-muted);
   font-size: var(--text-lg);
-  animation: cue-in 0.6s ease-out 0.5s both, cue-bounce 2.8s ease-in-out 1.1s infinite;
+  animation: cue-in 0.6s ease-out 0.5s both, cue-bounce 2.8s ease-in-out 1.1s 3;
   transition: color 0.2s ease;
 }
 
@@ -767,6 +793,8 @@ html {
 .password-input:focus-visible {
   outline: none;
   border-color: var(--color-primary);
+  /* anneau de 3px : la bordure seule (1px) se voyait à peine */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
 .password-input[aria-invalid='true'] {
@@ -918,6 +946,11 @@ html {
   cursor: not-allowed;
 }
 
+.send-hint.is-error {
+  color: var(--color-danger-soft);
+  font-weight: 500;
+}
+
 .send-hint {
   margin-top: -0.5rem;
   font-size: var(--text-xs);
@@ -985,10 +1018,123 @@ html {
   line-height: 1.6;
 }
 
+/* ---------- Schéma E2EE (carte Sécurité) ----------
+   Le contenu ne voyage que chiffré : le serveur stocke le fichier sans pouvoir le lire.
+   Les impulsions tournent 3 fois puis s'arrêtent ; le survol les relance. */
+.e2ee-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.flow-node {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.flow-node .bi {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.flow-server .bi:first-child {
+  color: var(--color-text-muted);
+}
+
+.flow-node .flow-blind {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  background: var(--color-primary-strong);
+  border: none;
+  color: #fff;
+}
+
+.flow-line {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  margin-bottom: 1.35rem;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.flow-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  transform: translateX(-100%);
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow-pulse {
+    animation: flow-run 3s ease-in-out 3;
+  }
+
+  .flow-line-late .flow-pulse {
+    animation-delay: 1.5s;
+  }
+
+  .bento-cell:hover .flow-pulse {
+    animation-iteration-count: infinite;
+  }
+}
+
+/* transform plutôt que left : pas de recalcul de mise en page à chaque image */
+@keyframes flow-run {
+  to { transform: translateX(334%); }
+}
+
+/* ---------- Entrée du haut de page ----------
+   Une fois au chargement : titre, sous-titre, puis l'outil. "backwards" seulement :
+   rien ne reste appliqué après, l'animation de mise en page du panneau garde la main. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-title {
+    animation: hero-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards;
+  }
+
+  .hero-sub {
+    animation: hero-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+  }
+
+  .tool-panel {
+    animation: panel-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.55s backwards;
+  }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(28px); }
+}
+
+@keyframes panel-rise {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+}
+
 /* ---------- Guarantees (bento) ---------- */
 .guarantees {
   padding: 4rem 0;
-  background: var(--color-surface);
+  background: var(--color-bg-deep);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
@@ -1115,6 +1261,7 @@ html {
 @media (min-width: 1024px) {
   .hero {
     padding: 4rem 0 6rem;
+    min-height: min(calc(100dvh - 64px), 760px);
   }
 
   .hero-grid {
@@ -1170,7 +1317,8 @@ html {
   }
 
   .bento-cell h3,
-  .bento-main h3 {
+  .bento-main h3,
+  .step h3 {
     font-size: var(--text-base);
   }
 

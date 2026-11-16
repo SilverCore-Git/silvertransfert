@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { formatSize } from '../../utils/file';
 import download_json from '../../config/download.json';
@@ -64,6 +64,8 @@ onMounted(async () => {
   }
   if (remote.value.salt) {
     status.value = 'locked';
+    // Focus sur le champ, sauf sur écran tactile (le clavier masquerait la page)
+    if (window.matchMedia('(hover: hover)').matches) nextTick(() => passwordInput.value?.focus());
     return;
   }
   try {
@@ -159,7 +161,6 @@ async function startDownload() {
             type="password"
             class="password-input"
             autocomplete="off"
-            autofocus
             :aria-invalid="!!passwordError"
             :aria-describedby="passwordError ? 'dlPasswordError' : undefined"
           />
@@ -194,7 +195,8 @@ async function startDownload() {
             </span>
           </p>
 
-          <div v-if="status === 'downloading'" class="dl-progress">
+          <!-- aria-live="off" : la région annoncée englobe la barre, sans ça chaque pourcentage est lu -->
+          <div v-if="status === 'downloading'" class="dl-progress" aria-live="off">
             <div
               class="dl-progress-track"
               role="progressbar"
@@ -365,6 +367,8 @@ async function startDownload() {
 .password-input:focus-visible {
   outline: none;
   border-color: var(--color-primary);
+  /* anneau de 3px : la bordure seule (1px) se voyait à peine */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 35%, transparent);
 }
 
 .password-input[aria-invalid='true'] {
@@ -452,7 +456,7 @@ async function startDownload() {
   margin-top: 1rem;
   justify-content: center;
   font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 .dl-progress {

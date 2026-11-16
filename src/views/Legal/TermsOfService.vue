@@ -12,14 +12,14 @@
           <div class="legal-content">
             <div class="last-updated">
               <i aria-hidden="true" class="bi bi-calendar-check"></i>
-              Dernière mise à jour : Juin 2026
+              Dernière mise à jour&nbsp;: juin 2026
             </div>
             
             <h1>Conditions générales d'utilisation</h1>
             <p class="intro">
-              Les présentes Conditions Générales d'Utilisation (ci-après "CGU") constituent le contrat légal entre 
+              Les présentes Conditions Générales d'Utilisation (ci-après «&nbsp;CGU&nbsp;») constituent le contrat légal entre 
               <strong>Silvercore</strong>, éditeur du service <strong>Silvertransfert</strong>, et 
-              <strong>l'Utilisateur</strong> (ci-après "vous" ou "votre"). En utilisant le service, vous acceptez 
+              <strong>l'Utilisateur</strong> (ci-après «&nbsp;vous&nbsp;» ou «&nbsp;votre&nbsp;»). En utilisant le service, vous acceptez 
               pleinement et sans réserve les présentes CGU ainsi que notre 
               <router-link to="/politique-de-confidentialite" class="link">Politique de Confidentialité</router-link>.
             </p>
@@ -39,7 +39,7 @@
             </section>
 
             <section class="legal-section-item">
-              <h2><i aria-hidden="true" class="bi bi-dictionary"></i> Définitions</h2>
+              <h2><i aria-hidden="true" class="bi bi-book"></i> Définitions</h2>
               <p>
                 Dans les présentes CGU, les termes suivants auront la signification indiquée ci-dessous :
               </p>
@@ -103,7 +103,7 @@
                 <strong>Caractéristiques du Service :</strong>
               </p>
               <ul class="info-list">
-                <li><strong>Gratuité</strong> : Le Service est actuellement gratuit. Silvercore se réserve le droit d'introduire des offres payantes ("Premium") à l'avenir, sans préavis.</li>
+                <li><strong>Gratuité</strong> : Le Service est actuellement gratuit. Silvercore se réserve le droit d'introduire des offres payantes («&nbsp;Premium&nbsp;») à l'avenir, sans préavis.</li>
                 <li><strong>Limite de taille</strong> : <strong>10 Go par Transfert</strong>.</li>
                 <li><strong>Hébergement</strong> : 100% en France, sur nos propres infrastructures.</li>
                 <li><strong>Sécurité</strong> : Chiffrement E2EE, triple réplication des Fichiers.</li>
@@ -428,7 +428,7 @@
 
 .legal-section-item h2 {
   font-family: var(--font-sans);
-  font-size: var(--text-lg);
+  font-size: 1.375rem;
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 1.25rem;
@@ -606,6 +606,13 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
+}
+
+/* Focus clavier : souligné en plus du contour (lien et contour de la même couleur) */
+.link:focus-visible {
+  text-decoration: underline;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 @media (hover: hover) {
   .link:hover {

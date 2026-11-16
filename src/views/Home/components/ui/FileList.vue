@@ -22,12 +22,12 @@ const emit = defineEmits(['remove', 'add']);
     <TransitionGroup name="list">
       <div v-for="f in files" :key="f.id" class="frow">
         <div class="fthumb">
-          <img v-if="f.preview" :src="f.preview" :alt="f.name" />
+          <img v-if="f.preview" :src="f.preview" alt="" />
           <i v-else aria-hidden="true" :class="'bi ' + getFileIcon(f.type)"></i>
         </div>
-        <span class="fname">{{ f.name }}</span>
+        <span class="fname" :title="f.name">{{ f.name }}</span>
         <span class="fsize">{{ formatSize(f.size) }}</span>
-        <button class="fdelete" @click.stop="emit('remove', f.id)" aria-label="Supprimer">
+        <button class="fdelete" @click.stop="emit('remove', f.id)" :aria-label="`Retirer ${f.name}`">
           <i aria-hidden="true" class="bi bi-x"></i>
         </button>
       </div>
